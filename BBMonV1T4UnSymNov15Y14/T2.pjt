@@ -1,0 +1,260 @@
+; Code Composer Project File, Version 2.0 (do not modify or remove this line)
+
+[Project Settings]
+ProjectDir="E:\Zhang Xinan\CondMonitor\Program2\BBMonV1T3UnSymNov15Y14\"
+ProjectType=Executable
+CPUFamily=TMS320C28XX
+Tool="Compiler"
+Tool="CustomBuilder"
+Tool="DspBiosBuilder"
+Tool="Linker"
+Config="Debug"
+Config="Release"
+
+[Source Files]
+Source="include\DSP2833x_Adc.h"
+Source="include\DSP2833x_CpuTimers.h"
+Source="include\DSP2833x_DefaultIsr.h"
+Source="include\DSP2833x_DevEmu.h"
+Source="include\DSP2833x_Device.h"
+Source="include\DSP2833x_DMA.h"
+Source="include\DSP2833x_Dma_defines.h"
+Source="include\DSP2833x_ECan.h"
+Source="include\DSP2833x_ECap.h"
+Source="include\DSP2833x_EPwm.h"
+Source="include\DSP2833x_EPwm_defines.h"
+Source="include\DSP2833x_EQep.h"
+Source="include\DSP2833x_Examples.h"
+Source="include\DSP2833x_GlobalPrototypes.h"
+Source="include\DSP2833x_Gpio.h"
+Source="include\DSP2833x_I2c.h"
+Source="include\DSP2833x_I2c_defines.h"
+Source="include\DSP2833x_Mcbsp.h"
+Source="include\DSP2833x_PieCtrl.h"
+Source="include\DSP2833x_PieVect.h"
+Source="include\DSP2833x_Project.h"
+Source="include\DSP2833x_Sci.h"
+Source="include\DSP2833x_Spi.h"
+Source="include\DSP2833x_SWPrioritizedIsrLevels.h"
+Source="include\DSP2833x_SysCtrl.h"
+Source="include\DSP2833x_Xintf.h"
+Source="include\DSP2833x_XIntrupt.h"
+Source="include\parameter.h"
+Source="SRC\BBCtrlV1T1.c"
+Source="SRC\DSP2833x_Adc.c"
+Source="SRC\DSP2833x_ADC_cal.asm"
+Source="SRC\DSP2833x_CodeStartBranch.asm"
+Source="SRC\DSP2833x_CpuTimers.c"
+Source="SRC\DSP2833x_DefaultIsr.c"
+Source="SRC\DSP2833x_DMA.c"
+Source="SRC\DSP2833x_ECan.c"
+Source="SRC\DSP2833x_ECap.c"
+Source="SRC\DSP2833x_EPwm.c"
+Source="SRC\DSP2833x_EQep.c"
+Source="SRC\DSP2833x_GlobalVariableDefs.c"
+Source="SRC\DSP2833x_Gpio.c"
+Source="SRC\DSP2833x_I2C.c"
+Source="SRC\DSP2833x_Mcbsp.c"
+Source="SRC\DSP2833x_MemCopy.c"
+Source="SRC\DSP2833x_PieCtrl.c"
+Source="SRC\DSP2833x_PieVect.c"
+Source="SRC\DSP2833x_Sci.c"
+Source="SRC\DSP2833x_Spi.c"
+Source="SRC\DSP2833x_SysCtrl.c"
+Source="SRC\DSP2833x_usDelay.asm"
+Source="SRC\DSP2833x_Xintf.c"
+Source="CMD\DSP2833x_Headers_nonBIOS.cmd"
+Source="CMD\F28335_RAM_lnk.cmd"
+
+["Compiler" Settings: "Debug"]
+Options=-g -pdsw225 -fr"$(Proj_dir)\Debug" -i"..\include" -d"_DEBUG" -d"LARGE_MODEL" -ml -v28 --float_support=fpu32
+
+["Compiler" Settings: "Release"]
+Options=-pdsw225 -o3 -fr"$(Proj_dir)\Release" -d"LARGE_MODEL" -ml -v28
+
+["Linker" Settings: "Debug"]
+Options=-c -e_c_int00 -heap1000 -m".\Debug\T2.map" -o".\Debug\T2.out" -stack1000 -w -x -l"rts2800_fpu32.lib"
+
+["Linker" Settings: "Release"]
+Options=-c -m".\Release\T2.map" -o".\Release\T2.out" -w -x
+
+["include\DSP2833x_Adc.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Adc.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_CpuTimers.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_CpuTimers.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_DefaultIsr.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_DefaultIsr.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_DevEmu.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_DevEmu.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Device.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Device.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_DMA.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_DMA.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Dma_defines.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Dma_defines.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_ECan.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_ECan.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_ECap.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_ECap.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_EPwm.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_EPwm.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_EPwm_defines.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_EPwm_defines.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_EQep.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_EQep.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Examples.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Examples.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_GlobalPrototypes.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_GlobalPrototypes.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Gpio.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Gpio.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_I2c.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_I2c.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_I2c_defines.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_I2c_defines.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Mcbsp.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Mcbsp.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_PieCtrl.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_PieCtrl.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_PieVect.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_PieVect.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Project.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Project.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Sci.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Sci.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Spi.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Spi.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_SWPrioritizedIsrLevels.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_SWPrioritizedIsrLevels.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_SysCtrl.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_SysCtrl.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Xintf.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_Xintf.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_XIntrupt.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\DSP2833x_XIntrupt.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["include\parameter.h" Settings: "Debug"]
+ExcludeFromBuild=true
+
+["include\parameter.h" Settings: "Release"]
+ExcludeFromBuild=true
+
+["CMD\DSP2833x_Headers_nonBIOS.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["CMD\DSP2833x_Headers_nonBIOS.cmd" Settings: "Release"]
+LinkOrder=1
+
+["CMD\F28335_RAM_lnk.cmd" Settings: "Debug"]
+LinkOrder=1
+
+["CMD\F28335_RAM_lnk.cmd" Settings: "Release"]
+LinkOrder=1
+
