@@ -3,6 +3,8 @@
 #include "BuckBoost1_sfun.h"
 #include "c1_BuckBoost1.h"
 #include "c2_BuckBoost1.h"
+#include "c3_BuckBoost1.h"
+#include "c4_BuckBoost1.h"
 #include "c22_BuckBoost1.h"
 #include "c25_BuckBoost1.h"
 
@@ -38,6 +40,16 @@ unsigned int sf_BuckBoost1_method_dispatcher(SimStruct *simstructPtr, unsigned
 
   if (chartFileNumber==2) {
     c2_BuckBoost1_method_dispatcher(simstructPtr, method, data);
+    return 1;
+  }
+
+  if (chartFileNumber==3) {
+    c3_BuckBoost1_method_dispatcher(simstructPtr, method, data);
+    return 1;
+  }
+
+  if (chartFileNumber==4) {
+    c4_BuckBoost1_method_dispatcher(simstructPtr, method, data);
     return 1;
   }
 
@@ -84,10 +96,10 @@ unsigned int sf_BuckBoost1_process_check_sum_call( int nlhs, mxArray * plhs[],
       ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(0U);
       ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(0U);
     } else if (!strcmp(commandName,"makefile")) {
-      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2947858101U);
-      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1758753713U);
-      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1447204252U);
-      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2187865133U);
+      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2192382774U);
+      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2823209888U);
+      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(186431537U);
+      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2842622667U);
     } else if (nrhs==3 && !strcmp(commandName,"chart")) {
       unsigned int chartFileNumber;
       chartFileNumber = (unsigned int)mxGetScalar(prhs[2]);
@@ -103,6 +115,20 @@ unsigned int sf_BuckBoost1_process_check_sum_call( int nlhs, mxArray * plhs[],
         {
           extern void sf_c2_BuckBoost1_get_check_sum(mxArray *plhs[]);
           sf_c2_BuckBoost1_get_check_sum(plhs);
+          break;
+        }
+
+       case 3:
+        {
+          extern void sf_c3_BuckBoost1_get_check_sum(mxArray *plhs[]);
+          sf_c3_BuckBoost1_get_check_sum(plhs);
+          break;
+        }
+
+       case 4:
+        {
+          extern void sf_c4_BuckBoost1_get_check_sum(mxArray *plhs[]);
+          sf_c4_BuckBoost1_get_check_sum(plhs);
           break;
         }
 
@@ -135,10 +161,10 @@ unsigned int sf_BuckBoost1_process_check_sum_call( int nlhs, mxArray * plhs[],
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1344665711U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(4205503982U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(3758065551U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2545160227U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2782808240U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3486259849U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1373972256U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2237426002U);
   }
 
   return 1;
@@ -191,6 +217,30 @@ unsigned int sf_BuckBoost1_autoinheritance_info( int nlhs, mxArray * plhs[], int
         if (strcmp(aiChksum, "fghPsDLFPZQNGxlB0WLuqF") == 0) {
           extern mxArray *sf_c2_BuckBoost1_get_autoinheritance_info(void);
           plhs[0] = sf_c2_BuckBoost1_get_autoinheritance_info();
+          break;
+        }
+
+        plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
+        break;
+      }
+
+     case 3:
+      {
+        if (strcmp(aiChksum, "3TrCNJBAFLS0TtIbUzr6uB") == 0) {
+          extern mxArray *sf_c3_BuckBoost1_get_autoinheritance_info(void);
+          plhs[0] = sf_c3_BuckBoost1_get_autoinheritance_info();
+          break;
+        }
+
+        plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
+        break;
+      }
+
+     case 4:
+      {
+        if (strcmp(aiChksum, "3MkXAfifGe4Na5xz0vVtlD") == 0) {
+          extern mxArray *sf_c4_BuckBoost1_get_autoinheritance_info(void);
+          plhs[0] = sf_c4_BuckBoost1_get_autoinheritance_info();
           break;
         }
 
@@ -279,6 +329,28 @@ unsigned int sf_BuckBoost1_get_eml_resolved_functions_info( int nlhs, mxArray *
         break;
       }
 
+     case 3:
+      {
+        extern const mxArray *sf_c3_BuckBoost1_get_eml_resolved_functions_info
+          (void);
+        mxArray *persistentMxArray = (mxArray *)
+          sf_c3_BuckBoost1_get_eml_resolved_functions_info();
+        plhs[0] = mxDuplicateArray(persistentMxArray);
+        mxDestroyArray(persistentMxArray);
+        break;
+      }
+
+     case 4:
+      {
+        extern const mxArray *sf_c4_BuckBoost1_get_eml_resolved_functions_info
+          (void);
+        mxArray *persistentMxArray = (mxArray *)
+          sf_c4_BuckBoost1_get_eml_resolved_functions_info();
+        plhs[0] = mxDuplicateArray(persistentMxArray);
+        mxDestroyArray(persistentMxArray);
+        break;
+      }
+
      case 22:
       {
         extern const mxArray *sf_c22_BuckBoost1_get_eml_resolved_functions_info
@@ -319,7 +391,7 @@ unsigned int sf_BuckBoost1_get_eml_resolved_functions_info( int nlhs, mxArray *
 void BuckBoost1_debug_initialize(void)
 {
   _BuckBoost1MachineNumber_ = sf_debug_initialize_machine("BuckBoost1","sfun",0,
-    4,0,0,0);
+    6,0,0,0);
   sf_debug_set_machine_event_thresholds(_BuckBoost1MachineNumber_,0,0);
   sf_debug_set_machine_data_thresholds(_BuckBoost1MachineNumber_,0);
 }
