@@ -161,10 +161,10 @@ unsigned int sf_BuckBoost1_process_check_sum_call( int nlhs, mxArray * plhs[],
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2759460648U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1479523269U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1709148034U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(4142074387U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2289078236U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2186796550U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(1073063165U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(460876106U);
   }
 
   return 1;
@@ -226,7 +226,7 @@ unsigned int sf_BuckBoost1_autoinheritance_info( int nlhs, mxArray * plhs[], int
 
      case 3:
       {
-        if (strcmp(aiChksum, "QVCRGvIhCovC3APkzjv4MH") == 0) {
+        if (strcmp(aiChksum, "I2zFN7XKy9ztbhFUYzBDzD") == 0) {
           extern mxArray *sf_c3_BuckBoost1_get_autoinheritance_info(void);
           plhs[0] = sf_c3_BuckBoost1_get_autoinheritance_info();
           break;

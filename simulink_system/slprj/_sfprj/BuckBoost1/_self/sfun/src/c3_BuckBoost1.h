@@ -35,6 +35,14 @@ typedef struct {
   boolean_T c3_isStable;
   boolean_T c3_doneDoubleBufferReInit;
   uint8_T c3_is_active_c3_BuckBoost1;
+  uint32_T c3_method;
+  boolean_T c3_method_not_empty;
+  uint32_T c3_state;
+  boolean_T c3_state_not_empty;
+  uint32_T c3_b_state[2];
+  boolean_T c3_b_state_not_empty;
+  uint32_T c3_c_state[625];
+  boolean_T c3_c_state_not_empty;
 } SFc3_BuckBoost1InstanceStruct;
 
 #endif                                 /*typedef_SFc3_BuckBoost1InstanceStruct*/
