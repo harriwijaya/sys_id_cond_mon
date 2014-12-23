@@ -15,9 +15,9 @@
 /* Variable Declarations */
 
 /* Variable Definitions */
-static const char * c3_debug_family_names[35] = { "offset",
+static const char * c3_debug_family_names[35] = { "sampling_time", "offset",
   "OFFSET_ON_START_abs", "OFFSET_ON_END_rel", "OFFSET_OFF_START_rel",
-  "OFFSET_OFF_END_abs", "lambda", "delta", "N", "w", "P", "u", "k", "nargin",
+  "OFFSET_OFF_END_abs", "lambda", "delta", "u", "w", "P", "k", "nargin",
   "nargout", "start", "t", "duty", "v_out", "i_in", "w0in", "w1in", "P11in",
   "P12in", "P21in", "P22in", "Capin", "y", "e", "w0", "w1", "P11", "P12", "P21",
   "P22", "Capout" };
@@ -62,7 +62,7 @@ static void c3_d_emlrt_marshallIn(SFc3_BuckBoost1InstanceStruct *chartInstance,
   const mxArray *c3_u, const emlrtMsgIdentifier *c3_parentId, real_T c3_y[4]);
 static void c3_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c3_mxArrayInData, const char_T *c3_varName, void *c3_outData);
-static void c3_info_helper(c3_ResolvedFunctionInfo c3_info[50]);
+static void c3_info_helper(c3_ResolvedFunctionInfo c3_info[44]);
 static void c3_check_forloop_overflow_error(SFc3_BuckBoost1InstanceStruct
   *chartInstance);
 static void c3_eml_scalar_eg(SFc3_BuckBoost1InstanceStruct *chartInstance);
@@ -377,6 +377,7 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
   real_T c3_P22in;
   real_T c3_Capin;
   uint32_T c3_debug_family_var_map[35];
+  real_T c3_sampling_time;
   real_T c3_offset;
   real_T c3_OFFSET_ON_START_abs;
   real_T c3_OFFSET_ON_END_rel;
@@ -384,10 +385,9 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
   real_T c3_OFFSET_OFF_END_abs;
   real_T c3_lambda;
   real_T c3_delta;
-  real_T c3_N;
+  real_T c3_u[2];
   real_T c3_w[2];
   real_T c3_P[4];
-  real_T c3_u[2];
   real_T c3_k[2];
   real_T c3_nargin = 12.0;
   real_T c3_nargout = 9.0;
@@ -402,35 +402,37 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
   real_T c3_Capout;
   int32_T c3_i0;
   int32_T c3_i1;
+  int32_T c3_i2;
   static real_T c3_dv0[4] = { 100.0, 0.0, 0.0, 100.0 };
 
-  int32_T c3_i2;
+  real_T c3_a;
+  real_T c3_b_y;
   int32_T c3_i3;
-  real_T c3_a[4];
+  real_T c3_b_a[4];
   int32_T c3_i4;
   real_T c3_b[2];
   int32_T c3_i5;
-  real_T c3_b_y[2];
+  real_T c3_c_y[2];
   int32_T c3_i6;
   int32_T c3_i7;
   int32_T c3_i8;
-  real_T c3_b_a[2];
+  real_T c3_c_a[2];
   int32_T c3_i9;
   int32_T c3_i10;
   int32_T c3_i11;
-  real_T c3_c_y[2];
+  real_T c3_d_y[2];
   int32_T c3_i12;
   int32_T c3_i13;
-  real_T c3_d_y;
+  real_T c3_e_y;
   int32_T c3_b_k;
   int32_T c3_c_k;
   real_T c3_A;
   real_T c3_x;
   real_T c3_b_x;
-  real_T c3_e_y;
-  real_T c3_B;
   real_T c3_f_y;
+  real_T c3_B;
   real_T c3_g_y;
+  real_T c3_h_y;
   int32_T c3_i14;
   int32_T c3_i15;
   int32_T c3_i16;
@@ -446,12 +448,12 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
   int32_T c3_i23;
   int32_T c3_i24;
   int32_T c3_i25;
-  real_T c3_h_y[4];
+  real_T c3_i_y[4];
   int32_T c3_i26;
   int32_T c3_i27;
   int32_T c3_i28;
   int32_T c3_i29;
-  real_T c3_i_y[4];
+  real_T c3_j_y[4];
   int32_T c3_i30;
   int32_T c3_i31;
   int32_T c3_i32;
@@ -459,17 +461,13 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
   real_T c3_b_A;
   real_T c3_b_B;
   real_T c3_c_x;
-  real_T c3_j_y;
-  real_T c3_d_x;
   real_T c3_k_y;
+  real_T c3_d_x;
   real_T c3_l_y;
+  real_T c3_m_y;
   real_T c3_c_A;
   real_T c3_e_x;
   real_T c3_f_x;
-  real_T c3_m_y;
-  real_T c3_c_a;
-  real_T c3_n_y;
-  real_T c3_d_a;
   real_T *c3_b_start;
   real_T *c3_b_t;
   real_T *c3_b_duty;
@@ -482,7 +480,7 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
   real_T *c3_b_P21in;
   real_T *c3_b_P22in;
   real_T *c3_b_Capin;
-  real_T *c3_o_y;
+  real_T *c3_n_y;
   real_T *c3_b_e;
   real_T *c3_b_w0;
   real_T *c3_b_w1;
@@ -514,7 +512,7 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
   c3_b_w1 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 4);
   c3_b_w0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 3);
   c3_b_e = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
-  c3_o_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
+  c3_n_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
   _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 2U, chartInstance->c3_sfEvent);
   c3_hoistedGlobal = *c3_b_start;
   c3_b_hoistedGlobal = *c3_b_t;
@@ -542,25 +540,25 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
   c3_Capin = c3_l_hoistedGlobal;
   sf_debug_symbol_scope_push_eml(0U, 35U, 35U, c3_debug_family_names,
     c3_debug_family_var_map);
-  sf_debug_symbol_scope_add_eml_importable(&c3_offset, 0U, c3_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml(&c3_sampling_time, 0U, c3_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml_importable(&c3_offset, 1U, c3_sf_marshallOut,
     c3_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c3_OFFSET_ON_START_abs, 1U,
+  sf_debug_symbol_scope_add_eml_importable(&c3_OFFSET_ON_START_abs, 2U,
     c3_sf_marshallOut, c3_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c3_OFFSET_ON_END_rel, 2U,
+  sf_debug_symbol_scope_add_eml_importable(&c3_OFFSET_ON_END_rel, 3U,
     c3_sf_marshallOut, c3_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c3_OFFSET_OFF_START_rel, 3U,
+  sf_debug_symbol_scope_add_eml_importable(&c3_OFFSET_OFF_START_rel, 4U,
     c3_sf_marshallOut, c3_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c3_OFFSET_OFF_END_abs, 4U,
+  sf_debug_symbol_scope_add_eml_importable(&c3_OFFSET_OFF_END_abs, 5U,
     c3_sf_marshallOut, c3_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml(&c3_lambda, 5U, c3_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c3_delta, 6U, c3_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c3_N, 7U, c3_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml_importable(c3_w, 8U, c3_b_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml(&c3_lambda, 6U, c3_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c3_delta, 7U, c3_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml_importable(c3_u, 8U, c3_b_sf_marshallOut,
     c3_b_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(c3_P, 9U, c3_c_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(c3_w, 9U, c3_b_sf_marshallOut,
+    c3_b_sf_marshallIn);
+  sf_debug_symbol_scope_add_eml_importable(c3_P, 10U, c3_c_sf_marshallOut,
     c3_c_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(c3_u, 10U, c3_b_sf_marshallOut,
-    c3_b_sf_marshallIn);
   sf_debug_symbol_scope_add_eml_importable(c3_k, 11U, c3_b_sf_marshallOut,
     c3_b_sf_marshallIn);
   sf_debug_symbol_scope_add_eml_importable(&c3_nargin, 12U, c3_sf_marshallOut,
@@ -599,81 +597,85 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
     c3_sf_marshallIn);
   CV_EML_FCN(0, 0);
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 5);
-  c3_offset = c3_t - c3_duty;
+  c3_sampling_time = 1.0E-5;
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 7);
-  c3_OFFSET_ON_START_abs = 5.0;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 8);
-  c3_OFFSET_ON_END_rel = -5.0;
+  c3_offset = c3_t - c3_duty;
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 9);
-  c3_OFFSET_OFF_START_rel = 5.0;
+  c3_OFFSET_ON_START_abs = 5.0;
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 10);
+  c3_OFFSET_ON_END_rel = -5.0;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 11);
+  c3_OFFSET_OFF_START_rel = 5.0;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 12);
   c3_OFFSET_OFF_END_abs = 95.0;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 14);
-  c3_lambda = 0.6;
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 16);
-  c3_delta = 0.01;
+  c3_lambda = 0.6;
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 18);
-  c3_N = 2.0;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 20);
-  c3_y = 0.0;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 21);
-  c3_e = 0.0;
+  c3_delta = 0.01;
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 23);
-  for (c3_i0 = 0; c3_i0 < 2; c3_i0++) {
-    c3_w[c3_i0] = 0.0;
-  }
-
+  c3_y = 0.0;
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 24);
-  c3_w[0] = c3_w0in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 25);
-  c3_w[1] = c3_w1in;
+  c3_e = 0.0;
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 27);
-  for (c3_i1 = 0; c3_i1 < 4; c3_i1++) {
-    c3_P[c3_i1] = c3_dv0[c3_i1];
+  for (c3_i0 = 0; c3_i0 < 2; c3_i0++) {
+    c3_u[c3_i0] = 0.0;
   }
 
   _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 28);
-  c3_P[0] = c3_P11in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 28);
-  c3_P[2] = c3_P12in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 29);
-  c3_P[1] = c3_P21in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 29);
-  c3_P[3] = c3_P22in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 34);
-  for (c3_i2 = 0; c3_i2 < 2; c3_i2++) {
-    c3_u[c3_i2] = 0.0;
-  }
-
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 35);
   c3_u[0] = 1.0;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 36);
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 29);
   c3_u[1] = c3_t;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 40);
-  c3_P11 = c3_P11in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 40);
-  c3_P12 = c3_P12in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 41);
-  c3_P21 = c3_P21in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 41);
-  c3_P22 = c3_P22in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 43);
-  c3_Capout = c3_Capin;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 45);
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 32);
+  for (c3_i1 = 0; c3_i1 < 2; c3_i1++) {
+    c3_w[c3_i1] = 0.0;
+  }
+
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 33);
+  c3_w[0] = c3_w0in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 34);
+  c3_w[1] = c3_w1in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 35);
   c3_w0 = c3_w0in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 45);
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 35);
   c3_w1 = c3_w1in;
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 50);
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 38);
+  for (c3_i2 = 0; c3_i2 < 4; c3_i2++) {
+    c3_P[c3_i2] = c3_dv0[c3_i2];
+  }
+
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 39);
+  c3_P[0] = c3_P11in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 39);
+  c3_P[2] = c3_P12in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 40);
+  c3_P[1] = c3_P21in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 40);
+  c3_P[3] = c3_P22in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 44);
+  c3_P11 = c3_P11in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 44);
+  c3_P12 = c3_P12in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 45);
+  c3_P21 = c3_P21in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 45);
+  c3_P22 = c3_P22in;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 99);
+  c3_Capout = c3_Capin;
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 103);
   if (CV_EML_IF(0, 1, 0, c3_start == 1.0)) {
-    _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 51);
-    guard1 = FALSE;
+    _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 104);
+    guard3 = FALSE;
     if (CV_EML_COND(0, 1, 0, c3_t > c3_OFFSET_ON_START_abs)) {
       if (CV_EML_COND(0, 1, 1, c3_offset < c3_OFFSET_ON_END_rel)) {
         CV_EML_MCDC(0, 1, 0, TRUE);
         CV_EML_IF(0, 1, 1, TRUE);
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 55);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 108);
+        c3_a = c3_t;
+        c3_b_y = c3_a * 1.0E-5;
+        c3_u[1] = c3_b_y;
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 109);
         for (c3_i3 = 0; c3_i3 < 4; c3_i3++) {
-          c3_a[c3_i3] = c3_P[c3_i3];
+          c3_b_a[c3_i3] = c3_P[c3_i3];
         }
 
         for (c3_i4 = 0; c3_i4 < 2; c3_i4++) {
@@ -683,29 +685,29 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
         c3_eml_scalar_eg(chartInstance);
         c3_eml_scalar_eg(chartInstance);
         for (c3_i5 = 0; c3_i5 < 2; c3_i5++) {
-          c3_b_y[c3_i5] = 0.0;
+          c3_c_y[c3_i5] = 0.0;
           c3_i6 = 0;
           for (c3_i7 = 0; c3_i7 < 2; c3_i7++) {
-            c3_b_y[c3_i5] += c3_a[c3_i6 + c3_i5] * c3_b[c3_i7];
+            c3_c_y[c3_i5] += c3_b_a[c3_i6 + c3_i5] * c3_b[c3_i7];
             c3_i6 += 2;
           }
         }
 
         for (c3_i8 = 0; c3_i8 < 2; c3_i8++) {
-          c3_b_a[c3_i8] = c3_u[c3_i8];
+          c3_c_a[c3_i8] = c3_u[c3_i8];
         }
 
         for (c3_i9 = 0; c3_i9 < 4; c3_i9++) {
-          c3_a[c3_i9] = c3_P[c3_i9];
+          c3_b_a[c3_i9] = c3_P[c3_i9];
         }
 
         c3_b_eml_scalar_eg(chartInstance);
         c3_b_eml_scalar_eg(chartInstance);
         c3_i10 = 0;
         for (c3_i11 = 0; c3_i11 < 2; c3_i11++) {
-          c3_c_y[c3_i11] = 0.0;
+          c3_d_y[c3_i11] = 0.0;
           for (c3_i12 = 0; c3_i12 < 2; c3_i12++) {
-            c3_c_y[c3_i11] += c3_b_a[c3_i12] * c3_a[c3_i12 + c3_i10];
+            c3_d_y[c3_i11] += c3_c_a[c3_i12] * c3_b_a[c3_i12 + c3_i10];
           }
 
           c3_i10 += 2;
@@ -717,34 +719,34 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
 
         c3_c_eml_scalar_eg(chartInstance);
         c3_c_eml_scalar_eg(chartInstance);
-        c3_d_y = 0.0;
+        c3_e_y = 0.0;
         c3_check_forloop_overflow_error(chartInstance);
         for (c3_b_k = 1; c3_b_k < 3; c3_b_k++) {
           c3_c_k = c3_b_k;
-          c3_d_y += c3_c_y[_SFD_EML_ARRAY_BOUNDS_CHECK("", (int32_T)
+          c3_e_y += c3_d_y[_SFD_EML_ARRAY_BOUNDS_CHECK("", (int32_T)
             _SFD_INTEGER_CHECK("", (real_T)c3_c_k), 1, 2, 1, 0) - 1] *
             c3_b[_SFD_EML_ARRAY_BOUNDS_CHECK("", (int32_T)_SFD_INTEGER_CHECK("",
             (real_T)c3_c_k), 1, 2, 1, 0) - 1];
         }
 
-        c3_A = c3_d_y;
+        c3_A = c3_e_y;
         c3_x = c3_A;
         c3_b_x = c3_x;
-        c3_e_y = c3_b_x / 0.6;
-        c3_B = 1.0 + c3_e_y;
-        c3_f_y = c3_B;
-        c3_g_y = c3_f_y;
+        c3_f_y = c3_b_x / 0.6;
+        c3_B = 1.0 + c3_f_y;
+        c3_g_y = c3_B;
+        c3_h_y = c3_g_y;
         for (c3_i14 = 0; c3_i14 < 2; c3_i14++) {
-          c3_b_y[c3_i14] /= c3_g_y;
+          c3_c_y[c3_i14] /= c3_h_y;
         }
 
         for (c3_i15 = 0; c3_i15 < 2; c3_i15++) {
-          c3_k[c3_i15] = c3_b_y[c3_i15] / 0.6;
+          c3_k[c3_i15] = c3_c_y[c3_i15] / 0.6;
         }
 
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 56);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 110);
         for (c3_i16 = 0; c3_i16 < 2; c3_i16++) {
-          c3_b_a[c3_i16] = c3_w[c3_i16];
+          c3_c_a[c3_i16] = c3_w[c3_i16];
         }
 
         for (c3_i17 = 0; c3_i17 < 2; c3_i17++) {
@@ -757,15 +759,15 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
         c3_check_forloop_overflow_error(chartInstance);
         for (c3_d_k = 1; c3_d_k < 3; c3_d_k++) {
           c3_e_k = c3_d_k;
-          c3_y += c3_b_a[_SFD_EML_ARRAY_BOUNDS_CHECK("", (int32_T)
+          c3_y += c3_c_a[_SFD_EML_ARRAY_BOUNDS_CHECK("", (int32_T)
             _SFD_INTEGER_CHECK("", (real_T)c3_e_k), 1, 2, 1, 0) - 1] *
             c3_b[_SFD_EML_ARRAY_BOUNDS_CHECK("", (int32_T)_SFD_INTEGER_CHECK("",
             (real_T)c3_e_k), 1, 2, 1, 0) - 1];
         }
 
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 57);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 111);
         c3_e = c3_v_out - c3_y;
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 59);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 113);
         for (c3_i18 = 0; c3_i18 < 2; c3_i18++) {
           c3_b[c3_i18] = c3_k[c3_i18];
         }
@@ -779,29 +781,29 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
           c3_w[c3_i20] += c3_b[c3_i20];
         }
 
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 60);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 114);
         c3_w0 = c3_w[0];
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 60);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 114);
         c3_w1 = c3_w[1];
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 62);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 116);
         for (c3_i21 = 0; c3_i21 < 2; c3_i21++) {
           c3_b[c3_i21] = c3_k[c3_i21];
         }
 
         for (c3_i22 = 0; c3_i22 < 2; c3_i22++) {
-          c3_b_a[c3_i22] = c3_u[c3_i22];
+          c3_c_a[c3_i22] = c3_u[c3_i22];
         }
 
         for (c3_i23 = 0; c3_i23 < 2; c3_i23++) {
           c3_i24 = 0;
           for (c3_i25 = 0; c3_i25 < 2; c3_i25++) {
-            c3_h_y[c3_i24 + c3_i23] = c3_b[c3_i23] * c3_b_a[c3_i25];
+            c3_i_y[c3_i24 + c3_i23] = c3_b[c3_i23] * c3_c_a[c3_i25];
             c3_i24 += 2;
           }
         }
 
         for (c3_i26 = 0; c3_i26 < 4; c3_i26++) {
-          c3_a[c3_i26] = c3_P[c3_i26];
+          c3_b_a[c3_i26] = c3_P[c3_i26];
         }
 
         c3_d_eml_scalar_eg(chartInstance);
@@ -809,11 +811,11 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
         for (c3_i27 = 0; c3_i27 < 2; c3_i27++) {
           c3_i28 = 0;
           for (c3_i29 = 0; c3_i29 < 2; c3_i29++) {
-            c3_i_y[c3_i28 + c3_i27] = 0.0;
+            c3_j_y[c3_i28 + c3_i27] = 0.0;
             c3_i30 = 0;
             for (c3_i31 = 0; c3_i31 < 2; c3_i31++) {
-              c3_i_y[c3_i28 + c3_i27] += c3_h_y[c3_i30 + c3_i27] * c3_a[c3_i31 +
-                c3_i28];
+              c3_j_y[c3_i28 + c3_i27] += c3_i_y[c3_i30 + c3_i27] * c3_b_a[c3_i31
+                + c3_i28];
               c3_i30 += 2;
             }
 
@@ -822,21 +824,71 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
         }
 
         for (c3_i32 = 0; c3_i32 < 4; c3_i32++) {
-          c3_i_y[c3_i32] = c3_P[c3_i32] - c3_i_y[c3_i32];
+          c3_j_y[c3_i32] = c3_P[c3_i32] - c3_j_y[c3_i32];
         }
 
         for (c3_i33 = 0; c3_i33 < 4; c3_i33++) {
-          c3_P[c3_i33] = c3_i_y[c3_i33] / 0.6;
+          c3_P[c3_i33] = c3_j_y[c3_i33] / 0.6;
         }
 
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 63);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 117);
         c3_P11 = c3_P[0];
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 63);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 117);
         c3_P12 = c3_P[2];
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 64);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 118);
         c3_P21 = c3_P[1];
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 64);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 118);
         c3_P22 = c3_P[3];
+      } else {
+        guard3 = TRUE;
+      }
+    } else {
+      guard3 = TRUE;
+    }
+
+    if (guard3 == TRUE) {
+      CV_EML_MCDC(0, 1, 0, FALSE);
+      CV_EML_IF(0, 1, 1, FALSE);
+    }
+
+    _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 122);
+    guard2 = FALSE;
+    if (CV_EML_COND(0, 1, 2, c3_offset >= c3_OFFSET_ON_END_rel)) {
+      if (CV_EML_COND(0, 1, 3, c3_offset <= c3_OFFSET_ON_END_rel + 1.0)) {
+        CV_EML_MCDC(0, 1, 1, TRUE);
+        CV_EML_IF(0, 1, 2, TRUE);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 123);
+        c3_b_A = -c3_w0;
+        c3_b_B = c3_w1;
+        c3_c_x = c3_b_A;
+        c3_k_y = c3_b_B;
+        c3_d_x = c3_c_x;
+        c3_l_y = c3_k_y;
+        c3_m_y = c3_d_x / c3_l_y;
+        c3_c_A = c3_m_y;
+        c3_e_x = c3_c_A;
+        c3_f_x = c3_e_x;
+        c3_Capout = c3_f_x / 30.0;
+      } else {
+        guard2 = TRUE;
+      }
+    } else {
+      guard2 = TRUE;
+    }
+
+    if (guard2 == TRUE) {
+      CV_EML_MCDC(0, 1, 1, FALSE);
+      CV_EML_IF(0, 1, 2, FALSE);
+    }
+
+    _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 126);
+    guard1 = FALSE;
+    if (CV_EML_COND(0, 1, 4, c3_offset > c3_OFFSET_OFF_START_rel)) {
+      if (CV_EML_COND(0, 1, 5, c3_t < c3_OFFSET_OFF_END_abs)) {
+        CV_EML_MCDC(0, 1, 2, TRUE);
+        CV_EML_IF(0, 1, 3, TRUE);
+        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 129U);
+        CV_EML_IF(0, 1, 4, c3_t == c3_OFFSET_OFF_END_abs - 1.0);
       } else {
         guard1 = TRUE;
       }
@@ -845,65 +897,14 @@ static void c3_chartstep_c3_BuckBoost1(SFc3_BuckBoost1InstanceStruct
     }
 
     if (guard1 == TRUE) {
-      CV_EML_MCDC(0, 1, 0, FALSE);
-      CV_EML_IF(0, 1, 1, FALSE);
-      _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 67);
-      guard2 = FALSE;
-      if (CV_EML_COND(0, 1, 2, c3_offset >= c3_OFFSET_ON_END_rel)) {
-        guard2 = TRUE;
-      } else if (CV_EML_COND(0, 1, 3, c3_offset <= c3_OFFSET_ON_END_rel + 1.0))
-      {
-        guard2 = TRUE;
-      } else {
-        CV_EML_MCDC(0, 1, 1, FALSE);
-        CV_EML_IF(0, 1, 2, FALSE);
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 69);
-        guard3 = FALSE;
-        if (CV_EML_COND(0, 1, 4, c3_offset > c3_OFFSET_OFF_START_rel)) {
-          if (CV_EML_COND(0, 1, 5, c3_t < c3_OFFSET_OFF_END_abs)) {
-            CV_EML_MCDC(0, 1, 2, TRUE);
-            CV_EML_IF(0, 1, 3, TRUE);
-            _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 72);
-            CV_EML_IF(0, 1, 4, c3_t == c3_OFFSET_OFF_END_abs - 1.0);
-          } else {
-            guard3 = TRUE;
-          }
-        } else {
-          guard3 = TRUE;
-        }
-
-        if (guard3 == TRUE) {
-          CV_EML_MCDC(0, 1, 2, FALSE);
-          CV_EML_IF(0, 1, 3, FALSE);
-        }
-      }
-
-      if (guard2 == TRUE) {
-        CV_EML_MCDC(0, 1, 1, TRUE);
-        CV_EML_IF(0, 1, 2, TRUE);
-        _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, 68);
-        c3_b_A = -c3_w0;
-        c3_b_B = c3_w1;
-        c3_c_x = c3_b_A;
-        c3_j_y = c3_b_B;
-        c3_d_x = c3_c_x;
-        c3_k_y = c3_j_y;
-        c3_l_y = c3_d_x / c3_k_y;
-        c3_c_A = c3_l_y;
-        c3_e_x = c3_c_A;
-        c3_f_x = c3_e_x;
-        c3_m_y = c3_f_x / 30.0;
-        c3_c_a = c3_m_y;
-        c3_n_y = c3_c_a * 1.0E-6;
-        c3_d_a = c3_n_y;
-        c3_Capout = c3_d_a * 1000.0;
-      }
+      CV_EML_MCDC(0, 1, 2, FALSE);
+      CV_EML_IF(0, 1, 3, FALSE);
     }
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, -72);
+  _SFD_EML_CALL(0U, chartInstance->c3_sfEvent, -129);
   sf_debug_symbol_scope_pop();
-  *c3_o_y = c3_y;
+  *c3_n_y = c3_y;
   *c3_b_e = c3_e;
   *c3_b_w0 = c3_w0;
   *c3_b_w1 = c3_w1;
@@ -1130,15 +1131,15 @@ static void c3_c_sf_marshallIn(void *chartInstanceVoid, const mxArray
 const mxArray *sf_c3_BuckBoost1_get_eml_resolved_functions_info(void)
 {
   const mxArray *c3_nameCaptureInfo;
-  c3_ResolvedFunctionInfo c3_info[50];
+  c3_ResolvedFunctionInfo c3_info[44];
   const mxArray *c3_m0 = NULL;
   int32_T c3_i48;
   c3_ResolvedFunctionInfo *c3_r0;
   c3_nameCaptureInfo = NULL;
   c3_nameCaptureInfo = NULL;
   c3_info_helper(c3_info);
-  sf_mex_assign(&c3_m0, sf_mex_createstruct("nameCaptureInfo", 1, 50), FALSE);
-  for (c3_i48 = 0; c3_i48 < 50; c3_i48++) {
+  sf_mex_assign(&c3_m0, sf_mex_createstruct("nameCaptureInfo", 1, 44), FALSE);
+  for (c3_i48 = 0; c3_i48 < 44; c3_i48++) {
     c3_r0 = &c3_info[c3_i48];
     sf_mex_addfield(c3_m0, sf_mex_create("nameCaptureInfo", c3_r0->context, 15,
       0U, 0U, 0U, 2, 1, strlen(c3_r0->context)), "context", "nameCaptureInfo",
@@ -1166,7 +1167,7 @@ const mxArray *sf_c3_BuckBoost1_get_eml_resolved_functions_info(void)
   return c3_nameCaptureInfo;
 }
 
-static void c3_info_helper(c3_ResolvedFunctionInfo c3_info[50])
+static void c3_info_helper(c3_ResolvedFunctionInfo c3_info[44])
 {
   c3_info[0].context = "";
   c3_info[0].name = "mrdivide";
@@ -1598,63 +1599,6 @@ static void c3_info_helper(c3_ResolvedFunctionInfo c3_info[50])
   c3_info[43].fileTimeHi = 0U;
   c3_info[43].mFileTimeLo = 0U;
   c3_info[43].mFileTimeHi = 0U;
-  c3_info[44].context = "";
-  c3_info[44].name = "mpower";
-  c3_info[44].dominantType = "double";
-  c3_info[44].resolved =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/mpower.m";
-  c3_info[44].fileTimeLo = 1286797242U;
-  c3_info[44].fileTimeHi = 0U;
-  c3_info[44].mFileTimeLo = 0U;
-  c3_info[44].mFileTimeHi = 0U;
-  c3_info[45].context = "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/mpower.m";
-  c3_info[45].name = "power";
-  c3_info[45].dominantType = "double";
-  c3_info[45].resolved = "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/power.m";
-  c3_info[45].fileTimeLo = 1336500496U;
-  c3_info[45].fileTimeHi = 0U;
-  c3_info[45].mFileTimeLo = 0U;
-  c3_info[45].mFileTimeHi = 0U;
-  c3_info[46].context =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/power.m!fltpower";
-  c3_info[46].name = "eml_scalar_eg";
-  c3_info[46].dominantType = "double";
-  c3_info[46].resolved =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_scalar_eg.m";
-  c3_info[46].fileTimeLo = 1286797196U;
-  c3_info[46].fileTimeHi = 0U;
-  c3_info[46].mFileTimeLo = 0U;
-  c3_info[46].mFileTimeHi = 0U;
-  c3_info[47].context =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/power.m!fltpower";
-  c3_info[47].name = "eml_scalexp_alloc";
-  c3_info[47].dominantType = "double";
-  c3_info[47].resolved =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/eml/eml_scalexp_alloc.m";
-  c3_info[47].fileTimeLo = 1330583234U;
-  c3_info[47].fileTimeHi = 0U;
-  c3_info[47].mFileTimeLo = 0U;
-  c3_info[47].mFileTimeHi = 0U;
-  c3_info[48].context =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/ops/power.m!fltpower";
-  c3_info[48].name = "floor";
-  c3_info[48].dominantType = "double";
-  c3_info[48].resolved =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/floor.m";
-  c3_info[48].fileTimeLo = 1286797142U;
-  c3_info[48].fileTimeHi = 0U;
-  c3_info[48].mFileTimeLo = 0U;
-  c3_info[48].mFileTimeHi = 0U;
-  c3_info[49].context =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/floor.m";
-  c3_info[49].name = "eml_scalar_floor";
-  c3_info[49].dominantType = "double";
-  c3_info[49].resolved =
-    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_floor.m";
-  c3_info[49].fileTimeLo = 1286797126U;
-  c3_info[49].fileTimeHi = 0U;
-  c3_info[49].mFileTimeLo = 0U;
-  c3_info[49].mFileTimeHi = 0U;
 }
 
 static void c3_check_forloop_overflow_error(SFc3_BuckBoost1InstanceStruct
@@ -1757,10 +1701,10 @@ static void init_dsm_address_info(SFc3_BuckBoost1InstanceStruct *chartInstance)
 /* SFunction Glue Code */
 void sf_c3_BuckBoost1_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1284585066U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3081055217U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(231451579U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2702304642U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1532729737U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3530098462U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(229985240U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(4083133453U);
 }
 
 mxArray *sf_c3_BuckBoost1_get_autoinheritance_info(void)
@@ -1772,7 +1716,7 @@ mxArray *sf_c3_BuckBoost1_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("mibQNaLMKVlm7sAOk7PDm");
+    mxArray *mxChecksum = mxCreateString("QVCRGvIhCovC3APkzjv4MH");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -2207,7 +2151,7 @@ static const mxArray *sf_get_sim_state_info_c3_BuckBoost1(void)
 
   mxArray *mxInfo = mxCreateStructMatrix(1, 1, 2, infoFields);
   const char *infoEncStr[] = {
-    "100 S1x10'type','srcId','name','auxInfo'{{M[1],M[17],T\"Capout\",},{M[1],M[21],T\"P11\",},{M[1],M[22],T\"P12\",},{M[1],M[23],T\"P21\",},{M[1],M[24],T\"P22\",},{M[1],M[20],T\"e\",},{M[1],M[18],T\"w0\",},{M[1],M[19],T\"w1\",},{M[1],M[5],T\"y\",},{M[8],M[0],T\"is_active_c3_BuckBoost1\",}}"
+    "100 S1x10'type','srcId','name','auxInfo'{{M[1],M[17],T\"Capout\",},{M[1],M[21],T\"P11\",},{M[1],M[29],T\"P12\",},{M[1],M[30],T\"P21\",},{M[1],M[24],T\"P22\",},{M[1],M[20],T\"e\",},{M[1],M[18],T\"w0\",},{M[1],M[19],T\"w1\",},{M[1],M[5],T\"y\",},{M[8],M[0],T\"is_active_c3_BuckBoost1\",}}"
   };
 
   mxArray *mxVarInfo = sf_mex_decode_encoded_mx_struct_array(infoEncStr, 10, 10);
@@ -2291,43 +2235,43 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         /* Initialization of MATLAB Function Model Coverage */
         _SFD_CV_INIT_EML(0,1,1,5,0,0,0,0,0,6,3);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,1887);
-        _SFD_CV_INIT_EML_IF(0,1,0,968,980,1844,1884);
-        _SFD_CV_INIT_EML_IF(0,1,1,985,1042,1509,1577);
-        _SFD_CV_INIT_EML_IF(0,1,2,1509,1577,1630,1843);
-        _SFD_CV_INIT_EML_IF(0,1,3,1630,1693,-1,1693);
-        _SFD_CV_INIT_EML_IF(0,1,4,1758,1792,-1,1835);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,3070);
+        _SFD_CV_INIT_EML_IF(0,1,0,2139,2151,-1,3067);
+        _SFD_CV_INIT_EML_IF(0,1,1,2156,2213,-1,2717);
+        _SFD_CV_INIT_EML_IF(0,1,2,2722,2786,-1,2843);
+        _SFD_CV_INIT_EML_IF(0,1,3,2853,2912,-1,3062);
+        _SFD_CV_INIT_EML_IF(0,1,4,2977,3011,-1,3054);
 
         {
-          static int condStart[] = { 988, 1015 };
+          static int condStart[] = { 2159, 2186 };
 
-          static int condEnd[] = { 1011, 1041 };
+          static int condEnd[] = { 2182, 2212 };
 
           static int pfixExpr[] = { 0, 1, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,0,988,1041,2,0,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,0,2159,2212,2,0,&(condStart[0]),&(condEnd[0]),
                                 3,&(pfixExpr[0]));
         }
 
         {
-          static int condStart[] = { 1516, 1547 };
+          static int condStart[] = { 2725, 2756 };
 
-          static int condEnd[] = { 1543, 1576 };
+          static int condEnd[] = { 2752, 2785 };
 
-          static int pfixExpr[] = { 0, 1, -2 };
+          static int pfixExpr[] = { 0, 1, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,1,1516,1576,2,2,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,1,2725,2785,2,2,&(condStart[0]),&(condEnd[0]),
                                 3,&(pfixExpr[0]));
         }
 
         {
-          static int condStart[] = { 1637, 1670 };
+          static int condStart[] = { 2856, 2889 };
 
-          static int condEnd[] = { 1666, 1692 };
+          static int condEnd[] = { 2885, 2911 };
 
           static int pfixExpr[] = { 0, 1, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,2,1637,1692,2,4,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,2,2856,2911,2,4,&(condStart[0]),&(condEnd[0]),
                                 3,&(pfixExpr[0]));
         }
 
@@ -2458,7 +2402,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization()
 {
-  return "ZXno7ialrK22Udh86slgUH";
+  return "yRsTscz13KyuBF04QmeYHD";
 }
 
 static void sf_opaque_initialize_c3_BuckBoost1(void *chartInstanceVar)
@@ -2623,10 +2567,10 @@ static void mdlSetWorkWidths_c3_BuckBoost1(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(1157604297U));
-  ssSetChecksum1(S,(1079709909U));
-  ssSetChecksum2(S,(639688385U));
-  ssSetChecksum3(S,(841593347U));
+  ssSetChecksum0(S,(1551414364U));
+  ssSetChecksum1(S,(647333177U));
+  ssSetChecksum2(S,(2186094990U));
+  ssSetChecksum3(S,(4113034797U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);

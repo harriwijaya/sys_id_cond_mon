@@ -190,12 +190,12 @@ static void sf_c25_BuckBoost1(SFc25_BuckBoost1InstanceStruct *chartInstance)
     c25_sf_marshallOut, c25_sf_marshallIn);
   CV_EML_FCN(0, 0);
   _SFD_EML_CALL(0U, chartInstance->c25_sfEvent, 3);
-  c25_Tsimulation = 1.0E-6;
+  c25_Tsimulation = 1.0E-5;
   _SFD_EML_CALL(0U, chartInstance->c25_sfEvent, 4);
   c25_A = c25_Ts;
   c25_x = c25_A;
   c25_b_x = c25_x;
-  c25_y = c25_b_x / 1.0E-6;
+  c25_y = c25_b_x / 1.0E-5;
   c25_CNT_Ts = c25_y - 1.0;
   _SFD_EML_CALL(0U, chartInstance->c25_sfEvent, 6);
   if (CV_EML_IF(0, 1, 0, c25_TimeCNT_k1 >= c25_CNT_Ts)) {
@@ -434,10 +434,10 @@ static void init_dsm_address_info(SFc25_BuckBoost1InstanceStruct *chartInstance)
 /* SFunction Glue Code */
 void sf_c25_BuckBoost1_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1369578809U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1580784786U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(723325424U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2779171160U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1151654355U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1465901815U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(312290761U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2068377232U);
 }
 
 mxArray *sf_c25_BuckBoost1_get_autoinheritance_info(void)
@@ -449,7 +449,7 @@ mxArray *sf_c25_BuckBoost1_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("Mt0bvEqmJnH8RLn5h6ZvaE");
+    mxArray *mxChecksum = mxCreateString("lpnlO8BtiXYSmZyCjlZFp");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
@@ -608,8 +608,8 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
         /* Initialization of MATLAB Function Model Coverage */
         _SFD_CV_INIT_EML(0,1,1,1,0,0,0,0,0,0,0);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,203);
-        _SFD_CV_INIT_EML_IF(0,1,0,120,142,160,198);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,209);
+        _SFD_CV_INIT_EML_IF(0,1,0,126,148,166,204);
         _SFD_TRANS_COV_WTS(0,0,0,1,0);
         if (chartAlreadyPresent==0) {
           _SFD_TRANS_COV_MAPS(0,
@@ -647,7 +647,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization()
 {
-  return "qUeVT4OCZCTS7fMOtTuMgB";
+  return "FQTxDORiBn40nYcim4GFOF";
 }
 
 static void sf_opaque_initialize_c25_BuckBoost1(void *chartInstanceVar)
@@ -803,10 +803,10 @@ static void mdlSetWorkWidths_c25_BuckBoost1(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(4003531280U));
-  ssSetChecksum1(S,(1733906389U));
-  ssSetChecksum2(S,(265137313U));
-  ssSetChecksum3(S,(604239689U));
+  ssSetChecksum0(S,(3340803943U));
+  ssSetChecksum1(S,(789118912U));
+  ssSetChecksum2(S,(300216974U));
+  ssSetChecksum3(S,(1788406872U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);

@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.628"
+    ComputedModelVersion    "1.638"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -57,7 +57,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1330.0, 568.0]
 	ZoomFactor		[1.0]
-	Offset			[2611.75000333786, 230.90000650286674]
+	Offset			[2383.75000333786, 804.90000650286674]
       }
     }
   }
@@ -70,9 +70,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Harri"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Thu Dec 18 12:53:30 2014"
-  RTWModifiedTimeStamp	  340740155
-  ModelVersionFormat	  "1.%<AutoIncrement:628>"
+  LastModifiedDate	  "Wed Dec 24 01:42:01 2014"
+  RTWModifiedTimeStamp	  341283883
+  ModelVersionFormat	  "1.%<AutoIncrement:638>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -176,7 +176,7 @@ Model {
 	  StartTime		  "0.0"
 	  StopTime		  "5"
 	  AbsTol		  "auto"
-	  FixedStep		  "1e-6"
+	  FixedStep		  "1e-5"
 	  InitialStep		  "auto"
 	  MaxNumMinSteps	  "-1"
 	  MaxOrder		  5
@@ -952,7 +952,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "458"
+    SIDHighWatermark	    "460"
     Block {
       BlockType		      Constant
       Name		      "Constant2"
@@ -3670,7 +3670,7 @@ Model {
       Name		      "RLS_Estimator"
       SID		      "410"
       Ports		      [12, 9]
-      Position		      [2965, 761, 3070, 1074]
+      Position		      [2965, 765, 3070, 1080]
       ZOrder		      22
       LibraryVersion	      "1.32"
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -3746,7 +3746,7 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"43"
+	SIDHighWatermark	"47"
 	Block {
 	  BlockType		  Inport
 	  Name			  "start"
@@ -3821,18 +3821,18 @@ Model {
 	Block {
 	  BlockType		  Inport
 	  Name			  "P12in"
-	  SID			  "410::30"
+	  SID			  "410::44"
 	  Position		  [20, 386, 40, 404]
-	  ZOrder		  16
+	  ZOrder		  28
 	  Port			  "9"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Inport
 	  Name			  "P21in"
-	  SID			  "410::31"
+	  SID			  "410::45"
 	  Position		  [20, 426, 40, 444]
-	  ZOrder		  17
+	  ZOrder		  29
 	  Port			  "10"
 	  IconDisplay		  "Port number"
 	}
@@ -3869,7 +3869,7 @@ Model {
 	  SID			  "410::19"
 	  Tag			  "Stateflow S-Function BuckBoost1 3"
 	  Ports			  [12, 10]
-	  Position		  [180, 121, 230, 404]
+	  Position		  [180, 125, 230, 410]
 	  ZOrder		  5
 	  FunctionName		  "sf_sfun"
 	  PortCounts		  "[12 10]"
@@ -3983,18 +3983,18 @@ Model {
 	Block {
 	  BlockType		  Outport
 	  Name			  "P12"
-	  SID			  "410::39"
+	  SID			  "410::46"
 	  Position		  [460, 281, 480, 299]
-	  ZOrder		  25
+	  ZOrder		  30
 	  Port			  "6"
 	  IconDisplay		  "Port number"
 	}
 	Block {
 	  BlockType		  Outport
 	  Name			  "P21"
-	  SID			  "410::40"
+	  SID			  "410::47"
 	  Position		  [460, 316, 480, 334]
-	  ZOrder		  26
+	  ZOrder		  31
 	  Port			  "7"
 	  IconDisplay		  "Port number"
 	}
@@ -4181,7 +4181,7 @@ Model {
       Position		      [1210, 462, 1235, 488]
       ZOrder		      -35
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4190,7 +4190,7 @@ Model {
       Position		      [1720, 164, 1760, 186]
       ZOrder		      -36
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4199,7 +4199,7 @@ Model {
       Position		      [1895, 704, 1935, 726]
       ZOrder		      -37
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4208,7 +4208,7 @@ Model {
       Position		      [1895, 664, 1935, 686]
       ZOrder		      -38
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4217,7 +4217,7 @@ Model {
       Position		      [1895, 744, 1935, 766]
       ZOrder		      -39
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4226,7 +4226,7 @@ Model {
       Position		      [885, 342, 910, 368]
       ZOrder		      -40
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4235,7 +4235,7 @@ Model {
       Position		      [1895, 784, 1935, 806]
       ZOrder		      -41
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4244,7 +4244,7 @@ Model {
       Position		      [1895, 624, 1935, 646]
       ZOrder		      -42
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4262,7 +4262,7 @@ Model {
       Position		      [1690, 444, 1730, 466]
       ZOrder		      -44
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4281,7 +4281,7 @@ Model {
       ZOrder		      -46
       ShowName		      off
       X0		      "Ts"
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4290,7 +4290,7 @@ Model {
       Position		      [1720, 374, 1760, 396]
       ZOrder		      -47
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      RateTransition
@@ -4299,7 +4299,7 @@ Model {
       Position		      [1690, 104, 1730, 126]
       ZOrder		      -48
       ShowName		      off
-      OutPortSampleTime	      "1e-6"
+      OutPortSampleTime	      "1e-5"
     }
     Block {
       BlockType		      Scope
@@ -4340,7 +4340,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      off
+      Open		      on
       NumInputPorts	      "7"
       TickLabels	      "on"
       ZoomMode		      "xonly"
@@ -4366,8 +4366,8 @@ Model {
       }
       ShowLegends	      off
       TimeRange		      "5"
-      YMin		      "0~-1~0~49.7~0~-5~-5"
-      YMax		      "100~-0.4~55~50.1~75~5~5"
+      YMin		      "0~0~0~49.7~0~-5~-5"
+      YMax		      "100~0.0015~55~50.1~75~5~5"
       SaveName		      "var9"
       DataFormat	      "StructureWithTime"
       MaxDataPoints	      "1000000"
@@ -4486,7 +4486,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      on
+      Open		      off
       NumInputPorts	      "6"
       TickLabels	      "on"
       ZoomMode		      "yonly"
@@ -4529,7 +4529,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      on
+      Open		      off
       NumInputPorts	      "5"
       TickLabels	      "on"
       ZoomMode		      "xonly"
@@ -4631,8 +4631,8 @@ Model {
       NamePlacement	      "alternate"
       ShowName		      off
       Floating		      off
-      Location		      [1, 49, 1367, 727]
-      Open		      off
+      Location		      [5, 49, 1371, 727]
+      Open		      on
       NumInputPorts	      "2"
       TickLabels	      "on"
       ZoomMode		      "xonly"
@@ -4652,8 +4652,8 @@ Model {
 	MarkerStyles		"none|none|none|none|none|none"
       }
       ShowLegends	      off
-      YMin		      "41.5~2.4"
-      YMax		      "50~4.3"
+      YMin		      "0~-1"
+      YMax		      "52.5~12"
       SaveName		      "var"
       DataFormat	      "StructureWithTime"
       LimitDataPoints	      off
@@ -4726,7 +4726,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      on
+      Open		      off
       NumInputPorts	      "6"
       TickLabels	      "on"
       ZoomMode		      "xonly"
@@ -4769,7 +4769,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      on
+      Open		      off
       NumInputPorts	      "7"
       TickLabels	      "on"
       ZoomMode		      "xonly"
@@ -4949,7 +4949,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -4960,7 +4960,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -4971,7 +4971,7 @@ Model {
       NamePlacement	      "alternate"
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -4982,7 +4982,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -4993,7 +4993,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5004,7 +5004,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5015,7 +5015,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5026,7 +5026,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5037,7 +5037,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5048,7 +5048,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5059,7 +5059,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5070,7 +5070,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5081,7 +5081,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5092,7 +5092,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5103,7 +5103,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5114,7 +5114,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5125,7 +5125,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5136,18 +5136,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
-    }
-    Block {
-      BlockType		      UnitDelay
-      Name		      "Unit Delay26"
-      SID		      "437"
-      Position		      [3000, 1110, 3035, 1130]
-      ZOrder		      61
-      BlockMirror	      on
-      ShowName		      off
-      InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5158,7 +5147,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5169,7 +5158,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5180,7 +5169,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5191,7 +5180,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5202,7 +5191,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5213,7 +5202,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5224,7 +5213,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5235,7 +5224,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5246,7 +5235,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5257,7 +5246,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5268,7 +5257,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5279,7 +5268,7 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5291,7 +5280,7 @@ Model {
       ShowName		      off
       InitialCondition	      "100"
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5302,29 +5291,29 @@ Model {
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
       Name		      "Unit Delay6"
-      SID		      "418"
-      Position		      [3000, 1200, 3035, 1220]
-      ZOrder		      42
+      SID		      "459"
+      Position		      [2965, 1205, 3000, 1225]
+      ZOrder		      83
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
       Name		      "Unit Delay7"
-      SID		      "419"
-      Position		      [3000, 1225, 3035, 1245]
-      ZOrder		      43
+      SID		      "460"
+      Position		      [3035, 1220, 3070, 1240]
+      ZOrder		      84
       BlockMirror	      on
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5336,7 +5325,7 @@ Model {
       ShowName		      off
       InitialCondition	      "100"
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      UnitDelay
@@ -5347,7 +5336,7 @@ Model {
       NamePlacement	      "alternate"
       ShowName		      off
       InputProcessing	      "Elements as channels (sample based)"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
     }
     Block {
       BlockType		      Reference
@@ -5403,7 +5392,7 @@ Model {
       SourceType	      "PSB option menu block"
       SimulationMode	      "Discrete"
       SolverType	      "Tustin"
-      SampleTime	      "1e-6"
+      SampleTime	      "1e-5"
       frequency		      "60"
       SPID		      off
       DisableSnubberDevices   off
@@ -6058,7 +6047,7 @@ Model {
     Line {
       SrcBlock		      "From_duty1"
       SrcPort		      1
-      Points		      [37, 0; 0, -35]
+      Points		      [37, 0; 0, -30]
       DstBlock		      "RLS_Estimator"
       DstPort		      3
     }
@@ -6082,7 +6071,7 @@ Model {
     Line {
       SrcBlock		      "From_i_in1"
       SrcPort		      1
-      Points		      [62, 0; 0, -75]
+      Points		      [62, 0; 0, -70]
       DstBlock		      "RLS_Estimator"
       DstPort		      5
     }
@@ -6090,7 +6079,7 @@ Model {
       Name		      "Cap"
       SrcBlock		      "RLS_Estimator"
       SrcPort		      9
-      Points		      [0, -40; 15, 0]
+      Points		      [0, -45; 15, 0]
       Branch {
 	Points			[0, 130]
 	DstBlock		"Unit Delay4"
@@ -6113,56 +6102,28 @@ Model {
     Line {
       SrcBlock		      "RLS_Estimator"
       SrcPort		      8
-      Points		      [23, 0; 0, 160]
+      Points		      [23, 0; 0, 155]
       DstBlock		      "Unit Delay5"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Unit Delay5"
       SrcPort		      1
-      Points		      [-59, 0; 0, -155]
+      Points		      [-59, 0; 0, -150]
       DstBlock		      "RLS_Estimator"
       DstPort		      11
     }
     Line {
       SrcBlock		      "RLS_Estimator"
-      SrcPort		      7
-      Points		      [37, 0; 0, 220]
-      DstBlock		      "Unit Delay6"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Unit Delay6"
-      SrcPort		      1
-      Points		      [-73, 0; 0, -205]
-      DstBlock		      "RLS_Estimator"
-      DstPort		      10
-    }
-    Line {
-      SrcBlock		      "RLS_Estimator"
-      SrcPort		      6
-      Points		      [51, 0; 0, 280]
-      DstBlock		      "Unit Delay7"
-      DstPort		      1
-    }
-    Line {
-      SrcBlock		      "Unit Delay7"
-      SrcPort		      1
-      Points		      [-87, 0; 0, -255]
-      DstBlock		      "RLS_Estimator"
-      DstPort		      9
-    }
-    Line {
-      SrcBlock		      "RLS_Estimator"
       SrcPort		      5
-      Points		      [65, 0; 0, 340]
+      Points		      [65, 0; 0, 335]
       DstBlock		      "Unit Delay8"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Unit Delay8"
       SrcPort		      1
-      Points		      [-101, 0; 0, -305]
+      Points		      [-101, 0; 0, -300]
       DstBlock		      "RLS_Estimator"
       DstPort		      8
     }
@@ -6170,7 +6131,7 @@ Model {
       Name		      "w1r"
       SrcBlock		      "RLS_Estimator"
       SrcPort		      4
-      Points		      [0, -5; 79, 0]
+      Points		      [0, -10; 79, 0]
       Branch {
 	Points			[0, 420]
 	DstBlock		"Unit Delay10"
@@ -6186,7 +6147,7 @@ Model {
     Line {
       SrcBlock		      "Unit Delay10"
       SrcPort		      1
-      Points		      [-115, 0; 0, -370]
+      Points		      [-115, 0; 0, -365]
       DstBlock		      "RLS_Estimator"
       DstPort		      7
     }
@@ -6194,7 +6155,7 @@ Model {
       Name		      "w0r"
       SrcBlock		      "RLS_Estimator"
       SrcPort		      3
-      Points		      [0, -5; 93, 0]
+      Points		      [0, -10; 93, 0]
       Branch {
 	Labels			[1, 1]
 	DstBlock		"Scope10"
@@ -6209,7 +6170,7 @@ Model {
     Line {
       SrcBlock		      "Unit Delay12"
       SrcPort		      1
-      Points		      [-129, 0; 0, -420]
+      Points		      [-129, 0; 0, -415]
       DstBlock		      "RLS_Estimator"
       DstPort		      6
     }
@@ -6218,16 +6179,16 @@ Model {
       Labels		      [3, 1]
       SrcBlock		      "RLS_Estimator"
       SrcPort		      1
-      Points		      [52, 0; 0, 35]
+      Points		      [52, 0; 0, 30]
       DstBlock		      "Scope10"
       DstPort		      4
     }
     Line {
       Name		      "er"
-      Labels		      [3, 1]
+      Labels		      [2, 1]
       SrcBlock		      "RLS_Estimator"
       SrcPort		      2
-      Points		      [24, 0; 0, 15]
+      Points		      [0, 10]
       DstBlock		      "Scope10"
       DstPort		      5
     }
@@ -6896,6 +6857,34 @@ Model {
       DstBlock		      "LMS_Estimator"
       DstPort		      17
     }
+    Line {
+      SrcBlock		      "RLS_Estimator"
+      SrcPort		      7
+      Points		      [8, 0; 0, 213; -65, 0; 0, 7]
+      DstBlock		      "Unit Delay6"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Unit Delay6"
+      SrcPort		      1
+      Points		      [-38, 0; 0, -205]
+      DstBlock		      "RLS_Estimator"
+      DstPort		      10
+    }
+    Line {
+      SrcBlock		      "RLS_Estimator"
+      SrcPort		      6
+      Points		      [37, 0; 0, 270]
+      DstBlock		      "Unit Delay7"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Unit Delay7"
+      SrcPort		      1
+      Points		      [-122, 0; 0, -245]
+      DstBlock		      "RLS_Estimator"
+      DstPort		      9
+    }
     Annotation {
       SID		      "385"
       Position		      [2312, 861]
@@ -6947,10 +6936,7 @@ Stateflow {
     firstTransition	    40
     firstJunction	    39
     viewObj		    2
-    visible		    1
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    38
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
@@ -8457,8 +8443,11 @@ Stateflow {
     firstTransition	    95
     firstJunction	    94
     viewObj		    71
+    visible		    1
     machine		    1
-    ssIdHighWaterMark	    26
+    subviewS {
+    }
+    ssIdHighWaterMark	    30
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
     firstData		    73
@@ -8483,23 +8472,34 @@ Stateflow {
     eml {
       isEML		      1
       script		      "function [y, e, w0, w1, P11, P12, P21, P22, Capout]  = Est_RLS(start,t,duty,v_out,i_in, w0in, w1i"
-      "n, P11in, P12in, P21in, P22in, Capin)\n%#codegen\n\n% --- Time Partition ---\noffset = t - duty;\n\nOFFSET_ON_ST"
-      "ART_abs = 0+5; % for t\nOFFSET_ON_END_rel = -5; % for offset\nOFFSET_OFF_START_rel = 5; % for offset\nOFFSET_OFF"
-      "_END_abs = 90+5; % for t\n% --- end of Time Partition ---\n\n% --- Init ---\nlambda = 0.6;\n% good for change: 0"
-      ".7; not good with change: 0.999;\ndelta = 1/100;\n\nN = 2;\n\ny = 0.0;\ne = 0.0;\n\nw = zeros(N,1);\nw(1) = w0in"
-      ";\nw(2) = w1in;\n\nP = eye(N) / delta;\nP(1,1) = P11in; P(1,2) = P12in;\nP(2,1) = P21in; P(2,2) = P22in;\n%NOTE:"
-      " in \"delay unit\" blocks, set:\n% P11in and P22in --> 100 (as per 'delta')\n% P12in and P21in --> 0 (since \"ey"
-      "e\" matrix)\n\nu = transpose(zeros(1,N));\nu(1) = 1;\nu(2) = t;\n% --- end of Init ---\n\n% --- Feedback ---\nP1"
-      "1 = P11in; P12 = P12in;\nP21 = P21in; P22 = P22in;\n\nCapout = Capin;\n\nw0 = w0in; w1 = w1in;\n\n%t0 = t0in;\n%"
-      " --- end of Feedback ---\n\nif(start==1)\n    if(t > OFFSET_ON_START_abs && offset < OFFSET_ON_END_rel) % ON\n  "
-      "      % estimate the \"C\"\n        % --- start of RLS ---\n        %u(2) = t - t0; NOTE: RLS do not require thi"
-      "s kind of offsetting!\n        k = ( (P*u) / (1 + (u' * P * u) / lambda) ) / lambda;\n        y = w' * u;\n     "
-      "   e = v_out - y;\n        \n        w = w + k*e;\n        w0 = w(1); w1 = w(2);\n        \n        P = ( P - k "
-      "* u' * P ) / lambda;\n        P11 = P(1,1); P12 = P(1,2);\n        P21 = P(2,1); P22 = P(2,2);\n        % --- en"
-      "d of RLS ---\n        \n    elseif(offset >= OFFSET_ON_END_rel || offset <= OFFSET_ON_END_rel+1)\n        Capout"
-      " = -w0/w1/30*10^(-6) * 1000;%R=30\n    elseif(offset > OFFSET_OFF_START_rel && t < OFFSET_OFF_END_abs) % OFF\n  "
-      "      % estimate the \"ESR\"\n        %Capout = 4;\n        if (t == (OFFSET_OFF_END_abs - 1))\n            % ou"
-      "tput the \"ESR\"\n        end\n    end\nelse\n    % initiate the coefficients\nend\n\n\n"
+      "n, P11in, P12in, P21in, P22in, Capin)\n%#codegen\n\n% --- Time Partition ---\nsampling_time = 1e-5;% 1e-6;\n\nof"
+      "fset = t - duty;\n\nOFFSET_ON_START_abs = 0+5; % for t\nOFFSET_ON_END_rel = -5; % for offset\nOFFSET_OFF_START_r"
+      "el = 5; % for offset\nOFFSET_OFF_END_abs = 90+5; % for t\n% --- end of Time Partition ---\n\n% --- Init ---\nlam"
+      "bda = 0.6;\n% good for change: 0.7; not good with change: 0.999;\ndelta = 1/100;\n\n% <<--- uON(t) = w0 + w1*t -"
+      "-->>\n\n% ... estimator output ...\ny = 0.0;\ne = 0.0;\n\n% ... inputs ...\nu = transpose(zeros(1,2));\nu(1) = 1"
+      ";\nu(2) = t;\n\n% ... coefficients ...\nw = zeros(2,1);\nw(1) = w0in;\nw(2) = w1in;\nw0 = w0in; w1 = w1in;\n\n% "
+      "... algorithm specific tools ...\nP = eye(2) / delta;\nP(1,1) = P11in; P(1,2) = P12in;\nP(2,1) = P21in; P(2,2) ="
+      " P22in;\n%NOTE: in \"delay unit\" blocks, set:\n% P11in and P22in --> 100 (as per 'delta')\n% P12in and P21in --"
+      "> 0 (since \"eye\" matrix)\nP11 = P11in; P12 = P12in;\nP21 = P21in; P22 = P22in;\n\n% % <<--- iLOFF(t) = wi0 + w"
+      "i1*t --->>\n% \n% % ... estimator output ...\n% yi = 0.0;\n% ei = 0.0;\n% \n% % ... inputs ...\n% % REUSE\n% \n%"
+      " % ... coefficients ...\n% wi = zeros(2,1);\n% wi(1) = wi0in;\n% wi(2) = wi1in;\n% wi0 = wi0in; wi1 = wi1in;\n% "
+      "\n% % ... algorithm specific tools ...\n% % REUSE\n% \n% % <<--- uON(t) = wu0 + wu1*t + wu2*t^2 --->>\n% \n% % ."
+      ".. estimator output ...\n% yu = 0.0;\n% eu = 0.0;\n% \n% % ... inputs ...\n% uu = transpose(zeros(1,3));\n% uu(1"
+      ") = 1;\n% uu(2) = t;\n% uu(3) = t*t;\n% \n% % ... coefficients ...\n% wu = zeros(3,1);\n% wu(1) = wu0in;\n% wu(2"
+      ") = wu1in;\n% wu(3) = wu2in;\n% wu0 = wu0in; wu1 = wu1in; wu2 = wu2in;\n% \n% % ... algorithm specific tools ..."
+      "\n% P = eye(3) / delta;\n% % TODO: remove P(i,j) with i!=j...\n% P(1,1) = P11in; P(1,2) = P12in; P(1,3) = P13in;"
+      "\n% P(2,1) = P21in; P(2,2) = P22in; P(2,3) = P23in;\n% %NOTE: in \"delay unit\" blocks, set:\n% % P11in and P22i"
+      "n --> 100 (as per 'delta')\n% % P12in and P21in --> 0 (since \"eye\" matrix)\n% P11 = P11in; P12 = P12in;\n% P21"
+      " = P21in; P22 = P22in;\n% \n% % --- end of Init ---\n\n% --- Feedback ---\n\nCapout = Capin;\n%t0 = t0in;\n% ---"
+      " end of Feedback ---\n\nif(start==1)\n    if(t > OFFSET_ON_START_abs && offset < OFFSET_ON_END_rel) % ON\n      "
+      "  % estimate the \"C\"\n        % --- start of RLS ---\n        %u(2) = t - t0; NOTE: RLS do not require this ki"
+      "nd of offsetting!\n        u(2) = t * sampling_time;\n        k = ( (P*u) / (1 + (u' * P * u) / lambda) ) / lamb"
+      "da;\n        y = w' * u;\n        e = v_out - y;\n        \n        w = w + k*e;\n        w0 = w(1); w1 = w(2);\n"
+      "        \n        P = ( P - k * u' * P ) / lambda;\n        P11 = P(1,1); P12 = P(1,2);\n        P21 = P(2,1); P"
+      "22 = P(2,2);\n        % --- end of RLS ---\n        \n    end\n    if(offset >= OFFSET_ON_END_rel && offset <= O"
+      "FFSET_ON_END_rel+1)\n        Capout = -w0/w1/30;%*sampling_time;%R=30\n    end\n    \n    if(offset > OFFSET_OFF"
+      "_START_rel && t < OFFSET_OFF_END_abs) % OFF\n        % estimate the \"ESR\"\n        %Capout = 4;\n        if (t"
+      " == (OFFSET_OFF_END_abs - 1))\n            % output the \"ESR\"\n        end\n    end\n\nend\n\n\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -8613,7 +8613,7 @@ Stateflow {
   }
   data {
     id			    78
-    ssIdNumber		    22
+    ssIdNumber		    29
     name		    "P12"
     linkNode		    [71 77 79]
     scope		    OUTPUT_DATA
@@ -8635,7 +8635,7 @@ Stateflow {
   }
   data {
     id			    79
-    ssIdNumber		    23
+    ssIdNumber		    30
     name		    "P21"
     linkNode		    [71 78 80]
     scope		    OUTPUT_DATA
@@ -8874,7 +8874,7 @@ Stateflow {
   }
   data {
     id			    90
-    ssIdNumber		    13
+    ssIdNumber		    27
     name		    "P12in"
     linkNode		    [71 89 91]
     scope		    INPUT_DATA
@@ -8896,7 +8896,7 @@ Stateflow {
   }
   data {
     id			    91
-    ssIdNumber		    14
+    ssIdNumber		    28
     name		    "P21in"
     linkNode		    [71 90 92]
     scope		    INPUT_DATA
@@ -9009,10 +9009,7 @@ Stateflow {
     firstTransition	    117
     firstJunction	    116
     viewObj		    97
-    visible		    1
     machine		    1
-    subviewS {
-    }
     ssIdHighWaterMark	    22
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
@@ -9615,7 +9612,10 @@ Stateflow {
     firstTransition	    133
     firstJunction	    132
     viewObj		    127
+    visible		    1
     machine		    1
+    subviewS {
+    }
     ssIdHighWaterMark	    84
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
@@ -9640,10 +9640,10 @@ Stateflow {
     decomposition	    CLUSTER_STATE
     eml {
       isEML		      1
-      script		      "function TimeCNT_k  = IabSlope(Ts,TimeCNT_k1)\n\nTsimulation=1e-6;\nCNT_Ts=Ts/Tsimulation - 1; %%"
-      "100\n%%Vap,Vbt Calculation\nif(TimeCNT_k1>=CNT_Ts)\n    TimeCNT_k=0;\nelse\n    TimeCNT_k=TimeCNT_k1 + 1;\nend\n"
-      "\nend"
-      editorLayout	      "100 M4x1[25 25 900 537]"
+      script		      "function TimeCNT_k  = IabSlope(Ts,TimeCNT_k1)\n\nTsimulation=1e-5;%1e-6;\nCNT_Ts=Ts/Tsimulation -"
+      " 1; %%100\n%%Vap,Vbt Calculation\nif(TimeCNT_k1>=CNT_Ts)\n    TimeCNT_k=0;\nelse\n    TimeCNT_k=TimeCNT_k1 + 1;\n"
+      "end\n\nend"
+      editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
   data {
@@ -9734,7 +9734,7 @@ Stateflow {
     midPoint		    [23.5747 24.9468]
     chart		    127
     linkNode		    [127 0 0]
-    dataLimits		    [23.575 23.575 14.625 34.575]
+    dataLimits		    [21.175 25.975 14.625 42.575]
     subviewer		    127
     drawStyle		    SMART
     slide {
