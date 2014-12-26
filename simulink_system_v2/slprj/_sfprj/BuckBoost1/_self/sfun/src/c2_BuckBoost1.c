@@ -304,7 +304,7 @@ static void sf_c2_BuckBoost1(SFc2_BuckBoost1InstanceStruct *chartInstance)
   c2_Carrier = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
   c2_SS_Start = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
   _sfTime_ = (real_T)ssGetT(chartInstance->S);
-  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 0U, chartInstance->c2_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
   _SFD_DATA_RANGE_CHECK(*c2_SS_Start, 0U);
   _SFD_DATA_RANGE_CHECK(*c2_Carrier, 1U);
   _SFD_DATA_RANGE_CHECK(*c2_Duty, 2U);
@@ -435,7 +435,7 @@ static void c2_chartstep_c2_BuckBoost1(SFc2_BuckBoost1InstanceStruct
   c2_b_Duty = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
   c2_b_Carrier = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
   c2_b_SS_Start = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
-  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 0U, chartInstance->c2_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
   c2_hoistedGlobal = *c2_b_SS_Start;
   c2_b_hoistedGlobal = *c2_b_Carrier;
   c2_c_hoistedGlobal = *c2_b_Duty;
@@ -689,7 +689,7 @@ static void c2_chartstep_c2_BuckBoost1(SFc2_BuckBoost1InstanceStruct
   *c2_b_IL_Off = c2_IL_Off;
   *c2_b_Slope_IL_Off = c2_Slope_IL_Off;
   *c2_b_Read = c2_Read;
-  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 0U, chartInstance->c2_sfEvent);
+  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 1U, chartInstance->c2_sfEvent);
 }
 
 static void initSimStructsc2_BuckBoost1(SFc2_BuckBoost1InstanceStruct

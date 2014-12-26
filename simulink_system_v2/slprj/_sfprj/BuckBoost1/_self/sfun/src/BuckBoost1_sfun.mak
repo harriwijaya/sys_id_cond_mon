@@ -8,7 +8,9 @@ CPU = AMD64
 MACHINE     = BuckBoost1
 TARGET      = sfun
 CHART_SRCS 	= \
+     c1_BuckBoost1.c\
      c2_BuckBoost1.c\
+     c3_BuckBoost1.c\
      c22_BuckBoost1.c\
      c25_BuckBoost1.c
 MACHINE_SRC	= BuckBoost1_sfun.c
