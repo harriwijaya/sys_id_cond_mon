@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.481"
+    ComputedModelVersion    "1.505"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -57,7 +57,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1330.0, 568.0]
 	ZoomFactor		[1.0]
-	Offset			[3766.7250092923641, 148.58749344944954]
+	Offset			[2801.3874989748, 114.0]
       }
     }
   }
@@ -70,9 +70,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Harri"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Sat Dec 27 06:52:50 2014"
-  RTWModifiedTimeStamp	  341563818
-  ModelVersionFormat	  "1.%<AutoIncrement:481>"
+  LastModifiedDate	  "Sun Dec 28 08:16:08 2014"
+  RTWModifiedTimeStamp	  341564378
+  ModelVersionFormat	  "1.%<AutoIncrement:505>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -952,7 +952,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "455"
+    SIDHighWatermark	    "467"
     Block {
       BlockType		      Constant
       Name		      "Constant2"
@@ -1104,6 +1104,184 @@ Model {
       Par_Limits	      "[1 -1]*0.9"
       Init		      "0"
       Ts		      "Ts"
+    }
+    Block {
+      BlockType		      SubSystem
+      Name		      "ESR_Averager"
+      SID		      "465"
+      Ports		      [3, 2]
+      Position		      [5015, 586, 5145, 684]
+      ZOrder		      78
+      LibraryVersion	      "1.32"
+      ErrorFcn		      "Stateflow.Translate.translate"
+      PermitHierarchicalResolution "ExplicitOnly"
+      TreatAsAtomicUnit	      on
+      MinAlgLoopOccurrences   off
+      PropExecContextOutsideSubsystem off
+      RTWSystemCode	      "Auto"
+      FunctionWithSeparateData off
+      Opaque		      off
+      RequestExecContextInheritance off
+      MaskHideContents	      off
+      SFBlockType	      "MATLAB Function"
+      Object {
+	$PropName		"MaskObject"
+	$ObjectID		20
+	$ClassName		"Simulink.Mask"
+	Type			"Stateflow"
+	Description		"Embedded MATLAB block"
+	SelfModifiable		"on"
+	Display			"bgColor = Simulink.Root.ColorString2Rgb(get_param(gcbh, 'BackgroundColor')); image(imread('private/eml_mem"
+	"brane_16.png','png','BackgroundColor',bgColor(1:3)),'center'); disp([10 10 'ESR_averager']);"
+	IconOpaque		"off"
+	IconUnits		"normalized"
+      }
+      System {
+	Name			"ESR_Averager"
+	Location		[223, 338, 826, 833]
+	Open			off
+	ModelBrowserVisibility	off
+	ModelBrowserWidth	200
+	ScreenColor		"white"
+	PaperOrientation	"landscape"
+	PaperPositionMode	"auto"
+	PaperType		"usletter"
+	PaperUnits		"inches"
+	TiledPaperMargins	[0.500000, 0.500000, 0.500000, 0.500000]
+	TiledPageScale		1
+	ShowPageBoundaries	off
+	ZoomFactor		"100"
+	SIDHighWatermark	"25"
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRin"
+	  SID			  "465::1"
+	  Position		  [20, 101, 40, 119]
+	  ZOrder		  -1
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRavrgIn"
+	  SID			  "465::23"
+	  Position		  [20, 136, 40, 154]
+	  ZOrder		  9
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "CntIn"
+	  SID			  "465::24"
+	  Position		  [20, 171, 40, 189]
+	  ZOrder		  10
+	  Port			  "3"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Demux
+	  Name			  " Demux "
+	  SID			  "465::20"
+	  Ports			  [1, 1]
+	  Position		  [270, 180, 320, 220]
+	  ZOrder		  6
+	  Outputs		  "1"
+	}
+	Block {
+	  BlockType		  S-Function
+	  Name			  " SFunction "
+	  SID			  "465::19"
+	  Tag			  "Stateflow S-Function BuckBoost1 4"
+	  Ports			  [3, 3]
+	  Position		  [180, 100, 230, 180]
+	  ZOrder		  5
+	  FunctionName		  "sf_sfun"
+	  PortCounts		  "[3 3]"
+	  EnableBusSupport	  on
+	  Port {
+	    PortNumber		    2
+	    Name		    "ESRavrg"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    3
+	    Name		    "Cnt"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	}
+	Block {
+	  BlockType		  Terminator
+	  Name			  " Terminator "
+	  SID			  "465::22"
+	  Position		  [460, 191, 480, 209]
+	  ZOrder		  8
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "ESRavrg"
+	  SID			  "465::5"
+	  Position		  [460, 101, 480, 119]
+	  ZOrder		  -5
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
+	  Name			  "Cnt"
+	  SID			  "465::25"
+	  Position		  [460, 136, 480, 154]
+	  ZOrder		  11
+	  Port			  "2"
+	  IconDisplay		  "Port number"
+	}
+	Line {
+	  SrcBlock		  "ESRin"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  "ESRavrgIn"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  2
+	}
+	Line {
+	  SrcBlock		  "CntIn"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  3
+	}
+	Line {
+	  Name			  "ESRavrg"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  2
+	  DstBlock		  "ESRavrg"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "Cnt"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  3
+	  DstBlock		  "Cnt"
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " Demux "
+	  SrcPort		  1
+	  DstBlock		  " Terminator "
+	  DstPort		  1
+	}
+	Line {
+	  SrcBlock		  " SFunction "
+	  SrcPort		  1
+	  DstBlock		  " Demux "
+	  DstPort		  1
+	}
+      }
     }
     Block {
       BlockType		      From
@@ -1279,7 +1457,7 @@ Model {
       SFBlockType	      "MATLAB Function"
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		20
+	$ObjectID		21
 	$ClassName		"Simulink.Mask"
 	Type			"Stateflow"
 	Description		"Embedded MATLAB block"
@@ -1419,7 +1597,7 @@ Model {
       SFBlockType	      "MATLAB Function"
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		21
+	$ObjectID		22
 	$ClassName		"Simulink.Mask"
 	Type			"Stateflow"
 	Description		"Embedded MATLAB block"
@@ -1908,7 +2086,7 @@ Model {
       SFBlockType	      "MATLAB Function"
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		22
+	$ObjectID		23
 	$ClassName		"Simulink.Mask"
 	Type			"Stateflow"
 	Description		"Embedded MATLAB block"
@@ -2155,8 +2333,8 @@ Model {
       BlockType		      SubSystem
       Name		      "LMS_Estimator"
       SID		      "434"
-      Ports		      [15, 16]
-      Position		      [4620, 203, 4760, 527]
+      Ports		      [23, 17]
+      Position		      [4620, 210, 4760, 540]
       ZOrder		      49
       LibraryVersion	      "1.31"
       ErrorFcn		      "Stateflow.Translate.translate"
@@ -2172,7 +2350,7 @@ Model {
       SFBlockType	      "MATLAB Function"
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		23
+	$ObjectID		24
 	$ClassName		"Simulink.Mask"
 	Type			"Stateflow"
 	Description		"Embedded MATLAB block"
@@ -2247,7 +2425,7 @@ Model {
 	TiledPageScale		1
 	ShowPageBoundaries	off
 	ZoomFactor		"100"
-	SIDHighWatermark	"112"
+	SIDHighWatermark	"121"
 	Block {
 	  BlockType		  Inport
 	  Name			  "start"
@@ -2375,11 +2553,83 @@ Model {
 	}
 	Block {
 	  BlockType		  Inport
+	  Name			  "ESRin0"
+	  SID			  "434::113"
+	  Position		  [20, 606, 40, 624]
+	  ZOrder		  40
+	  Port			  "15"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRin1"
+	  SID			  "434::114"
+	  Position		  [20, 641, 40, 659]
+	  ZOrder		  41
+	  Port			  "16"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRin2"
+	  SID			  "434::115"
+	  Position		  [20, 676, 40, 694]
+	  ZOrder		  42
+	  Port			  "17"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRin3"
+	  SID			  "434::116"
+	  Position		  [20, 711, 40, 729]
+	  ZOrder		  43
+	  Port			  "18"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRin4"
+	  SID			  "434::117"
+	  Position		  [20, 746, 40, 764]
+	  ZOrder		  44
+	  Port			  "19"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRin5"
+	  SID			  "434::118"
+	  Position		  [20, 786, 40, 804]
+	  ZOrder		  45
+	  Port			  "20"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRin6"
+	  SID			  "434::119"
+	  Position		  [20, 821, 40, 839]
+	  ZOrder		  46
+	  Port			  "21"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
+	  Name			  "ESRin7"
+	  SID			  "434::120"
+	  Position		  [20, 856, 40, 874]
+	  ZOrder		  47
+	  Port			  "22"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Inport
 	  Name			  "t0in"
 	  SID			  "434::84"
-	  Position		  [20, 606, 40, 624]
+	  Position		  [20, 891, 40, 909]
 	  ZOrder		  19
-	  Port			  "15"
+	  Port			  "23"
 	  IconDisplay		  "Port number"
 	}
 	Block {
@@ -2387,7 +2637,7 @@ Model {
 	  Name			  " Demux "
 	  SID			  "434::67"
 	  Ports			  [1, 1]
-	  Position		  [270, 820, 320, 860]
+	  Position		  [270, 825, 320, 865]
 	  ZOrder		  2
 	  Outputs		  "1"
 	}
@@ -2396,11 +2646,11 @@ Model {
 	  Name			  " SFunction "
 	  SID			  "434::66"
 	  Tag			  "Stateflow S-Function BuckBoost1 3"
-	  Ports			  [15, 17]
-	  Position		  [180, 112, 230, 818]
+	  Ports			  [23, 18]
+	  Position		  [180, 116, 230, 824]
 	  ZOrder		  1
 	  FunctionName		  "sf_sfun"
-	  PortCounts		  "[15 17]"
+	  PortCounts		  "[23 18]"
 	  EnableBusSupport	  on
 	  Port {
 	    PortNumber		    2
@@ -2494,6 +2744,12 @@ Model {
 	  }
 	  Port {
 	    PortNumber		    17
+	    Name		    "ESRavrg"
+	    RTWStorageClass	    "Auto"
+	    DataLoggingNameMode	    "SignalName"
+	  }
+	  Port {
+	    PortNumber		    18
 	    Name		    "t0"
 	    RTWStorageClass	    "Auto"
 	    DataLoggingNameMode	    "SignalName"
@@ -2503,7 +2759,7 @@ Model {
 	  BlockType		  Terminator
 	  Name			  " Terminator "
 	  SID			  "434::69"
-	  Position		  [460, 831, 480, 849]
+	  Position		  [460, 836, 480, 854]
 	  ZOrder		  4
 	}
 	Block {
@@ -2642,11 +2898,20 @@ Model {
 	}
 	Block {
 	  BlockType		  Outport
+	  Name			  "ESRavrg"
+	  SID			  "434::121"
+	  Position		  [460, 641, 480, 659]
+	  ZOrder		  48
+	  Port			  "16"
+	  IconDisplay		  "Port number"
+	}
+	Block {
+	  BlockType		  Outport
 	  Name			  "t0"
 	  SID			  "434::104"
-	  Position		  [460, 641, 480, 659]
+	  Position		  [460, 676, 480, 694]
 	  ZOrder		  39
-	  Port			  "16"
+	  Port			  "17"
 	  IconDisplay		  "Port number"
 	}
 	Line {
@@ -2734,10 +2999,58 @@ Model {
 	  DstPort		  14
 	}
 	Line {
-	  SrcBlock		  "t0in"
+	  SrcBlock		  "ESRin0"
 	  SrcPort		  1
 	  DstBlock		  " SFunction "
 	  DstPort		  15
+	}
+	Line {
+	  SrcBlock		  "ESRin1"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  16
+	}
+	Line {
+	  SrcBlock		  "ESRin2"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  17
+	}
+	Line {
+	  SrcBlock		  "ESRin3"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  18
+	}
+	Line {
+	  SrcBlock		  "ESRin4"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  19
+	}
+	Line {
+	  SrcBlock		  "ESRin5"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  20
+	}
+	Line {
+	  SrcBlock		  "ESRin6"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  21
+	}
+	Line {
+	  SrcBlock		  "ESRin7"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  22
+	}
+	Line {
+	  SrcBlock		  "t0in"
+	  SrcPort		  1
+	  DstBlock		  " SFunction "
+	  DstPort		  23
 	}
 	Line {
 	  Name			  "y"
@@ -2860,10 +3173,18 @@ Model {
 	  DstPort		  1
 	}
 	Line {
-	  Name			  "t0"
+	  Name			  "ESRavrg"
 	  Labels		  [0, 0]
 	  SrcBlock		  " SFunction "
 	  SrcPort		  17
+	  DstBlock		  "ESRavrg"
+	  DstPort		  1
+	}
+	Line {
+	  Name			  "t0"
+	  Labels		  [0, 0]
+	  SrcBlock		  " SFunction "
+	  SrcPort		  18
 	  DstBlock		  "t0"
 	  DstPort		  1
 	}
@@ -2939,7 +3260,7 @@ Model {
       SFBlockType	      "MATLAB Function"
       Object {
 	$PropName		"MaskObject"
-	$ObjectID		24
+	$ObjectID		25
 	$ClassName		"Simulink.Mask"
 	Type			"Stateflow"
 	Description		"Embedded MATLAB block"
@@ -4688,7 +5009,7 @@ Model {
       Open		      on
       NumInputPorts	      "5"
       TickLabels	      "on"
-      ZoomMode		      "yonly"
+      ZoomMode		      "xonly"
       List {
 	ListType		AxesTitles
 	axes1			"%<SignalLabel>"
@@ -4751,8 +5072,8 @@ Model {
       }
       ShowLegends	      off
       TimeRange		      "5"
-      YMin		      "-0.011~-40~-5~-5~-5"
-      YMax		      "0.01~65~5~5~5"
+      YMin		      "-0.011~-40~-5~-5~0"
+      YMax		      "0.01~65~5~5~125"
       SaveName		      "var12"
       DataFormat	      "StructureWithTime"
       MaxDataPoints	      "1000000"
@@ -5046,11 +5367,11 @@ Model {
       LConnTagsString	      "__new0"
       RConnTagsString	      "__new0"
       BranchType	      "RC"
-      Resistance	      "75e-3*1"
+      Resistance	      "80e-3*1"
       Inductance	      "1e-3"
       SetiL0		      off
       InitialCurrent	      "0"
-      Capacitance	      "1e-3*1.25"
+      Capacitance	      "1e-3*1.75"
       Setx0		      off
       InitialVoltage	      "500"
       Measurements	      "None"
@@ -5580,6 +5901,28 @@ Model {
     }
     Block {
       BlockType		      UnitDelay
+      Name		      "Unit Delay48"
+      SID		      "466"
+      Position		      [5060, 717, 5095, 733]
+      ZOrder		      79
+      BlockMirror	      on
+      ShowName		      off
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "1e-5"
+    }
+    Block {
+      BlockType		      UnitDelay
+      Name		      "Unit Delay49"
+      SID		      "467"
+      Position		      [5060, 747, 5095, 763]
+      ZOrder		      80
+      BlockMirror	      on
+      ShowName		      off
+      InputProcessing	      "Elements as channels (sample based)"
+      SampleTime	      "1e-5"
+    }
+    Block {
+      BlockType		      UnitDelay
       Name		      "Unit Delay5"
       SID		      "403"
       Position		      [3115, 757, 3150, 773]
@@ -5687,7 +6030,7 @@ Model {
       Position		      [22, 45, 110, 110]
       ZOrder		      -77
       Priority		      "2"
-      LibraryVersion	      "1.2162"
+      LibraryVersion	      "*1.2162"
       UserDataPersistent      on
       UserData		      "DataTag0"
       FontSize		      11
@@ -6852,9 +7195,9 @@ Model {
       Name		      "tLMS"
       SrcBlock		      "Rate Transition23"
       SrcPort		      1
-      Points		      [57, 0; 0, 55; 218, 0]
+      Points		      [57, 0; 0, 55; 197, 0]
       Branch {
-	Points			[0, -57; 367, 0; 0, 1]
+	Points			[21, 0; 0, -57; 367, 0; 0, 1]
 	Branch {
 	  Points		  [110, 0]
 	  Branch {
@@ -6878,6 +7221,7 @@ Model {
 	}
       }
       Branch {
+	Points			[0, -20]
 	DstBlock		"LMS_Estimator"
 	DstPort			2
       }
@@ -6885,7 +7229,7 @@ Model {
     Line {
       SrcBlock		      "Rate Transition22"
       SrcPort		      1
-      Points		      [36, 0; 0, 40]
+      Points		      [36, 0; 0, 29; 241, 0; 0, -11; 61, 0; 0, -3]
       DstBlock		      "LMS_Estimator"
       DstPort		      3
     }
@@ -6893,9 +7237,9 @@ Model {
       Name		      "V_Out"
       SrcBlock		      "Rate Transition14"
       SrcPort		      1
-      Points		      [18, 0; 0, 20; 243, 0]
+      Points		      [18, 0; 0, 20; 215, 0]
       Branch {
-	Points			[0, -111; 396, 0]
+	Points			[28, 0; 0, -111; 396, 0]
 	Branch {
 	  Labels		  [1, 1]
 	  Points		  [0, 56]
@@ -6910,6 +7254,7 @@ Model {
 	}
       }
       Branch {
+	Points			[0, -22; 112, 0]
 	DstBlock		"LMS_Estimator"
 	DstPort			4
       }
@@ -6926,6 +7271,7 @@ Model {
 	DstPort			2
       }
       Branch {
+	Points			[84, 0; 0, -35]
 	DstBlock		"LMS_Estimator"
 	DstPort			5
       }
@@ -6933,74 +7279,84 @@ Model {
     Line {
       SrcBlock		      "Rate Transition16"
       SrcPort		      1
-      Points		      [79, 0; 0, 75]
+      Points		      [79, 0; 0, 60]
       DstBlock		      "LMS_Estimator"
       DstPort		      1
     }
     Line {
       SrcBlock		      "Unit Delay47"
       SrcPort		      1
+      Points		      [25, 0]
       DstBlock		      "LMS_Estimator"
-      DstPort		      15
+      DstPort		      23
     }
     Line {
       SrcBlock		      "Unit Delay46"
       SrcPort		      1
+      Points		      [0, -70; 25, 0]
       DstBlock		      "LMS_Estimator"
       DstPort		      14
     }
     Line {
       SrcBlock		      "Unit Delay45"
       SrcPort		      1
+      Points		      [13, 0; 0, -75]
       DstBlock		      "LMS_Estimator"
       DstPort		      13
     }
     Line {
       SrcBlock		      "Unit Delay44"
       SrcPort		      1
+      Points		      [5, 0; 0, -70]
       DstBlock		      "LMS_Estimator"
       DstPort		      12
     }
     Line {
       SrcBlock		      "Unit Delay43"
       SrcPort		      1
+      Points		      [20, 0; 0, -59; 4, 0; 0, -6]
       DstBlock		      "LMS_Estimator"
       DstPort		      11
     }
     Line {
       SrcBlock		      "Unit Delay42"
       SrcPort		      1
+      Points		      [14, 0; 0, -60]
       DstBlock		      "LMS_Estimator"
       DstPort		      10
     }
     Line {
       SrcBlock		      "Unit Delay41"
       SrcPort		      1
+      Points		      [17, 0; 0, -55]
       DstBlock		      "LMS_Estimator"
       DstPort		      9
     }
     Line {
       SrcBlock		      "Unit Delay40"
       SrcPort		      1
+      Points		      [3, 0; 0, -49; 22, 0]
       DstBlock		      "LMS_Estimator"
       DstPort		      8
     }
     Line {
       SrcBlock		      "Unit Delay39"
       SrcPort		      1
+      Points		      [11, 0; 0, -48; 14, 0]
       DstBlock		      "LMS_Estimator"
       DstPort		      7
     }
     Line {
       SrcBlock		      "Unit Delay38"
       SrcPort		      1
+      Points		      [4, 0; 0, -40]
       DstBlock		      "LMS_Estimator"
       DstPort		      6
     }
     Line {
       SrcBlock		      "LMS_Estimator"
-      SrcPort		      16
-      Points		      [9, 0; 0, 39; -249, 0]
+      SrcPort		      17
+      Points		      [9, 0; 0, 40; -249, 0]
       DstBlock		      "Unit Delay47"
       DstPort		      1
     }
@@ -7016,8 +7372,16 @@ Model {
       }
       Branch {
 	Labels			[1, 1]
-	DstBlock		"Scope13"
-	DstPort			5
+	Points			[128, 0]
+	Branch {
+	  Points		  [0, 110]
+	  DstBlock		  "ESR_Averager"
+	  DstPort		  1
+	}
+	Branch {
+	  DstBlock		  "Scope13"
+	  DstPort		  5
+	}
       }
     }
     Line {
@@ -7080,10 +7444,10 @@ Model {
     }
     Line {
       Name		      "e"
-      Labels		      [1, 1]
+      Labels		      [3, 1]
       SrcBlock		      "LMS_Estimator"
       SrcPort		      2
-      Points		      [145, 0; 0, 25]
+      Points		      [9, 0; 0, -4; 136, 0; 0, 29]
       DstBlock		      "Scope10"
       DstPort		      4
     }
@@ -7093,32 +7457,32 @@ Model {
       SrcPort		      5
       Points		      [107, 0; 0, 2]
       Branch {
+	Points			[0, 349; -445, 0; 0, -281]
+	DstBlock		"Unit Delay40"
+	DstPort			1
+      }
+      Branch {
 	Labels			[2, 1]
 	Points			[58, 0; 0, -22]
 	DstBlock		"Scope10"
 	DstPort			5
       }
-      Branch {
-	Points			[0, 349; -445, 0; 0, -281]
-	DstBlock		"Unit Delay40"
-	DstPort			1
-      }
     }
     Line {
       Name		      "yi"
-      Labels		      [3, 1]
+      Labels		      [1, 1]
       SrcBlock		      "LMS_Estimator"
       SrcPort		      6
-      Points		      [210, 0; 0, 10]
+      Points		      [196, 0; 0, 10]
       DstBlock		      "Scope14"
       DstPort		      3
     }
     Line {
       Name		      "ei"
-      Labels		      [3, 1]
+      Labels		      [1, 1]
       SrcBlock		      "LMS_Estimator"
       SrcPort		      7
-      Points		      [210, 0; 0, 5]
+      Points		      [196, 0; 0, 5]
       DstBlock		      "Scope14"
       DstPort		      4
     }
@@ -7139,6 +7503,42 @@ Model {
       Points		      [162, 0; 0, 70]
       DstBlock		      "Scope13"
       DstPort		      3
+    }
+    Line {
+      SrcBlock		      "ESR_Averager"
+      SrcPort		      2
+      Points		      [9, 0; 0, 65]
+      DstBlock		      "Unit Delay48"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Unit Delay48"
+      SrcPort		      1
+      Points		      [-55, 0]
+      DstBlock		      "ESR_Averager"
+      DstPort		      3
+    }
+    Line {
+      SrcBlock		      "ESR_Averager"
+      SrcPort		      1
+      Points		      [10, 0]
+      Branch {
+	Points			[0, -114; -131, 0; 0, -141]
+	DstBlock		"Scope14"
+	DstPort			5
+      }
+      Branch {
+	Points			[13, 0; 0, 145]
+	DstBlock		"Unit Delay49"
+	DstPort			1
+      }
+    }
+    Line {
+      SrcBlock		      "Unit Delay49"
+      SrcPort		      1
+      Points		      [-69, 0; 0, -120]
+      DstBlock		      "ESR_Averager"
+      DstPort		      2
     }
     Annotation {
       SID		      "385"
@@ -7182,7 +7582,7 @@ Stateflow {
     name		    "BuckBoost1"
     created		    "29-Oct-2011 11:53:51"
     isLibrary		    0
-    firstTarget		    151
+    firstTarget		    170
     sfVersion		    76014001.001
   }
   chart {
@@ -9338,14 +9738,14 @@ Stateflow {
     viewLimits		    [0 156.75 0 153.75]
     screen		    [1 1 1366 768 1.333333333333333]
     treeNode		    [0 100 0 0]
-    firstTransition	    133
-    firstJunction	    132
+    firstTransition	    142
+    firstJunction	    141
     viewObj		    99
     visible		    1
     machine		    1
     subviewS {
     }
-    ssIdHighWaterMark	    92
+    ssIdHighWaterMark	    101
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
     firstData		    101
@@ -9370,46 +9770,50 @@ Stateflow {
     eml {
       isEML		      1
       script		      "function [y, e, w0, w1, Capout, ...\n    yi, ei, wi0, wi1, ...\n    yu, eu, wu0, wu1, wu2, ESRout"
-      ", ...\n    t0]  = ...\n    Est_LMS(start,t,duty,v_out,i_in, ...\n    w0in, w1in, Capin, ...\n    wi0in, wi1in, ."
-      "..\n    wu0in, wu1in, wu2in, ESRin, ...\n    t0in)\n%#codegen\n\n% *** Time Partition **************************"
-      "****************************\nsampling_time = 1e-5;% 1e-6;\n\noffset = t - duty;\n\nOFFSET_ON_START_abs = 0+5; %"
-      " for t\nOFFSET_ON_END_rel = -5; % for offset\nOFFSET_OFF_START_rel = 5; % for offset\nOFFSET_OFF_END_abs = 90+5;"
-      " % for t\n% --- end of Time Partition -----------------------------------------------\n\n% *** Init ************"
-      "****************************************************\nbeta = 0.5;\n\n% <<~~~ uON(t) = w0 + w1*t ~~~~~~~~~~~~~~~~"
-      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>\n\n% ... estimator output ...\ny = 0.0;\ne = 0.0;\n\n% ... inputs ...\nu = tran"
-      "spose(zeros(1,2));\nu(1) = 1;\nu(2) = t;\n\n% ... coefficients ...\nw = transpose(zeros(1,2));\nw(1) = w0in;\nw("
-      "2) = w1in;\nw0 = w0in; w1 = w1in;\n\n% ... algorithm specific tools ...\n% none\n\n% <<~~~ iLOFF(t) = wi0 + wi1*"
-      "t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>\n\n% ... estimator output ...\nyi = 0.0;\nei = 0.0;\n\n% ... inpu"
-      "ts ...\n% REUSE\n\n% ... coefficients ...\nwi = zeros(2,1);\nwi(1) = wi0in;\nwi(2) = wi1in;\nwi0 = wi0in; wi1 = "
-      "wi1in;\n\n% ... algorithm specific tools ...\n% none\n\n% <<~~~ uON(t) = wu0 + wu1*t + wu2*t^2 ~~~~~~~~~~~~~~~~~"
-      "~~~~~~~~~~~~~~~~~>>\n\n% ... estimator output ...\nyu = 0.0;\neu = 0.0;\n\n% ... inputs ...\nuu = transpose(zero"
-      "s(1,3));\nuu(1) = 1;\nuu(2) = t;\nuu(3) = t*t;\n\n% ... coefficients ...\nwu = zeros(3,1);\nwu(1) = wu0in;\nwu(2"
-      ") = wu1in;\nwu(3) = wu2in;\nwu0 = wu0in; wu1 = wu1in; wu2 = wu2in;\n\n% ... algorithm specific tools ...\n% none"
-      "\n\n% --- end of Init ---------------------------------------------------------\n\n% *** Misc. *****************"
-      "**********************************************\n\nCapout = Capin;\nESRout = ESRin;\nt0 = t0in;\n\n% --- end of M"
-      "isc. --------------------------------------------------------\n\nnoiseAmp = 0; % rand : [0,1]\n\nif(start==1)\n "
-      "   % *** State: ON *******************************************************\n    if(t > OFFSET_ON_START_abs && of"
-      "fset < OFFSET_ON_END_rel) % ON\n        % estimate the \"C\"\n        %if(t > OFFSET_ON_START_abs && t<= OFFSET_"
-      "ON_START_abs+2)\n        if(t <= OFFSET_ON_START_abs+2)\n            t0 = t;\n        %else\n        end\n      "
-      "      % --- start of LMS for uON(t) ---\n            u(2) = (t - t0) ;%* sampling_time; \n            rms = (u(1"
-      ")^2 + u(2)^2)/2;\n            y = w' * u;\n            %e = v_out - y;\n            e = (v_out + (noiseAmp*rand)"
-      ") - y;\n\n            w = w + beta*e*u/rms;\n            w0 = w(1); w1 = w(2);\n\n            % --- end of LMS f"
-      "or uON(t) ---\n        %end\n    end\n    if(offset >= OFFSET_ON_END_rel && offset <= OFFSET_ON_END_rel+1)\n    "
-      "    Capout = -w0/w1/30 * sampling_time;% *sampling_time;%R=30\n    end\n    % --- end State: ON ----------------"
-      "-----------------------------------\n    \n    % *** State: OFF ************************************************"
-      "******\n    if(offset > OFFSET_OFF_START_rel && t < OFFSET_OFF_END_abs) % OFF\n        % estimate the \"ESR\"\n "
-      "       if(offset > OFFSET_OFF_START_rel && offset <= OFFSET_OFF_START_rel+2)\n            t0 = t;\n        else\n"
-      "            % --- start LMS for iLOFF(t) ---\n            u(2) = (t - t0) * sampling_time; \n            rms = ("
-      "u(1)^2 + u(2)^2)/2;\n            yi = wi' * u;\n            %ei = i_in - yi;\n            ei = (i_in + (noiseAmp"
-      "*rand)) - yi;\n\n            wi = wi + beta*ei*u/rms;\n            wi0 = wi(1); wi1 = wi(2);\n\n            % --"
-      "- end of LMS for iLOFF(t) ---\n\n            % --- start LMS for uOFF(t) ---\n            uu(2) = (t - t0) * sam"
-      "pling_time; \n            uu(3) = uu(2)*uu(2);\n            rmsu = (uu(1)^2 + uu(2)^2 + uu(3)^2)/3;\n           "
-      " yu = wu' * uu;\n            %eu = v_out - yu;\n            eu = (v_out + (noiseAmp*rand)) - yu;\n\n            "
-      "wu = wu + beta*eu*uu/rmsu;\n            wu0 = wu(1); wu1 = wu(2); wu2 = wu(3);\n\n            % --- end of LMS f"
-      "or uOFF(t) ---\n        end\n    end\n    if(t >= OFFSET_OFF_END_abs && t <= OFFSET_OFF_END_abs+1)\n        a = "
-      "2*wu2 / (wi1*30 - wu1);\n        b = 2*wu2 / (1 - wu1/30/wi1);\n        c = wu0*a + b/a - 2*wu2/a;\n        ESRo"
-      "ut = (wi0/Capin - c) / (c/30 - wi1);\n    end\n    % --- end State: OFF ----------------------------------------"
-      "----------\n\nend\n"
+      ", ...\n    ESRavrg, ...\n    t0]  = ...\n    Est_LMS(start,t,duty,v_out,i_in, ...\n    w0in, w1in, Capin, ...\n "
+      "   wi0in, wi1in, ...\n    wu0in, wu1in, wu2in, ESRin, ...\n    ESRin0, ESRin1, ESRin2, ESRin3, ESRin4, ESRin5, E"
+      "SRin6, ESRin7, ...\n    t0in)\n%#codegen\n\n% *** Time Partition ***********************************************"
+      "*******\nsampling_time = 1e-5;% 1e-6;\n\noffset = t - duty;\n\nOFFSET_ON_START_abs = 0+5; % for t\nOFFSET_ON_END"
+      "_rel = -5; % for offset\nOFFSET_OFF_START_rel = 5; % for offset\nOFFSET_OFF_END_abs = 90+5; % for t\n% --- end o"
+      "f Time Partition -----------------------------------------------\n\n% *** Init *********************************"
+      "*******************************\nbeta = 0.5;\n\n% <<~~~ uON(t) = w0 + w1*t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+      "~~~~~~~~~>>\n\n% ... estimator output ...\ny = 0.0;\ne = 0.0;\n\n% ... inputs ...\nu = transpose(zeros(1,2));\nu"
+      "(1) = 1;\nu(2) = t;\n\n% ... coefficients ...\nw = transpose(zeros(1,2));\nw(1) = w0in;\nw(2) = w1in;\nw0 = w0in"
+      "; w1 = w1in;\n\n% ... algorithm specific tools ...\n% none\n\n% <<~~~ iLOFF(t) = wi0 + wi1*t ~~~~~~~~~~~~~~~~~~~"
+      "~~~~~~~~~~~~~~~~~~~~~~~>>\n\n% ... estimator output ...\nyi = 0.0;\nei = 0.0;\n\n% ... inputs ...\n% REUSE\n\n% "
+      "... coefficients ...\nwi = zeros(2,1);\nwi(1) = wi0in;\nwi(2) = wi1in;\nwi0 = wi0in; wi1 = wi1in;\n\n% ... algor"
+      "ithm specific tools ...\n% none\n\n% <<~~~ uON(t) = wu0 + wu1*t + wu2*t^2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>\n"
+      "\n% ... estimator output ...\nyu = 0.0;\neu = 0.0;\n\n% ... inputs ...\nuu = transpose(zeros(1,3));\nuu(1) = 1;\n"
+      "uu(2) = t;\nuu(3) = t*t;\n\n% ... coefficients ...\nwu = zeros(3,1);\nwu(1) = wu0in;\nwu(2) = wu1in;\nwu(3) = wu"
+      "2in;\nwu0 = wu0in; wu1 = wu1in; wu2 = wu2in;\n\n% ... algorithm specific tools ...\n% none\n\n% --- end of Init "
+      "---------------------------------------------------------\n\n% *** Misc. ***************************************"
+      "************************\n\nCapout = Capin;\nESRout = ESRin;\nt0 = t0in;\n\nESRavrg = (ESRin0+ESRin1+ESRin2+ESRi"
+      "n3+ESRin4+ESRin5+ESRin6+ESRin7)/8;\n\n% --- end of Misc. -------------------------------------------------------"
+      "-\n\nnoiseAmp = 0; % rand : [0,1]\n\nif(start==1)\n    % *** State: ON *****************************************"
+      "**************\n    if(t > OFFSET_ON_START_abs && offset < OFFSET_ON_END_rel) % ON\n        % estimate the \"C\""
+      "\n        %if(t > OFFSET_ON_START_abs && t<= OFFSET_ON_START_abs+2)\n        if(t <= OFFSET_ON_START_abs+2)\n   "
+      "         t0 = t;\n        %else\n        end\n            % --- start of LMS for uON(t) ---\n            u(2) = "
+      "(t - t0) ;%* sampling_time; \n            rms = (u(1)^2 + u(2)^2)/2;\n            y = w' * u;\n            %e = "
+      "v_out - y;\n            e = (v_out + (noiseAmp*rand)) - y;\n\n            w = w + beta*e*u/rms;\n            w0 "
+      "= w(1); w1 = w(2);\n\n            % --- end of LMS for uON(t) ---\n        %end\n    end\n    if(offset >= OFFSE"
+      "T_ON_END_rel && offset <= OFFSET_ON_END_rel+1)\n        Capout = -w0/w1/30 * sampling_time;% *sampling_time;%R=3"
+      "0\n    end\n    % --- end State: ON ---------------------------------------------------\n    \n    % *** State: "
+      "OFF ******************************************************\n    if(offset > OFFSET_OFF_START_rel && t < OFFSET_O"
+      "FF_END_abs) % OFF\n        % estimate the \"ESR\"\n        if(offset > OFFSET_OFF_START_rel && offset <= OFFSET_"
+      "OFF_START_rel+2)\n            t0 = t;\n        %else\n        end\n            % --- start LMS for iLOFF(t) ---\n"
+      "            %u(2) = (t - t0) * sampling_time; \n            u(2) = (t - t0); \n            rms = (u(1)^2 + u(2)^"
+      "2)/2;\n            yi = wi' * u;\n            %ei = i_in - yi;\n            ei = (i_in + (noiseAmp*rand)) - yi;\n"
+      "\n            wi = wi + beta*ei*u/rms;\n            wi0 = wi(1); wi1 = wi(2);\n\n            % --- end of LMS fo"
+      "r iLOFF(t) ---\n\n            % --- start LMS for uOFF(t) ---\n            %uu(2) = (t - t0) * sampling_time; \n"
+      "            uu(2) = (t - t0); \n            uu(3) = uu(2)*uu(2);\n            rmsu = (uu(1)^2 + uu(2)^2 + uu(3)^"
+      "2)/2;%3;\n            yu = wu' * uu;\n            %eu = v_out - yu;\n            eu = (v_out + (noiseAmp*rand)) "
+      "- yu;\n\n            wu = wu + beta*eu*uu/rmsu;\n            wu0 = wu(1); wu1 = wu(2); wu2 = wu(3);\n\n         "
+      "   % --- end of LMS for uOFF(t) ---\n        %end\n    end\n    if(t >= OFFSET_OFF_END_abs && t <= OFFSET_OFF_EN"
+      "D_abs+1)\n        wu2real = wu2 / sampling_time^2;\n        wu1real = wu1 / sampling_time;\n        wu0real = wu"
+      "0;\n        wi1real = wi1 / sampling_time;\n        wi0real = wi0;\n        a = 2*wu2real / (wi1real*30 - wu1rea"
+      "l);\n        b = 2*wu2real / (1 - wu1real/30/wi1real);\n        c = wu0real*a + b/a - 2*wu2real/a;\n        ESRo"
+      "ut = (wi0real/Capin - c) / (c/30 - wi1real);\n    end\n    % --- end State: OFF --------------------------------"
+      "------------------\n\nend\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
@@ -9833,8 +10237,8 @@ Stateflow {
   }
   data {
     id			    120
-    ssIdNumber		    64
-    name		    "t0in"
+    ssIdNumber		    93
+    name		    "ESRin0"
     linkNode		    [99 119 121]
     scope		    INPUT_DATA
     machine		    1
@@ -9855,10 +10259,10 @@ Stateflow {
   }
   data {
     id			    121
-    ssIdNumber		    65
-    name		    "yi"
+    ssIdNumber		    94
+    name		    "ESRin1"
     linkNode		    [99 120 122]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -9871,16 +10275,16 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
+      frame		      SF_FRAME_INHERITED
     }
     dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    122
-    ssIdNumber		    66
-    name		    "ei"
+    ssIdNumber		    95
+    name		    "ESRin2"
     linkNode		    [99 121 123]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -9893,16 +10297,16 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
+      frame		      SF_FRAME_INHERITED
     }
     dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    123
-    ssIdNumber		    67
-    name		    "wi0"
+    ssIdNumber		    96
+    name		    "ESRin3"
     linkNode		    [99 122 124]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -9915,16 +10319,16 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
+      frame		      SF_FRAME_INHERITED
     }
     dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    124
-    ssIdNumber		    68
-    name		    "wi1"
+    ssIdNumber		    97
+    name		    "ESRin4"
     linkNode		    [99 123 125]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -9937,16 +10341,16 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
+      frame		      SF_FRAME_INHERITED
     }
     dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    125
-    ssIdNumber		    69
-    name		    "yu"
+    ssIdNumber		    98
+    name		    "ESRin5"
     linkNode		    [99 124 126]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -9959,16 +10363,16 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
+      frame		      SF_FRAME_INHERITED
     }
     dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    126
-    ssIdNumber		    70
-    name		    "eu"
+    ssIdNumber		    99
+    name		    "ESRin6"
     linkNode		    [99 125 127]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -9981,16 +10385,16 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
+      frame		      SF_FRAME_INHERITED
     }
     dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    127
-    ssIdNumber		    71
-    name		    "wu0"
+    ssIdNumber		    100
+    name		    "ESRin7"
     linkNode		    [99 126 128]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -10003,16 +10407,16 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
+      frame		      SF_FRAME_INHERITED
     }
     dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    128
-    ssIdNumber		    72
-    name		    "wu1"
+    ssIdNumber		    64
+    name		    "t0in"
     linkNode		    [99 127 129]
-    scope		    OUTPUT_DATA
+    scope		    INPUT_DATA
     machine		    1
     props {
       array {
@@ -10025,14 +10429,14 @@ Stateflow {
 	wordLength		"16"
       }
       complexity	      SF_COMPLEX_INHERITED
-      frame		      SF_FRAME_NO
+      frame		      SF_FRAME_INHERITED
     }
     dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    129
-    ssIdNumber		    73
-    name		    "wu2"
+    ssIdNumber		    65
+    name		    "yi"
     linkNode		    [99 128 130]
     scope		    OUTPUT_DATA
     machine		    1
@@ -10053,8 +10457,8 @@ Stateflow {
   }
   data {
     id			    130
-    ssIdNumber		    83
-    name		    "ESRout"
+    ssIdNumber		    66
+    name		    "ei"
     linkNode		    [99 129 131]
     scope		    OUTPUT_DATA
     machine		    1
@@ -10075,9 +10479,9 @@ Stateflow {
   }
   data {
     id			    131
-    ssIdNumber		    84
-    name		    "t0"
-    linkNode		    [99 130 0]
+    ssIdNumber		    67
+    name		    "wi0"
+    linkNode		    [99 130 132]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -10095,90 +10499,121 @@ Stateflow {
     }
     dataType		    "Inherit: Same as Simulink"
   }
-  junction {
+  data {
     id			    132
-    position		    [23.5747 49.5747 7]
-    chart		    99
-    linkNode		    [99 0 0]
-    subviewer		    99
-    ssIdNumber		    3
-    type		    CONNECTIVE_JUNCTION
+    ssIdNumber		    68
+    name		    "wi1"
+    linkNode		    [99 131 133]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
   }
-  transition {
+  data {
     id			    133
-    labelString		    "{eML_blk_kernel();}"
-    labelPosition	    [32.125 19.875 102.544 14.964]
-    fontSize		    12
-    src {
-      intersection	      [0 0 1 0 23.5747 14.625 0 0]
+    ssIdNumber		    69
+    name		    "yu"
+    linkNode		    [99 132 134]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
     }
-    dst {
-      id		      132
-      intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
-    }
-    midPoint		    [23.5747 24.9468]
-    chart		    99
-    linkNode		    [99 0 0]
-    dataLimits		    [21.175 25.975 14.625 42.575]
-    subviewer		    99
-    drawStyle		    SMART
-    slide {
-      sticky		      BOTH_STICK
-    }
-    executionOrder	    1
-    ssIdNumber		    2
+    dataType		    "Inherit: Same as Simulink"
   }
-  instance {
+  data {
     id			    134
-    name		    "LMS_Estimator"
+    ssIdNumber		    70
+    name		    "eu"
+    linkNode		    [99 133 135]
+    scope		    OUTPUT_DATA
     machine		    1
-    chart		    99
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
   }
-  chart {
+  data {
     id			    135
-    name		    "FuncB1"
-    windowPosition	    [913.512 134.75 213 385]
-    viewLimits		    [0 156.75 0 153.75]
-    screen		    [1 1 1366 768 1.333333333333333]
-    treeNode		    [0 136 0 0]
-    firstTransition	    141
-    firstJunction	    140
-    viewObj		    135
+    ssIdNumber		    71
+    name		    "wu0"
+    linkNode		    [99 134 136]
+    scope		    OUTPUT_DATA
     machine		    1
-    ssIdHighWaterMark	    40
-    decomposition	    CLUSTER_CHART
-    type		    EML_CHART
-    firstData		    137
-    chartFileNumber	    22
-    disableImplicitCasting  1
-    eml {
-      name		      "Sample"
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
     }
+    dataType		    "Inherit: Same as Simulink"
   }
-  state {
+  data {
     id			    136
-    labelString		    "eML_blk_kernel()"
-    position		    [18 64.5 118 66]
-    fontSize		    12
-    chart		    135
-    treeNode		    [135 0 0 0]
-    superState		    SUBCHART
-    subviewer		    135
-    ssIdNumber		    1
-    type		    FUNC_STATE
-    decomposition	    CLUSTER_STATE
-    eml {
-      isEML		      1
-      script		      "function PWM  = Sample(Carrier,Duty)\n\nErr1=(Duty - Carrier);\n%%Single Switch PWM Signal Genera"
-      "tion!\nif(Err1>0)\n    PWM=1;\nelse\n    PWM=0;\nend\n\nend"
-      editorLayout	      "100 M4x1[10 5 700 500]"
+    ssIdNumber		    72
+    name		    "wu1"
+    linkNode		    [99 135 137]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
     }
+    dataType		    "Inherit: Same as Simulink"
   }
   data {
     id			    137
-    ssIdNumber		    36
-    name		    "PWM"
-    linkNode		    [135 0 138]
+    ssIdNumber		    73
+    name		    "wu2"
+    linkNode		    [99 136 138]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -10198,9 +10633,200 @@ Stateflow {
   }
   data {
     id			    138
-    ssIdNumber		    13
-    name		    "Carrier"
-    linkNode		    [135 137 139]
+    ssIdNumber		    83
+    name		    "ESRout"
+    linkNode		    [99 137 139]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    139
+    ssIdNumber		    101
+    name		    "ESRavrg"
+    linkNode		    [99 138 140]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    140
+    ssIdNumber		    84
+    name		    "t0"
+    linkNode		    [99 139 0]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  junction {
+    id			    141
+    position		    [23.5747 49.5747 7]
+    chart		    99
+    linkNode		    [99 0 0]
+    subviewer		    99
+    ssIdNumber		    3
+    type		    CONNECTIVE_JUNCTION
+  }
+  transition {
+    id			    142
+    labelString		    "{eML_blk_kernel();}"
+    labelPosition	    [32.125 19.875 102.544 14.964]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 23.5747 14.625 0 0]
+    }
+    dst {
+      id		      141
+      intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
+    }
+    midPoint		    [23.5747 24.9468]
+    chart		    99
+    linkNode		    [99 0 0]
+    dataLimits		    [21.175 25.975 14.625 42.575]
+    subviewer		    99
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  instance {
+    id			    143
+    name		    "LMS_Estimator"
+    machine		    1
+    chart		    99
+  }
+  chart {
+    id			    144
+    name		    "ESR_Averager"
+    windowPosition	    [357.12 483.496 167 391]
+    viewLimits		    [0 156.75 0 153.75]
+    screen		    [1 1 1280 1024 1.041666666666667]
+    treeNode		    [0 145 0 0]
+    firstTransition	    152
+    firstJunction	    151
+    viewObj		    144
+    visible		    1
+    machine		    1
+    subviewS {
+    }
+    ssIdHighWaterMark	    8
+    decomposition	    CLUSTER_CHART
+    type		    EML_CHART
+    firstData		    146
+    chartFileNumber	    4
+    disableImplicitCasting  1
+    eml {
+      name		      "ESR_averager"
+    }
+  }
+  state {
+    id			    145
+    labelString		    "eML_blk_kernel()"
+    position		    [18 64.5 118 66]
+    fontSize		    12
+    chart		    144
+    treeNode		    [144 0 0 0]
+    superState		    SUBCHART
+    subviewer		    144
+    ssIdNumber		    1
+    type		    FUNC_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
+      isEML		      1
+      script		      "function [ESRavrg, Cnt] = ESR_averager(ESRin, ESRavrgIn, CntIn)\n%#codegen\n\nCnt = CntIn + 1;\n%"
+      "Cnt = CntIn;\n% if(Cnt >= 100)\n%     Cnt = 0;\n%     %ESRavrg = 0;\n%     ESRavrg = ESRin/100 + ESRavrgIn;\n% e"
+      "lse\n% \n%     %ESRavrg = ESRin/100 + ESRavrgIn;\n%     ESRavrg = ESRavrgIn;\n% end\nif (Cnt < 64*100)\nESRavrg "
+      "= ( (Cnt-1)/Cnt * ESRavrgIn + ESRin/Cnt );\n%Cnt = CntIn + 1;\nelse\n   %ESRavrg = 0;\n   %ESRavrg = ESRavrgIn;\n"
+      "   ESRavrg = ( (Cnt-1)/Cnt * ESRavrgIn + ESRin/Cnt );\n   %Cnt = 0;\n   Cnt = CntIn - 1; % prevent from growing "
+      "anymore\nend"
+      editorLayout	      "100 M4x1[10 5 700 500]"
+    }
+  }
+  data {
+    id			    146
+    ssIdNumber		    4
+    name		    "ESRin"
+    linkNode		    [144 0 147]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    147
+    ssIdNumber		    5
+    name		    "ESRavrg"
+    linkNode		    [144 146 148]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    148
+    ssIdNumber		    6
+    name		    "ESRavrgIn"
+    linkNode		    [144 147 149]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -10219,10 +10845,177 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    139
+    id			    149
+    ssIdNumber		    7
+    name		    "CntIn"
+    linkNode		    [144 148 150]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    150
+    ssIdNumber		    8
+    name		    "Cnt"
+    linkNode		    [144 149 0]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  junction {
+    id			    151
+    position		    [23.5747 49.5747 7]
+    chart		    144
+    linkNode		    [144 0 0]
+    subviewer		    144
+    ssIdNumber		    3
+    type		    CONNECTIVE_JUNCTION
+  }
+  transition {
+    id			    152
+    labelString		    "{eML_blk_kernel();}"
+    labelPosition	    [32.125 19.875 102.544 14.964]
+    fontSize		    12
+    src {
+      intersection	      [0 0 1 0 23.5747 14.625 0 0]
+    }
+    dst {
+      id		      151
+      intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
+    }
+    midPoint		    [23.5747 24.9468]
+    chart		    144
+    linkNode		    [144 0 0]
+    dataLimits		    [21.175 25.975 14.625 42.575]
+    subviewer		    144
+    drawStyle		    SMART
+    slide {
+      sticky		      BOTH_STICK
+    }
+    executionOrder	    1
+    ssIdNumber		    2
+  }
+  instance {
+    id			    153
+    name		    "ESR_Averager"
+    machine		    1
+    chart		    144
+  }
+  chart {
+    id			    154
+    name		    "FuncB1"
+    windowPosition	    [913.512 134.75 213 385]
+    viewLimits		    [0 156.75 0 153.75]
+    screen		    [1 1 1366 768 1.333333333333333]
+    treeNode		    [0 155 0 0]
+    firstTransition	    160
+    firstJunction	    159
+    viewObj		    154
+    machine		    1
+    ssIdHighWaterMark	    40
+    decomposition	    CLUSTER_CHART
+    type		    EML_CHART
+    firstData		    156
+    chartFileNumber	    22
+    disableImplicitCasting  1
+    eml {
+      name		      "Sample"
+    }
+  }
+  state {
+    id			    155
+    labelString		    "eML_blk_kernel()"
+    position		    [18 64.5 118 66]
+    fontSize		    12
+    chart		    154
+    treeNode		    [154 0 0 0]
+    superState		    SUBCHART
+    subviewer		    154
+    ssIdNumber		    1
+    type		    FUNC_STATE
+    decomposition	    CLUSTER_STATE
+    eml {
+      isEML		      1
+      script		      "function PWM  = Sample(Carrier,Duty)\n\nErr1=(Duty - Carrier);\n%%Single Switch PWM Signal Genera"
+      "tion!\nif(Err1>0)\n    PWM=1;\nelse\n    PWM=0;\nend\n\nend"
+      editorLayout	      "100 M4x1[10 5 700 500]"
+    }
+  }
+  data {
+    id			    156
+    ssIdNumber		    36
+    name		    "PWM"
+    linkNode		    [154 0 157]
+    scope		    OUTPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_NO
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    157
+    ssIdNumber		    13
+    name		    "Carrier"
+    linkNode		    [154 156 158]
+    scope		    INPUT_DATA
+    machine		    1
+    props {
+      array {
+	size			"-1"
+      }
+      type {
+	method			SF_INHERITED_TYPE
+	primitive		SF_DOUBLE_TYPE
+	isSigned		1
+	wordLength		"16"
+      }
+      complexity	      SF_COMPLEX_INHERITED
+      frame		      SF_FRAME_INHERITED
+    }
+    dataType		    "Inherit: Same as Simulink"
+  }
+  data {
+    id			    158
     ssIdNumber		    14
     name		    "Duty"
-    linkNode		    [135 138 0]
+    linkNode		    [154 157 0]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -10241,16 +11034,16 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   junction {
-    id			    140
+    id			    159
     position		    [23.5747 49.5747 7]
-    chart		    135
-    linkNode		    [135 0 0]
-    subviewer		    135
+    chart		    154
+    linkNode		    [154 0 0]
+    subviewer		    154
     ssIdNumber		    3
     type		    CONNECTIVE_JUNCTION
   }
   transition {
-    id			    141
+    id			    160
     labelString		    "{eML_blk_kernel();}"
     labelPosition	    [32.125 19.875 102.544 14.964]
     fontSize		    12
@@ -10258,14 +11051,14 @@ Stateflow {
       intersection	      [0 0 1 0 23.5747 14.625 0 0]
     }
     dst {
-      id		      140
+      id		      159
       intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
     }
     midPoint		    [23.5747 24.9468]
-    chart		    135
-    linkNode		    [135 0 0]
+    chart		    154
+    linkNode		    [154 0 0]
     dataLimits		    [21.175 25.975 14.625 42.575]
-    subviewer		    135
+    subviewer		    154
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
@@ -10274,26 +11067,26 @@ Stateflow {
     ssIdNumber		    2
   }
   instance {
-    id			    142
+    id			    161
     name		    "FuncB1"
     machine		    1
-    chart		    135
+    chart		    154
   }
   chart {
-    id			    143
+    id			    162
     name		    "FuncB4"
     windowPosition	    [998.887 134.75 213 385]
     viewLimits		    [0 156.75 0 153.75]
     screen		    [1 1 1366 768 1.333333333333333]
-    treeNode		    [0 144 0 0]
-    firstTransition	    149
-    firstJunction	    148
-    viewObj		    143
+    treeNode		    [0 163 0 0]
+    firstTransition	    168
+    firstJunction	    167
+    viewObj		    162
     machine		    1
     ssIdHighWaterMark	    84
     decomposition	    CLUSTER_CHART
     type		    EML_CHART
-    firstData		    145
+    firstData		    164
     chartFileNumber	    25
     disableImplicitCasting  1
     eml {
@@ -10301,14 +11094,14 @@ Stateflow {
     }
   }
   state {
-    id			    144
+    id			    163
     labelString		    "eML_blk_kernel()"
     position		    [18 64.5 118 66]
     fontSize		    12
-    chart		    143
-    treeNode		    [143 0 0 0]
+    chart		    162
+    treeNode		    [162 0 0 0]
     superState		    SUBCHART
-    subviewer		    143
+    subviewer		    162
     ssIdNumber		    1
     type		    FUNC_STATE
     decomposition	    CLUSTER_STATE
@@ -10321,10 +11114,10 @@ Stateflow {
     }
   }
   data {
-    id			    145
+    id			    164
     ssIdNumber		    9
     name		    "Ts"
-    linkNode		    [143 0 146]
+    linkNode		    [162 0 165]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -10343,10 +11136,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    146
+    id			    165
     ssIdNumber		    84
     name		    "TimeCNT_k1"
-    linkNode		    [143 145 147]
+    linkNode		    [162 164 166]
     scope		    INPUT_DATA
     machine		    1
     props {
@@ -10365,10 +11158,10 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   data {
-    id			    147
+    id			    166
     ssIdNumber		    5
     name		    "TimeCNT_k"
-    linkNode		    [143 146 0]
+    linkNode		    [162 165 0]
     scope		    OUTPUT_DATA
     machine		    1
     props {
@@ -10385,16 +11178,16 @@ Stateflow {
     dataType		    "Inherit: Same as Simulink"
   }
   junction {
-    id			    148
+    id			    167
     position		    [23.5747 49.5747 7]
-    chart		    143
-    linkNode		    [143 0 0]
-    subviewer		    143
+    chart		    162
+    linkNode		    [162 0 0]
+    subviewer		    162
     ssIdNumber		    3
     type		    CONNECTIVE_JUNCTION
   }
   transition {
-    id			    149
+    id			    168
     labelString		    "{eML_blk_kernel();}"
     labelPosition	    [32.125 19.875 102.544 14.964]
     fontSize		    12
@@ -10402,14 +11195,14 @@ Stateflow {
       intersection	      [0 0 1 0 23.5747 14.625 0 0]
     }
     dst {
-      id		      148
+      id		      167
       intersection	      [1 0 -1 0 23.5747 42.5747 0 0]
     }
     midPoint		    [23.5747 24.9468]
-    chart		    143
-    linkNode		    [143 0 0]
+    chart		    162
+    linkNode		    [162 0 0]
     dataLimits		    [21.175 25.975 14.625 42.575]
-    subviewer		    143
+    subviewer		    162
     drawStyle		    SMART
     slide {
       sticky		      BOTH_STICK
@@ -10418,13 +11211,13 @@ Stateflow {
     ssIdNumber		    2
   }
   instance {
-    id			    150
+    id			    169
     name		    "FuncB4"
     machine		    1
-    chart		    143
+    chart		    162
   }
   target {
-    id			    151
+    id			    170
     name		    "sfun"
     description		    "Default Simulink S-Function Target."
     machine		    1
