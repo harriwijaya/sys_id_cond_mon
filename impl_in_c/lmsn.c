@@ -1,15 +1,20 @@
 #include <stdio.h>   /* required for file operations */
 
-#define DATA_NUM	10
+//#define DATA_NUM	10
+#define DATA_NUM	100
 #define DATA_SIZE	100
 #define DATA_LENGTH	(DATA_NUM*DATA_SIZE)
 #define NUMCHARLINE	80
+
+#define FILENAME_I	"Iin100_100.txt"
+#define FILENAME_V	"Vin100_100.txt"
 
 //FILE *fr;            /* declare the file pointer */
 //FILE *fw;
 
 FILE *vr, *ir; //read
-FILE *cw, *esrw; //write
+//FILE *cw, *esrw; //write
+FILE *res;
 
 void findDuty(FILE *fp, int *dutyret)
 {
@@ -84,6 +89,8 @@ main()
    #define SAMPLING_TIME		0.00001f
    
    /* --- LMS --- */
+   #define BETA	0.5
+   
    #define MODEL_ORDER_VON	1   
    float wv_on[MODEL_ORDER_VON+1];
    float yv_on, ev_on;
@@ -102,7 +109,7 @@ main()
    
    /* --- --- */
 
-   ir = fopen ("Iin1000.txt", "rt");  /* open the file for reading */
+   ir = fopen (FILENAME_I, "rt");  /* open the file for reading */
    /* elapsed.dta is the name of the file */
    /* "rt" means open the file for reading text */
    //fw = fopen("floatdataout.txt", "wt");
@@ -129,8 +136,10 @@ main()
    // fclose(ir);
 
 
-   vr = fopen ("Vin1000.txt", "rt");
-   ir = fopen ("Iin1000.txt", "rt");
+   vr = fopen (FILENAME_V, "rt");
+   ir = fopen (FILENAME_I, "rt");
+   
+   res = fopen("result_C_ESR.txt", "wt");
    // while(fgets(line, DATALENGTH, fr) != NULL)
    
 	for ( epoch=0; epoch<DATA_NUM; epoch++) {
@@ -138,15 +147,17 @@ main()
 			if ( (fgets(sVLine, NUMCHARLINE, vr) != NULL) && (fgets(sILine, NUMCHARLINE, ir) != NULL) ) {
 				t = iter;
 				sscanf (sVLine, "%g", &v_out);
+				sscanf (sILine, "%g", &i_in);
 				
 				offset = t - duty[epoch];
 		
+				// State: ON
 				if( t > OFFSET_ON_START_abs && offset < OFFSET_ON_END_rel ) {
 					if (t <= OFFSET_ON_START_abs+2) {
 						t0 = t;
 					}
 				
-					//--- start LMS for uON(t) ---
+					// --- start LMS for uON(t) ---
 					u[0] = 1;
 					u[1] = t - t0;
 					rms = (u[0]*u[0] + u[1]*u[1])/2;
@@ -155,18 +166,73 @@ main()
 					//printf("v_out=%g\n", v_out);
 					ev_on = v_out - yv_on;
 					
-					wv_on[0] = wv_on[0] + 0.5*ev_on*u[0]/rms;
-					wv_on[1] = wv_on[1] + 0.5*ev_on*u[1]/rms;
+					wv_on[0] = wv_on[0] + BETA*ev_on*u[0]/rms;
+					wv_on[1] = wv_on[1] + BETA*ev_on*u[1]/rms;
+					// --- end ---
 			 
+				}
+				
+				// State: OFF
+				if(offset > OFFSET_OFF_START_rel && t < OFFSET_OFF_END_abs) {
+					if(offset > OFFSET_OFF_START_rel && offset <= OFFSET_OFF_START_rel+2) {
+						t0 = t;
+					}
+					
+					// --- start LMS for iOFF(t)
+					u[0] = 1;
+					u[1] = t - t0;
+					rms = (u[0]*u[0] + u[1]*u[1])/2;
+					
+					yi_off = wi_off[0]*u[0] + wi_off[1]*u[1];
+					ei_off = i_in - yi_off;
+					
+					wi_off[0] = wi_off[0] + BETA*ei_off*u[0]/rms;
+					wi_off[1] = wi_off[1] + BETA*ei_off*u[1]/rms;
+					// --- end ---
+					
+					// --- start LMS for vOFF(t)
+					uu[0] = 1;
+					uu[1] = t - t0;
+					uu[2] = uu[1]*uu[1];
+					rmsu = (uu[0]*uu[0] + uu[1]*uu[1] + uu[2]*uu[2])/2;
+					
+					yv_off = wv_off[0]*uu[0] + wv_off[1]*uu[1] + wv_off[2]*uu[2];
+					ev_off = v_out - yv_off;
+					
+					wv_off[0] = wv_off[0] + BETA*ev_off*uu[0]/rmsu;
+					wv_off[1] = wv_off[1] + BETA*ev_off*uu[1]/rmsu;
+					wv_off[2] = wv_off[2] + BETA*ev_off*uu[2]/rmsu;
+					// --- end ---
+					
 				}
 				
 			}
 		}
-		printf("w0 = %g, w1 = %g\n", wv_on[0], wv_on[1]);
-		printf("Cap = %g\n", (float)(-wv_on[0]/wv_on[1]/30*SAMPLING_TIME) );
+		//printf("w0 = %g, w1 = %g\n", wv_on[0], wv_on[1]);
+		float Cap;
+		Cap = -wv_on[0]/wv_on[1]/30*SAMPLING_TIME;
+		printf("Cap = %g\n", Cap );
+		
+		float wv_off_r[MODEL_ORDER_VOFF+1];
+		float wi_off_r[MODEL_ORDER_IOFF+1];
+		wv_off_r[0] = wv_off[0];
+		wv_off_r[1] = wv_off[1]/SAMPLING_TIME;
+		wv_off_r[2] = wv_off[2]/(SAMPLING_TIME*SAMPLING_TIME);
+		wi_off_r[0] = wi_off[0];
+		wi_off_r[1] = wi_off[1]/SAMPLING_TIME;
+		float a, b, c;
+		a = 2*wv_off_r[2]/(wi_off_r[1]*30-wv_off_r[1]);
+		b = 2*wv_off_r[2]/(1-wv_off_r[1]/30/wi_off_r[1]);
+		c = wv_off_r[0]*a + b/a - 2*wv_off_r[2]/a;
+		float ESR;
+		ESR = (wi_off_r[0]/Cap - c) / (c/30 - wi_off_r[1]);
+		printf("ESR = %g\n", ESR);
+		
+		fprintf(res, "%.8g\t%.8g\n", Cap, ESR);
 	}
 	
 	fclose(ir);  /* close the file prior to exiting the routine */
 	fclose(vr);
+	fclose(res);
 	
 } /*of main*/
