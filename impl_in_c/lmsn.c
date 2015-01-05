@@ -78,7 +78,7 @@ main()
    /* --- signal --- */
    float v_out, i_in;
    // duty cycle info for provided data
-   int duty[10];// = {59, 57, 53, 50, 49, 51, 55, 59, 61, 61};
+   int duty[DATA_NUM];// = {59, 57, 53, 50, 49, 51, 55, 59, 61, 61};
    int epoch, iter;
    
    #define OFFSET_ON_START_abs	5
