@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.594"
+    ComputedModelVersion    "1.602"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -57,7 +57,7 @@ Model {
 	LoadSaveID		"0"
 	Extents			[1330.0, 568.0]
 	ZoomFactor		[1.0]
-	Offset			[3904.0, 351.0]
+	Offset			[3314.0, 498.0]
       }
     }
   }
@@ -70,9 +70,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "Harri"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Fri Jan 09 05:04:29 2015"
-  RTWModifiedTimeStamp	  342631267
-  ModelVersionFormat	  "1.%<AutoIncrement:594>"
+  LastModifiedDate	  "Mon Jan 12 06:22:28 2015"
+  RTWModifiedTimeStamp	  342940582
+  ModelVersionFormat	  "1.%<AutoIncrement:602>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -5648,8 +5648,8 @@ Model {
       }
       ShowLegends	      off
       TimeRange		      "5"
-      YMin		      "0~-1e-07~0"
-      YMax		      "100~8e-07~0.12"
+      YMin		      "0~0~-2.5"
+      YMax		      "100~0.00275~25"
       SaveName		      "var14"
       MaxDataPoints	      "1000000"
       SampleTime	      "0"
@@ -5744,7 +5744,7 @@ Model {
       BackgroundColor	      "green"
       ShowName		      off
       Floating		      off
-      Location		      [1, 49, 1367, 727]
+      Location		      [5, 49, 1371, 727]
       Open		      on
       NumInputPorts	      "3"
       TickLabels	      "on"
@@ -5767,8 +5767,8 @@ Model {
       }
       ShowLegends	      off
       TimeRange		      "5"
-      YMin		      "-0.011~-3250~-1.2"
-      YMax		      "0.01~250~0.3"
+      YMin		      "-0.011~-0.0005~-1"
+      YMax		      "0.01~0.006~1"
       SaveName		      "var17"
       DataFormat	      "StructureWithTime"
       MaxDataPoints	      "1000000"
@@ -5894,7 +5894,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      off
+      Open		      on
       NumInputPorts	      "5"
       TickLabels	      "on"
       ZoomMode		      "yonly"
@@ -5936,7 +5936,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      off
+      Open		      on
       NumInputPorts	      "3"
       TickLabels	      "on"
       ZoomMode		      "yonly"
@@ -5976,7 +5976,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      off
+      Open		      on
       NumInputPorts	      "3"
       TickLabels	      "on"
       ZoomMode		      "yonly"
@@ -6016,7 +6016,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      off
+      Open		      on
       NumInputPorts	      "3"
       TickLabels	      "on"
       ZoomMode		      "yonly"
@@ -6056,7 +6056,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      off
+      Open		      on
       NumInputPorts	      "4"
       TickLabels	      "on"
       ZoomMode		      "xonly"
@@ -6097,7 +6097,7 @@ Model {
       ShowName		      off
       Floating		      off
       Location		      [5, 49, 1371, 727]
-      Open		      off
+      Open		      on
       NumInputPorts	      "4"
       TickLabels	      "on"
       ZoomMode		      "yonly"
@@ -9175,68 +9175,72 @@ Stateflow {
       " ...\n    w0in, w1in, P11in, P12in, P21in, P22in, Capin, ...\n    wi0in, wi1in, Pi11in, Pi12in, Pi21in, Pi22in, "
       "...\n    wu0in, wu1in, wu2in, Pu11in, Pu12in, Pu13in, Pu21in, Pu22in, Pu23in, Pu31in, Pu32in, Pu33in, ESRin, ..."
       "\n    t0in, cntin, cntin1)\n%#codegen\n\n% *** Time Partition **************************************************"
-      "****\nsampling_time = 1e-6;% 1e-6;\n\noffset = t - duty;\n\nOFFSET_ON_START_abs = 0+5; % for t\nOFFSET_ON_END_re"
-      "l = -5; % for offset\nOFFSET_OFF_START_rel = 5; % for offset\nOFFSET_OFF_END_abs = 90+5; % for t\n% --- end of T"
-      "ime Partition -----------------------------------------------\n\n% *** Init ************************************"
-      "****************************\nlambda = 0.6;\n% good for change: 0.7; not good with change: 0.999;\ndelta = 1/100"
-      ";\n\n% <<~~~ uON(t) = w0 + w1*t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>\n\n% ... estimator output ...\n"
-      "y = 0.0;\ne = 0.0;\n\n% ... inputs ...\nu = transpose(zeros(1,2));\nu(1) = 1;\nu(2) = t;\n\n% ... coefficients ."
-      "..\nw = zeros(2,1);\nw(1) = w0in;\nw(2) = w1in;\nw0 = w0in; w1 = w1in;\n\n% ... algorithm specific tools ...\nP "
-      "= eye(2) / delta;\nP(1,1) = P11in; P(1,2) = P12in;\nP(2,1) = P21in; P(2,2) = P22in;\n%NOTE: in \"delay unit\" bl"
-      "ocks, set:\n% P11in and P22in --> 100 (as per 'delta')\n% P12in and P21in --> 0 (since \"eye\" matrix)\nP11 = P1"
-      "1in; P12 = P12in;\nP21 = P21in; P22 = P22in;\n\n% <<~~~ iLOFF(t) = wi0 + wi1*t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-      "~~~~~~~~~>>\n\n% ... estimator output ...\nyi = 0.0;\nei = 0.0;\n\n% ... inputs ...\n% REUSE\n\n% ... coefficien"
-      "ts ...\nwi = zeros(2,1);\nwi(1) = wi0in;\nwi(2) = wi1in;\nwi0 = wi0in; wi1 = wi1in;\n\n% ... algorithm specific "
-      "tools ...\nPi = eye(2) / delta;\nPi(1,1) = Pi11in; Pi(1,2) = Pi12in;\nPi(2,1) = Pi21in; Pi(2,2) = Pi22in;\n%NOTE"
-      ": in \"delay unit\" blocks, set:\n% P11in and P22in --> 100 (as per 'delta')\n% P12in and P21in --> 0 (since \"e"
-      "ye\" matrix)\nPi11 = Pi11in; Pi12 = Pi12in;\nPi21 = Pi21in; Pi22 = Pi22in;\n\n% <<~~~ uON(t) = wu0 + wu1*t + wu2"
-      "*t^2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>\n\n% ... estimator output ...\nyu = 0.0;\neu = 0.0;\n\n% ... inputs .."
-      ".\nuu = transpose(zeros(1,3));\nuu(1) = 1;\nuu(2) = t;\nuu(3) = t*t;\n\n% ... coefficients ...\nwu = zeros(3,1);"
-      "\nwu(1) = wu0in;\nwu(2) = wu1in;\nwu(3) = wu2in;\nwu0 = wu0in; wu1 = wu1in; wu2 = wu2in;\n\n% ... algorithm spec"
-      "ific tools ...\nPu = eye(3) / delta;\n% TODO: remove P(i,j) with i!=j...\nPu(1,1) = Pu11in; Pu(1,2) = Pu12in; Pu"
-      "(1,3) = Pu13in;\nPu(2,1) = Pu21in; Pu(2,2) = Pu22in; Pu(2,3) = Pu23in;\nPu(3,1) = Pu31in; Pu(3,2) = Pu32in; Pu(3"
-      ",3) = Pu33in;\n%NOTE: in \"delay unit\" blocks, set:\n% P11in and P22in --> 100 (as per 'delta')\n% P12in and P2"
-      "1in --> 0 (since \"eye\" matrix)\nPu11 = Pu11in; Pu12 = Pu12in; Pu13 = Pu13in;\nPu21 = Pu21in; Pu22 = Pu22in; Pu"
-      "23 = Pu23in;\nPu31 = Pu31in; Pu32 = Pu32in; Pu33 = Pu33in;\n\n% --- end of Init --------------------------------"
-      "-------------------------\n\n% *** Misc. ***************************************************************\n\nCapo"
-      "ut = Capin;\nESRout = ESRin;\nt0 = t0in;\n\nVnoise = 0.0;\nInoise = 0.0;\n\nk0=0;k1=0;ku0=0;ku1=0;ku2=0;\n\n% --"
-      "- end of Misc. --------------------------------------------------------\n\nnoiseAmp = 0;%0.02; % rand : [0,1]\nc"
-      "nt = cntin; cnt1 = cntin1;\nSTEPS=1;%4;%1;%4;\nSAMPLEPOINT=4;%20;%4; %4 samples\nBOUNDPOINTS = STEPS*SAMPLEPOINT"
-      ";%2*8;%x2 since mod2 aka double the interval,,,10;%20;%30;\n% note : OFFSET_ON_START_abs+BOUNDPOINTS can't be mo"
-      "re than 30; since duty\n% ... cylce can oscillate in between 30+ to 70-.\nif(start==1)\n    % *** State: ON ****"
-      "***************************************************\n    if(t > OFFSET_ON_START_abs && offset < OFFSET_ON_END_re"
-      "l && t<OFFSET_ON_START_abs+BOUNDPOINTS && mod(t,STEPS)==0) % ON\n        % estimate the \"C\"\n        if(t > OF"
-      "FSET_ON_START_abs && t<= OFFSET_ON_START_abs+1)% ---> +2)\n            t0 = t;\n            cnt = 0; %need\n    "
-      "    else%end% --> else\n            cnt = cntin + 1;\n            % --- start of RLS for uON(t) ---\n           "
-      " %u(2) = t - t0; NOTE: RLS do not require this kind of offsetting!\n            u(2) = (t - t0) * sampling_time;"
-      " %NOTE: not necessary to offset!\n            k = ( (P*u) / (1 + (u' * P * u) / lambda) ) / lambda;\n           "
-      " y = w' * u;\n            %e = v_out - y;\n            Vnoise = v_out + (noiseAmp*rand);\n            e = (v_out"
-      " + (noiseAmp*rand)) - y;\n\n            w = w + k*e;\n            w0 = w(1); w1 = w(2);\n\n            P = ( P -"
-      " k * u' * P ) / lambda;\n            P11 = P(1,1); P12 = P(1,2);\n            P21 = P(2,1); P22 = P(2,2);\n     "
-      "       % --- end of RLS for uON(t) ---\n        end% ---> end\n    end\n    if(offset >= OFFSET_ON_END_rel && of"
-      "fset <= OFFSET_ON_END_rel+1)\n        Capout = -w0/w1/30;%*sampling_time;%R=30\n    end\n    % --- end State: ON"
-      " ---------------------------------------------------\n    \n    % *** State: OFF *******************************"
-      "***********************\n    if(offset > OFFSET_OFF_START_rel && t < OFFSET_OFF_END_abs && offset<OFFSET_OFF_STA"
-      "RT_rel+BOUNDPOINTS && mod(t,STEPS)==0) % OFF\n        % estimate the \"ESR\"\n        if(offset > OFFSET_OFF_STA"
-      "RT_rel && offset <= OFFSET_OFF_START_rel+1)% ---> +2)\n            t0 = t;\n            cnt1 = 0;\n        else%"
-      "end % ---> else\n            cnt1 = cntin1 + 1;\n            % --- start RLS for iLOFF(t) ---\n            u(2) "
-      "= (t - t0) * sampling_time; %NOTE: not necessary to offset!\n            k = ( (Pi*u) / (1 + (u' * Pi * u) / lam"
-      "bda) ) / lambda;\n            k0 = k(1); k1=k(2);\n            yi = wi' * u;\n            %ei = i_in - yi;\n    "
-      "        Inoise = i_in + (noiseAmp*rand);\n            ei = (i_in + (noiseAmp*rand)) - yi;\n\n            wi = wi"
-      " + k*ei;\n            wi0 = wi(1); wi1 = wi(2);\n\n            Pi = ( Pi - k * u' * Pi ) / lambda;\n            "
-      "Pi11 = Pi(1,1); Pi12 = Pi(1,2);\n            Pi21 = Pi(2,1); Pi22 = Pi(2,2);\n            % --- end of RLS for i"
-      "LOFF(t) ---\n\n            % --- start RLS for uOFF(t) ---\n            uu(2) = (t - t0) * sampling_time; %NOTE:"
-      " not necessary to offset!\n            uu(3) = uu(2)*uu(2);\n            ku = ( (Pu*uu) / (1 + (uu' * Pu * uu) /"
-      " lambda) ) / lambda;\n            ku0=ku(1); ku1=ku(2); ku2=ku(3);\n            yu = wu' * uu;\n            %eu "
-      "= v_out - yu;\n            Vnoise = v_out + (noiseAmp*rand);\n            eu = (v_out + (noiseAmp*rand)) - yu;\n"
-      "\n            wu = wu + ku*eu;\n            wu0 = wu(1); wu1 = wu(2); wu2 = wu(3);\n\n            Pu = ( Pu - ku"
-      " * uu' * Pu ) / lambda;\n            Pu11 = Pu(1,1); Pu12 = Pu(1,2); Pu13 = Pu(1,3);\n            Pu21 = Pu(2,1)"
-      "; Pu22 = Pu(2,2); Pu23 = Pu(2,3);\n            Pu31 = Pu(3,1); Pu32 = Pu(3,2); Pu33 = Pu(3,3);\n            % --"
-      "- end of RLS for uOFF(t) ---\n        end% ---> end\n    end\n    if(t >= OFFSET_OFF_END_abs && t <= OFFSET_OFF_"
-      "END_abs+1)\n        a = 2*wu2 / (wi1*30 - wu1);\n        b = 2*wu2 / (1 - wu1/30/wi1);\n        c = wu0*a + b/a "
-      "- 2*wu2/a;\n        ESRout = (wi0/Capin - c) / (c/30 - wi1);\n    end\n    % --- end State: OFF ----------------"
-      "----------------------------------\n\n    % ### REJECTION ###\n    if (Capout > 1 || Capout < -1)\n        Capou"
-      "t = 0;\n    end\n    if (ESRout > 1 || ESRout < -1)\n        ESRout = 0;\n    end\n    % -----------------\nend\n"
+      "****\nsampling_time = 1e-6;% 1e-6;\nsplittime1 = 1e-3; splittime2 = 1e-3;\n\noffset = t - duty;\n\nOFFSET_ON_STA"
+      "RT_abs = 0+5; % for t\nOFFSET_ON_END_rel = -5; % for offset\nOFFSET_OFF_START_rel = 5; % for offset\nOFFSET_OFF_"
+      "END_abs = 90+5; % for t\n% --- end of Time Partition -----------------------------------------------\n\n% *** In"
+      "it ****************************************************************\nlambda = 0.85;%0.9;%0.1;%0.6;\n% good for c"
+      "hange: 0.7; not good with change: 0.999;\ndelta = 1/100;\n\n% <<~~~ uON(t) = w0 + w1*t ~~~~~~~~~~~~~~~~~~~~~~~~~"
+      "~~~~~~~~~~~~~~~~~~~~~>>\n\n% ... estimator output ...\ny = 0.0;\ne = 0.0;\n\n% ... inputs ...\nu = transpose(zer"
+      "os(1,2));\nu(1) = 1;\nu(2) = t;\n\n% ... coefficients ...\nw = zeros(2,1);\nw(1) = w0in;\nw(2) = w1in;\nw0 = w0i"
+      "n; w1 = w1in;\n\n% ... algorithm specific tools ...\nP = eye(2) / delta;\nP(1,1) = P11in; P(1,2) = P12in;\nP(2,1"
+      ") = P21in; P(2,2) = P22in;\n%NOTE: in \"delay unit\" blocks, set:\n% P11in and P22in --> 100 (as per 'delta')\n%"
+      " P12in and P21in --> 0 (since \"eye\" matrix)\nP11 = P11in; P12 = P12in;\nP21 = P21in; P22 = P22in;\n\n% <<~~~ i"
+      "LOFF(t) = wi0 + wi1*t ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>\n\n% ... estimator output ...\nyi = 0.0;\nei "
+      "= 0.0;\n\n% ... inputs ...\n% REUSE\n\n% ... coefficients ...\nwi = zeros(2,1);\nwi(1) = wi0in;\nwi(2) = wi1in;\n"
+      "wi0 = wi0in; wi1 = wi1in;\n\n% ... algorithm specific tools ...\nPi = eye(2) / delta;\nPi(1,1) = Pi11in; Pi(1,2)"
+      " = Pi12in;\nPi(2,1) = Pi21in; Pi(2,2) = Pi22in;\n%NOTE: in \"delay unit\" blocks, set:\n% P11in and P22in --> 10"
+      "0 (as per 'delta')\n% P12in and P21in --> 0 (since \"eye\" matrix)\nPi11 = Pi11in; Pi12 = Pi12in;\nPi21 = Pi21in"
+      "; Pi22 = Pi22in;\n\n% <<~~~ uON(t) = wu0 + wu1*t + wu2*t^2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>\n\n% ... estimat"
+      "or output ...\nyu = 0.0;\neu = 0.0;\n\n% ... inputs ...\nuu = transpose(zeros(1,3));\nuu(1) = 1;\nuu(2) = t;\nuu"
+      "(3) = t*t;\n\n% ... coefficients ...\nwu = zeros(3,1);\nwu(1) = wu0in;\nwu(2) = wu1in;\nwu(3) = wu2in;\nwu0 = wu"
+      "0in; wu1 = wu1in; wu2 = wu2in;\n\n% ... algorithm specific tools ...\nPu = eye(3) / delta;\n% TODO: remove P(i,j"
+      ") with i!=j...\nPu(1,1) = Pu11in; Pu(1,2) = Pu12in; Pu(1,3) = Pu13in;\nPu(2,1) = Pu21in; Pu(2,2) = Pu22in; Pu(2,"
+      "3) = Pu23in;\nPu(3,1) = Pu31in; Pu(3,2) = Pu32in; Pu(3,3) = Pu33in;\n%NOTE: in \"delay unit\" blocks, set:\n% P1"
+      "1in and P22in --> 100 (as per 'delta')\n% P12in and P21in --> 0 (since \"eye\" matrix)\nPu11 = Pu11in; Pu12 = Pu"
+      "12in; Pu13 = Pu13in;\nPu21 = Pu21in; Pu22 = Pu22in; Pu23 = Pu23in;\nPu31 = Pu31in; Pu32 = Pu32in; Pu33 = Pu33in;"
+      "\n\n% --- end of Init ---------------------------------------------------------\n\n% *** Misc. *****************"
+      "**********************************************\n\nCapout = Capin;\nESRout = ESRin;\nt0 = t0in;\n\nVnoise = 0.0;\n"
+      "Inoise = 0.0;\n\nk0=0;k1=0;ku0=0;ku1=0;ku2=0;\n\n% --- end of Misc. --------------------------------------------"
+      "------------\n\nnoiseAmp = 0;%0.02; % rand : [0,1]\ncnt = cntin; cnt1 = cntin1;\nSTEPS=1;%4;%1;%4;\nSAMPLEPOINT="
+      "4;%20;%4; %4 samples\nBOUNDPOINTS = STEPS*SAMPLEPOINT;%2*8;%x2 since mod2 aka double the interval,,,10;%20;%30;\n"
+      "% note : OFFSET_ON_START_abs+BOUNDPOINTS can't be more than 30; since duty\n% ... cylce can oscillate in between"
+      " 30+ to 70-.\nif(start==1)\n    % *** State: ON *******************************************************\n    if("
+      "t > OFFSET_ON_START_abs && offset < OFFSET_ON_END_rel && t<OFFSET_ON_START_abs+BOUNDPOINTS && mod(t,STEPS)==0) %"
+      " ON\n        % estimate the \"C\"\n        if(t > OFFSET_ON_START_abs && t<= OFFSET_ON_START_abs+1)% ---> +2)\n "
+      "           t0 = t;\n            cnt = 0; %need\n        else%end% --> else\n            cnt = cntin + 1;\n      "
+      "      % --- start of RLS for uON(t) ---\n            %u(2) = t - t0; NOTE: RLS do not require this kind of offse"
+      "tting!\n            u(2) = (t - t0);% * sampling_time; %NOTE: not necessary to offset!\n            k = ( (P*u) "
+      "/ (1 + (u' * P * u) / lambda) ) / lambda;\n            y = w' * u;\n            %e = v_out - y;\n            Vno"
+      "ise = v_out + (noiseAmp*rand);\n            e = (v_out + (noiseAmp*rand)) - y;\n\n            w = w + k*e;\n    "
+      "        w0 = w(1); w1 = w(2);\n\n            P = ( P - k * u' * P ) / lambda;\n            P11 = P(1,1); P12 = P"
+      "(1,2);\n            P21 = P(2,1); P22 = P(2,2);\n            % --- end of RLS for uON(t) ---\n        end% ---> "
+      "end\n    end\n    if(offset >= OFFSET_ON_END_rel && offset <= OFFSET_ON_END_rel+1)\n        Capout = -w0/w1/30*s"
+      "ampling_time;%R=30\n    end\n    % --- end State: ON ---------------------------------------------------\n    \n"
+      "    % *** State: OFF ******************************************************\n    if(offset > OFFSET_OFF_START_re"
+      "l && t < OFFSET_OFF_END_abs && offset<OFFSET_OFF_START_rel+BOUNDPOINTS && mod(t,STEPS)==0) % OFF\n        % esti"
+      "mate the \"ESR\"\n        if(offset > OFFSET_OFF_START_rel && offset <= OFFSET_OFF_START_rel+1)% ---> +2)\n     "
+      "       t0 = t;\n            cnt1 = 0;\n        else%end % ---> else\n            cnt1 = cntin1 + 1;\n           "
+      " % --- start RLS for iLOFF(t) ---\n            u(2) = (t - t0);% * sampling_time; %NOTE: not necessary to offset"
+      "!\n            k = ( (Pi*u) / (1 + (u' * Pi * u) / lambda) ) / lambda;\n            k0 = k(1); k1=k(2);\n       "
+      "     yi = wi' * u;\n            %ei = i_in - yi;\n            Inoise = i_in + (noiseAmp*rand);\n            ei ="
+      " (i_in + (noiseAmp*rand)) - yi;\n\n            wi = wi + k*ei;\n            wi0 = wi(1); wi1 = wi(2);\n\n       "
+      "     Pi = ( Pi - k * u' * Pi ) / lambda;\n            Pi11 = Pi(1,1); Pi12 = Pi(1,2);\n            Pi21 = Pi(2,1"
+      "); Pi22 = Pi(2,2);\n            % --- end of RLS for iLOFF(t) ---\n\n            % --- start RLS for uOFF(t) ---"
+      "\n            uu(2) = (t - t0);% * sampling_time; %NOTE: not necessary to offset!\n            uu(3) = uu(2)*uu("
+      "2);\n            ku = ( (Pu*uu) / (1 + (uu' * Pu * uu) / lambda) ) / lambda;\n            ku0=ku(1); ku1=ku(2); "
+      "ku2=ku(3);\n            yu = wu' * uu;\n            %eu = v_out - yu;\n            Vnoise = v_out + (noiseAmp*ra"
+      "nd);\n            eu = (v_out + (noiseAmp*rand)) - yu;\n\n            wu = wu + ku*eu;\n            wu0 = wu(1);"
+      " wu1 = wu(2); wu2 = wu(3);\n\n            Pu = ( Pu - ku * uu' * Pu ) / lambda;\n            Pu11 = Pu(1,1); Pu1"
+      "2 = Pu(1,2); Pu13 = Pu(1,3);\n            Pu21 = Pu(2,1); Pu22 = Pu(2,2); Pu23 = Pu(2,3);\n            Pu31 = Pu"
+      "(3,1); Pu32 = Pu(3,2); Pu33 = Pu(3,3);\n            % --- end of RLS for uOFF(t) ---\n        end% ---> end\n   "
+      " end\n    if(t >= OFFSET_OFF_END_abs && t <= OFFSET_OFF_END_abs+1)\n        wu2real = wu2 / sampling_time^2;\n  "
+      "      wu1real = wu1 / sampling_time;\n        wu0real = wu0;\n        wi1real = wi1 / sampling_time;\n        wi"
+      "0real = wi0;\n        a = 2*wu2real / (wi1real*30 - wu1real);\n        b = 2*wu2real / (1 - wu1real/30/wi1real);"
+      "\n        c = wu0real*a + b/a - 2*wu2real/a;\n        ESRout = (wi0real/Capin - c) / (c/30 - wi1real);\n%       "
+      "  a = 2*wu2 / (wi1*30 - wu1);\n%         b = 2*wu2 / (1 - wu1/30/wi1);\n%         c = wu0*a + b/a - 2*wu2/a;\n% "
+      "        ESRout = (wi0/Capin - c) / (c/30 - wi1);\n    end\n    % --- end State: OFF ----------------------------"
+      "----------------------\n\n    % ### REJECTION ###\n    if (Capout > 1 || Capout < -1)\n        Capout = 0;\n    "
+      "end\n    if (ESRout > 1 || ESRout < -1)\n        ESRout = 0;\n    end\n    % -----------------\nend\n"
       editorLayout	      "100 M4x1[10 5 700 500]"
     }
   }
