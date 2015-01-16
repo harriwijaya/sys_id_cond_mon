@@ -16,20 +16,21 @@
 /* Variable Declarations */
 
 /* Variable Definitions */
-static const char * c1_debug_family_names[110] = { "sampling_time", "splittime1",
+static const char * c1_debug_family_names[113] = { "sampling_time", "splittime1",
   "splittime2", "offset", "OFFSET_ON_START_abs", "OFFSET_ON_END_rel",
   "OFFSET_OFF_START_rel", "OFFSET_OFF_END_abs", "lambda", "delta", "u", "w", "P",
   "wi", "Pi", "uu", "wu", "Pu", "noiseAmp", "STEPS", "SAMPLEPOINT",
   "BOUNDPOINTS", "k", "ku", "wu2real", "wu1real", "wu0real", "wi1real",
-  "wi0real", "a", "b", "c", "nargin", "nargout", "start", "t", "duty", "v_out",
-  "i_in", "w0in", "w1in", "P11in", "P12in", "P21in", "P22in", "Capin", "wi0in",
-  "wi1in", "Pi11in", "Pi12in", "Pi21in", "Pi22in", "wu0in", "wu1in", "wu2in",
-  "Pu11in", "Pu12in", "Pu13in", "Pu21in", "Pu22in", "Pu23in", "Pu31in", "Pu32in",
-  "Pu33in", "ESRin", "t0in", "cntin", "cntin1", "y", "e", "w0", "w1", "P11",
-  "P12", "P21", "P22", "Capout", "yi", "ei", "wi0", "wi1", "Pi11", "Pi12",
-  "Pi21", "Pi22", "yu", "eu", "wu0", "wu1", "wu2", "Pu11", "Pu12", "Pu13",
-  "Pu21", "Pu22", "Pu23", "Pu31", "Pu32", "Pu33", "ESRout", "Vnoise", "Inoise",
-  "t0", "k0", "k1", "ku0", "ku1", "ku2", "cnt", "cnt1" };
+  "wi0real", "a", "b", "c", "allowedRateChange", "rateChange", "nargin",
+  "nargout", "startrej", "start", "t", "duty", "v_out", "i_in", "w0in", "w1in",
+  "P11in", "P12in", "P21in", "P22in", "Capin", "wi0in", "wi1in", "Pi11in",
+  "Pi12in", "Pi21in", "Pi22in", "wu0in", "wu1in", "wu2in", "Pu11in", "Pu12in",
+  "Pu13in", "Pu21in", "Pu22in", "Pu23in", "Pu31in", "Pu32in", "Pu33in", "ESRin",
+  "t0in", "cntin", "cntin1", "y", "e", "w0", "w1", "P11", "P12", "P21", "P22",
+  "Capout", "yi", "ei", "wi0", "wi1", "Pi11", "Pi12", "Pi21", "Pi22", "yu", "eu",
+  "wu0", "wu1", "wu2", "Pu11", "Pu12", "Pu13", "Pu21", "Pu22", "Pu23", "Pu31",
+  "Pu32", "Pu33", "ESRout", "Vnoise", "Inoise", "t0", "k0", "k1", "ku0", "ku1",
+  "ku2", "cnt", "cnt1" };
 
 /* Function Declarations */
 static void initialize_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
@@ -83,8 +84,8 @@ static void c1_f_emlrt_marshallIn(SFc1_BuckBoost1InstanceStruct *chartInstance,
   const mxArray *c1_u, const emlrtMsgIdentifier *c1_parentId, real_T c1_y[4]);
 static void c1_e_sf_marshallIn(void *chartInstanceVoid, const mxArray
   *c1_mxArrayInData, const char_T *c1_varName, void *c1_outData);
-static void c1_info_helper(c1_ResolvedFunctionInfo c1_info[85]);
-static void c1_b_info_helper(c1_ResolvedFunctionInfo c1_info[85]);
+static void c1_info_helper(c1_ResolvedFunctionInfo c1_info[87]);
+static void c1_b_info_helper(c1_ResolvedFunctionInfo c1_info[87]);
 static void c1_eml_scalar_eg(SFc1_BuckBoost1InstanceStruct *chartInstance);
 static void c1_check_forloop_overflow_error(SFc1_BuckBoost1InstanceStruct
   *chartInstance);
@@ -107,6 +108,7 @@ static void c1_f_eml_scalar_eg(SFc1_BuckBoost1InstanceStruct *chartInstance);
 static void c1_g_eml_scalar_eg(SFc1_BuckBoost1InstanceStruct *chartInstance);
 static void c1_h_eml_scalar_eg(SFc1_BuckBoost1InstanceStruct *chartInstance);
 static void c1_i_eml_scalar_eg(SFc1_BuckBoost1InstanceStruct *chartInstance);
+static real_T c1_abs(SFc1_BuckBoost1InstanceStruct *chartInstance, real_T c1_x);
 static const mxArray *c1_f_sf_marshallOut(void *chartInstanceVoid, void
   *c1_inData);
 static int32_T c1_g_emlrt_marshallIn(SFc1_BuckBoost1InstanceStruct
@@ -886,6 +888,7 @@ static void finalize_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct *chartInstance)
 
 static void sf_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct *chartInstance)
 {
+  real_T *c1_startrej;
   real_T *c1_start;
   real_T *c1_t;
   real_T *c1_duty;
@@ -963,9 +966,9 @@ static void sf_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct *chartInstance)
   real_T *c1_cntin1;
   real_T *c1_cnt1;
   c1_cnt1 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 42);
-  c1_cntin1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 33);
+  c1_cntin1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 34);
   c1_cnt = (real_T *)ssGetOutputPortSignal(chartInstance->S, 41);
-  c1_cntin = (real_T *)ssGetInputPortSignal(chartInstance->S, 32);
+  c1_cntin = (real_T *)ssGetInputPortSignal(chartInstance->S, 33);
   c1_ku2 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 40);
   c1_ku1 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 39);
   c1_ku0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 38);
@@ -997,26 +1000,26 @@ static void sf_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct *chartInstance)
   c1_wi0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 12);
   c1_ei = (real_T *)ssGetOutputPortSignal(chartInstance->S, 11);
   c1_yi = (real_T *)ssGetOutputPortSignal(chartInstance->S, 10);
-  c1_t0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 31);
-  c1_ESRin = (real_T *)ssGetInputPortSignal(chartInstance->S, 30);
-  c1_Pu33in = (real_T *)ssGetInputPortSignal(chartInstance->S, 29);
-  c1_Pu32in = (real_T *)ssGetInputPortSignal(chartInstance->S, 28);
-  c1_Pu31in = (real_T *)ssGetInputPortSignal(chartInstance->S, 27);
-  c1_Pu23in = (real_T *)ssGetInputPortSignal(chartInstance->S, 26);
-  c1_Pu22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 25);
-  c1_Pu21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 24);
-  c1_Pu13in = (real_T *)ssGetInputPortSignal(chartInstance->S, 23);
-  c1_Pu12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 22);
-  c1_Pu11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 21);
-  c1_wu2in = (real_T *)ssGetInputPortSignal(chartInstance->S, 20);
-  c1_wu1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 19);
-  c1_wu0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 18);
-  c1_Pi22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 17);
-  c1_Pi21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 16);
-  c1_Pi12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 15);
-  c1_Pi11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 14);
-  c1_wi1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 13);
-  c1_wi0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 12);
+  c1_t0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 32);
+  c1_ESRin = (real_T *)ssGetInputPortSignal(chartInstance->S, 31);
+  c1_Pu33in = (real_T *)ssGetInputPortSignal(chartInstance->S, 30);
+  c1_Pu32in = (real_T *)ssGetInputPortSignal(chartInstance->S, 29);
+  c1_Pu31in = (real_T *)ssGetInputPortSignal(chartInstance->S, 28);
+  c1_Pu23in = (real_T *)ssGetInputPortSignal(chartInstance->S, 27);
+  c1_Pu22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 26);
+  c1_Pu21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 25);
+  c1_Pu13in = (real_T *)ssGetInputPortSignal(chartInstance->S, 24);
+  c1_Pu12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 23);
+  c1_Pu11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 22);
+  c1_wu2in = (real_T *)ssGetInputPortSignal(chartInstance->S, 21);
+  c1_wu1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 20);
+  c1_wu0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 19);
+  c1_Pi22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 18);
+  c1_Pi21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 17);
+  c1_Pi12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 16);
+  c1_Pi11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 15);
+  c1_wi1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 14);
+  c1_wi0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 13);
   c1_Capout = (real_T *)ssGetOutputPortSignal(chartInstance->S, 9);
   c1_P22 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 8);
   c1_P21 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 7);
@@ -1026,96 +1029,98 @@ static void sf_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct *chartInstance)
   c1_w0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 3);
   c1_e = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
   c1_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
-  c1_Capin = (real_T *)ssGetInputPortSignal(chartInstance->S, 11);
-  c1_P22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 10);
-  c1_P21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 9);
-  c1_P12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 8);
-  c1_P11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
-  c1_w1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
-  c1_w0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
-  c1_i_in = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
-  c1_v_out = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
-  c1_duty = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
-  c1_t = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
-  c1_start = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
+  c1_Capin = (real_T *)ssGetInputPortSignal(chartInstance->S, 12);
+  c1_P22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 11);
+  c1_P21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 10);
+  c1_P12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 9);
+  c1_P11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 8);
+  c1_w1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
+  c1_w0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
+  c1_i_in = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
+  c1_v_out = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+  c1_duty = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
+  c1_t = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
+  c1_start = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
+  c1_startrej = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
   _sfTime_ = (real_T)ssGetT(chartInstance->S);
   _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 0U, chartInstance->c1_sfEvent);
-  _SFD_DATA_RANGE_CHECK(*c1_start, 0U);
-  _SFD_DATA_RANGE_CHECK(*c1_t, 1U);
-  _SFD_DATA_RANGE_CHECK(*c1_duty, 2U);
-  _SFD_DATA_RANGE_CHECK(*c1_v_out, 3U);
-  _SFD_DATA_RANGE_CHECK(*c1_i_in, 4U);
-  _SFD_DATA_RANGE_CHECK(*c1_w0in, 5U);
-  _SFD_DATA_RANGE_CHECK(*c1_w1in, 6U);
-  _SFD_DATA_RANGE_CHECK(*c1_P11in, 7U);
-  _SFD_DATA_RANGE_CHECK(*c1_P12in, 8U);
-  _SFD_DATA_RANGE_CHECK(*c1_P21in, 9U);
-  _SFD_DATA_RANGE_CHECK(*c1_P22in, 10U);
-  _SFD_DATA_RANGE_CHECK(*c1_Capin, 11U);
-  _SFD_DATA_RANGE_CHECK(*c1_y, 12U);
-  _SFD_DATA_RANGE_CHECK(*c1_e, 13U);
-  _SFD_DATA_RANGE_CHECK(*c1_w0, 14U);
-  _SFD_DATA_RANGE_CHECK(*c1_w1, 15U);
-  _SFD_DATA_RANGE_CHECK(*c1_P11, 16U);
-  _SFD_DATA_RANGE_CHECK(*c1_P12, 17U);
-  _SFD_DATA_RANGE_CHECK(*c1_P21, 18U);
-  _SFD_DATA_RANGE_CHECK(*c1_P22, 19U);
-  _SFD_DATA_RANGE_CHECK(*c1_Capout, 20U);
-  _SFD_DATA_RANGE_CHECK(*c1_wi0in, 21U);
-  _SFD_DATA_RANGE_CHECK(*c1_wi1in, 22U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pi11in, 23U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pi12in, 24U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pi21in, 25U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pi22in, 26U);
-  _SFD_DATA_RANGE_CHECK(*c1_wu0in, 27U);
-  _SFD_DATA_RANGE_CHECK(*c1_wu1in, 28U);
-  _SFD_DATA_RANGE_CHECK(*c1_wu2in, 29U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu11in, 30U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu12in, 31U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu13in, 32U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu21in, 33U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu22in, 34U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu23in, 35U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu31in, 36U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu32in, 37U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu33in, 38U);
-  _SFD_DATA_RANGE_CHECK(*c1_ESRin, 39U);
-  _SFD_DATA_RANGE_CHECK(*c1_t0in, 40U);
-  _SFD_DATA_RANGE_CHECK(*c1_yi, 41U);
-  _SFD_DATA_RANGE_CHECK(*c1_ei, 42U);
-  _SFD_DATA_RANGE_CHECK(*c1_wi0, 43U);
-  _SFD_DATA_RANGE_CHECK(*c1_wi1, 44U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pi11, 45U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pi12, 46U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pi21, 47U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pi22, 48U);
-  _SFD_DATA_RANGE_CHECK(*c1_yu, 49U);
-  _SFD_DATA_RANGE_CHECK(*c1_eu, 50U);
-  _SFD_DATA_RANGE_CHECK(*c1_wu0, 51U);
-  _SFD_DATA_RANGE_CHECK(*c1_wu1, 52U);
-  _SFD_DATA_RANGE_CHECK(*c1_wu2, 53U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu11, 54U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu12, 55U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu13, 56U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu21, 57U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu22, 58U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu23, 59U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu31, 60U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu32, 61U);
-  _SFD_DATA_RANGE_CHECK(*c1_Pu33, 62U);
-  _SFD_DATA_RANGE_CHECK(*c1_ESRout, 63U);
-  _SFD_DATA_RANGE_CHECK(*c1_Vnoise, 64U);
-  _SFD_DATA_RANGE_CHECK(*c1_Inoise, 65U);
-  _SFD_DATA_RANGE_CHECK(*c1_t0, 66U);
-  _SFD_DATA_RANGE_CHECK(*c1_k0, 67U);
-  _SFD_DATA_RANGE_CHECK(*c1_k1, 68U);
-  _SFD_DATA_RANGE_CHECK(*c1_ku0, 69U);
-  _SFD_DATA_RANGE_CHECK(*c1_ku1, 70U);
-  _SFD_DATA_RANGE_CHECK(*c1_ku2, 71U);
-  _SFD_DATA_RANGE_CHECK(*c1_cntin, 72U);
-  _SFD_DATA_RANGE_CHECK(*c1_cnt, 73U);
-  _SFD_DATA_RANGE_CHECK(*c1_cntin1, 74U);
-  _SFD_DATA_RANGE_CHECK(*c1_cnt1, 75U);
+  _SFD_DATA_RANGE_CHECK(*c1_startrej, 0U);
+  _SFD_DATA_RANGE_CHECK(*c1_start, 1U);
+  _SFD_DATA_RANGE_CHECK(*c1_t, 2U);
+  _SFD_DATA_RANGE_CHECK(*c1_duty, 3U);
+  _SFD_DATA_RANGE_CHECK(*c1_v_out, 4U);
+  _SFD_DATA_RANGE_CHECK(*c1_i_in, 5U);
+  _SFD_DATA_RANGE_CHECK(*c1_w0in, 6U);
+  _SFD_DATA_RANGE_CHECK(*c1_w1in, 7U);
+  _SFD_DATA_RANGE_CHECK(*c1_P11in, 8U);
+  _SFD_DATA_RANGE_CHECK(*c1_P12in, 9U);
+  _SFD_DATA_RANGE_CHECK(*c1_P21in, 10U);
+  _SFD_DATA_RANGE_CHECK(*c1_P22in, 11U);
+  _SFD_DATA_RANGE_CHECK(*c1_Capin, 12U);
+  _SFD_DATA_RANGE_CHECK(*c1_y, 13U);
+  _SFD_DATA_RANGE_CHECK(*c1_e, 14U);
+  _SFD_DATA_RANGE_CHECK(*c1_w0, 15U);
+  _SFD_DATA_RANGE_CHECK(*c1_w1, 16U);
+  _SFD_DATA_RANGE_CHECK(*c1_P11, 17U);
+  _SFD_DATA_RANGE_CHECK(*c1_P12, 18U);
+  _SFD_DATA_RANGE_CHECK(*c1_P21, 19U);
+  _SFD_DATA_RANGE_CHECK(*c1_P22, 20U);
+  _SFD_DATA_RANGE_CHECK(*c1_Capout, 21U);
+  _SFD_DATA_RANGE_CHECK(*c1_wi0in, 22U);
+  _SFD_DATA_RANGE_CHECK(*c1_wi1in, 23U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pi11in, 24U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pi12in, 25U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pi21in, 26U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pi22in, 27U);
+  _SFD_DATA_RANGE_CHECK(*c1_wu0in, 28U);
+  _SFD_DATA_RANGE_CHECK(*c1_wu1in, 29U);
+  _SFD_DATA_RANGE_CHECK(*c1_wu2in, 30U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu11in, 31U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu12in, 32U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu13in, 33U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu21in, 34U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu22in, 35U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu23in, 36U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu31in, 37U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu32in, 38U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu33in, 39U);
+  _SFD_DATA_RANGE_CHECK(*c1_ESRin, 40U);
+  _SFD_DATA_RANGE_CHECK(*c1_t0in, 41U);
+  _SFD_DATA_RANGE_CHECK(*c1_yi, 42U);
+  _SFD_DATA_RANGE_CHECK(*c1_ei, 43U);
+  _SFD_DATA_RANGE_CHECK(*c1_wi0, 44U);
+  _SFD_DATA_RANGE_CHECK(*c1_wi1, 45U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pi11, 46U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pi12, 47U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pi21, 48U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pi22, 49U);
+  _SFD_DATA_RANGE_CHECK(*c1_yu, 50U);
+  _SFD_DATA_RANGE_CHECK(*c1_eu, 51U);
+  _SFD_DATA_RANGE_CHECK(*c1_wu0, 52U);
+  _SFD_DATA_RANGE_CHECK(*c1_wu1, 53U);
+  _SFD_DATA_RANGE_CHECK(*c1_wu2, 54U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu11, 55U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu12, 56U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu13, 57U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu21, 58U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu22, 59U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu23, 60U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu31, 61U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu32, 62U);
+  _SFD_DATA_RANGE_CHECK(*c1_Pu33, 63U);
+  _SFD_DATA_RANGE_CHECK(*c1_ESRout, 64U);
+  _SFD_DATA_RANGE_CHECK(*c1_Vnoise, 65U);
+  _SFD_DATA_RANGE_CHECK(*c1_Inoise, 66U);
+  _SFD_DATA_RANGE_CHECK(*c1_t0, 67U);
+  _SFD_DATA_RANGE_CHECK(*c1_k0, 68U);
+  _SFD_DATA_RANGE_CHECK(*c1_k1, 69U);
+  _SFD_DATA_RANGE_CHECK(*c1_ku0, 70U);
+  _SFD_DATA_RANGE_CHECK(*c1_ku1, 71U);
+  _SFD_DATA_RANGE_CHECK(*c1_ku2, 72U);
+  _SFD_DATA_RANGE_CHECK(*c1_cntin, 73U);
+  _SFD_DATA_RANGE_CHECK(*c1_cnt, 74U);
+  _SFD_DATA_RANGE_CHECK(*c1_cntin1, 75U);
+  _SFD_DATA_RANGE_CHECK(*c1_cnt1, 76U);
   chartInstance->c1_sfEvent = CALL_EVENT;
   c1_chartstep_c1_BuckBoost1(chartInstance);
   sf_debug_check_for_state_inconsistency(_BuckBoost1MachineNumber_,
@@ -1159,6 +1164,8 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   real_T c1_gb_hoistedGlobal;
   real_T c1_hb_hoistedGlobal;
   real_T c1_ib_hoistedGlobal;
+  real_T c1_jb_hoistedGlobal;
+  real_T c1_startrej;
   real_T c1_start;
   real_T c1_t;
   real_T c1_duty;
@@ -1193,7 +1200,7 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   real_T c1_t0in;
   real_T c1_cntin;
   real_T c1_cntin1;
-  uint32_T c1_debug_family_var_map[110];
+  uint32_T c1_debug_family_var_map[113];
   real_T c1_sampling_time;
   real_T c1_splittime1;
   real_T c1_splittime2;
@@ -1226,7 +1233,9 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   real_T c1_a;
   real_T c1_b;
   real_T c1_c;
-  real_T c1_nargin = 34.0;
+  real_T c1_allowedRateChange;
+  real_T c1_rateChange;
+  real_T c1_nargin = 35.0;
   real_T c1_nargout = 42.0;
   real_T c1_y;
   real_T c1_e;
@@ -1533,6 +1542,23 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   real_T c1_gc_y;
   real_T c1_ib_x;
   real_T c1_hc_y;
+  real_T c1_r_A;
+  real_T c1_l_B;
+  real_T c1_jb_x;
+  real_T c1_ic_y;
+  real_T c1_kb_x;
+  real_T c1_jc_y;
+  real_T c1_kc_y;
+  real_T c1_k_a;
+  real_T c1_s_A;
+  real_T c1_m_B;
+  real_T c1_lb_x;
+  real_T c1_lc_y;
+  real_T c1_mb_x;
+  real_T c1_mc_y;
+  real_T c1_nc_y;
+  real_T c1_l_a;
+  real_T *c1_b_startrej;
   real_T *c1_b_start;
   real_T *c1_b_t;
   real_T *c1_b_duty;
@@ -1567,7 +1593,7 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   real_T *c1_b_t0in;
   real_T *c1_b_cntin;
   real_T *c1_b_cntin1;
-  real_T *c1_ic_y;
+  real_T *c1_oc_y;
   real_T *c1_b_e;
   real_T *c1_b_w0;
   real_T *c1_b_w1;
@@ -1619,12 +1645,10 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   boolean_T guard8 = FALSE;
   boolean_T guard9 = FALSE;
   boolean_T guard10 = FALSE;
-  boolean_T guard11 = FALSE;
-  boolean_T guard12 = FALSE;
   c1_b_cnt1 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 42);
-  c1_b_cntin1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 33);
+  c1_b_cntin1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 34);
   c1_b_cnt = (real_T *)ssGetOutputPortSignal(chartInstance->S, 41);
-  c1_b_cntin = (real_T *)ssGetInputPortSignal(chartInstance->S, 32);
+  c1_b_cntin = (real_T *)ssGetInputPortSignal(chartInstance->S, 33);
   c1_b_ku2 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 40);
   c1_b_ku1 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 39);
   c1_b_ku0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 38);
@@ -1656,26 +1680,26 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   c1_b_wi0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 12);
   c1_b_ei = (real_T *)ssGetOutputPortSignal(chartInstance->S, 11);
   c1_b_yi = (real_T *)ssGetOutputPortSignal(chartInstance->S, 10);
-  c1_b_t0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 31);
-  c1_b_ESRin = (real_T *)ssGetInputPortSignal(chartInstance->S, 30);
-  c1_b_Pu33in = (real_T *)ssGetInputPortSignal(chartInstance->S, 29);
-  c1_b_Pu32in = (real_T *)ssGetInputPortSignal(chartInstance->S, 28);
-  c1_b_Pu31in = (real_T *)ssGetInputPortSignal(chartInstance->S, 27);
-  c1_b_Pu23in = (real_T *)ssGetInputPortSignal(chartInstance->S, 26);
-  c1_b_Pu22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 25);
-  c1_b_Pu21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 24);
-  c1_b_Pu13in = (real_T *)ssGetInputPortSignal(chartInstance->S, 23);
-  c1_b_Pu12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 22);
-  c1_b_Pu11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 21);
-  c1_b_wu2in = (real_T *)ssGetInputPortSignal(chartInstance->S, 20);
-  c1_b_wu1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 19);
-  c1_b_wu0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 18);
-  c1_b_Pi22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 17);
-  c1_b_Pi21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 16);
-  c1_b_Pi12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 15);
-  c1_b_Pi11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 14);
-  c1_b_wi1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 13);
-  c1_b_wi0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 12);
+  c1_b_t0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 32);
+  c1_b_ESRin = (real_T *)ssGetInputPortSignal(chartInstance->S, 31);
+  c1_b_Pu33in = (real_T *)ssGetInputPortSignal(chartInstance->S, 30);
+  c1_b_Pu32in = (real_T *)ssGetInputPortSignal(chartInstance->S, 29);
+  c1_b_Pu31in = (real_T *)ssGetInputPortSignal(chartInstance->S, 28);
+  c1_b_Pu23in = (real_T *)ssGetInputPortSignal(chartInstance->S, 27);
+  c1_b_Pu22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 26);
+  c1_b_Pu21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 25);
+  c1_b_Pu13in = (real_T *)ssGetInputPortSignal(chartInstance->S, 24);
+  c1_b_Pu12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 23);
+  c1_b_Pu11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 22);
+  c1_b_wu2in = (real_T *)ssGetInputPortSignal(chartInstance->S, 21);
+  c1_b_wu1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 20);
+  c1_b_wu0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 19);
+  c1_b_Pi22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 18);
+  c1_b_Pi21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 17);
+  c1_b_Pi12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 16);
+  c1_b_Pi11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 15);
+  c1_b_wi1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 14);
+  c1_b_wi0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 13);
   c1_b_Capout = (real_T *)ssGetOutputPortSignal(chartInstance->S, 9);
   c1_b_P22 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 8);
   c1_b_P21 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 7);
@@ -1684,89 +1708,92 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   c1_b_w1 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 4);
   c1_b_w0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 3);
   c1_b_e = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
-  c1_ic_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
-  c1_b_Capin = (real_T *)ssGetInputPortSignal(chartInstance->S, 11);
-  c1_b_P22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 10);
-  c1_b_P21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 9);
-  c1_b_P12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 8);
-  c1_b_P11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
-  c1_b_w1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
-  c1_b_w0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
-  c1_b_i_in = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
-  c1_b_v_out = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
-  c1_b_duty = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
-  c1_b_t = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
-  c1_b_start = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
+  c1_oc_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
+  c1_b_Capin = (real_T *)ssGetInputPortSignal(chartInstance->S, 12);
+  c1_b_P22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 11);
+  c1_b_P21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 10);
+  c1_b_P12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 9);
+  c1_b_P11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 8);
+  c1_b_w1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
+  c1_b_w0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
+  c1_b_i_in = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
+  c1_b_v_out = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+  c1_b_duty = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
+  c1_b_t = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
+  c1_b_start = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
+  c1_b_startrej = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
   _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 0U, chartInstance->c1_sfEvent);
-  c1_hoistedGlobal = *c1_b_start;
-  c1_b_hoistedGlobal = *c1_b_t;
-  c1_c_hoistedGlobal = *c1_b_duty;
-  c1_d_hoistedGlobal = *c1_b_v_out;
-  c1_e_hoistedGlobal = *c1_b_i_in;
-  c1_f_hoistedGlobal = *c1_b_w0in;
-  c1_g_hoistedGlobal = *c1_b_w1in;
-  c1_h_hoistedGlobal = *c1_b_P11in;
-  c1_i_hoistedGlobal = *c1_b_P12in;
-  c1_j_hoistedGlobal = *c1_b_P21in;
-  c1_k_hoistedGlobal = *c1_b_P22in;
-  c1_l_hoistedGlobal = *c1_b_Capin;
-  c1_m_hoistedGlobal = *c1_b_wi0in;
-  c1_n_hoistedGlobal = *c1_b_wi1in;
-  c1_o_hoistedGlobal = *c1_b_Pi11in;
-  c1_p_hoistedGlobal = *c1_b_Pi12in;
-  c1_q_hoistedGlobal = *c1_b_Pi21in;
-  c1_r_hoistedGlobal = *c1_b_Pi22in;
-  c1_s_hoistedGlobal = *c1_b_wu0in;
-  c1_t_hoistedGlobal = *c1_b_wu1in;
-  c1_u_hoistedGlobal = *c1_b_wu2in;
-  c1_v_hoistedGlobal = *c1_b_Pu11in;
-  c1_w_hoistedGlobal = *c1_b_Pu12in;
-  c1_x_hoistedGlobal = *c1_b_Pu13in;
-  c1_y_hoistedGlobal = *c1_b_Pu21in;
-  c1_ab_hoistedGlobal = *c1_b_Pu22in;
-  c1_bb_hoistedGlobal = *c1_b_Pu23in;
-  c1_cb_hoistedGlobal = *c1_b_Pu31in;
-  c1_db_hoistedGlobal = *c1_b_Pu32in;
-  c1_eb_hoistedGlobal = *c1_b_Pu33in;
-  c1_fb_hoistedGlobal = *c1_b_ESRin;
-  c1_gb_hoistedGlobal = *c1_b_t0in;
-  c1_hb_hoistedGlobal = *c1_b_cntin;
-  c1_ib_hoistedGlobal = *c1_b_cntin1;
-  c1_start = c1_hoistedGlobal;
-  c1_t = c1_b_hoistedGlobal;
-  c1_duty = c1_c_hoistedGlobal;
-  c1_v_out = c1_d_hoistedGlobal;
-  c1_i_in = c1_e_hoistedGlobal;
-  c1_w0in = c1_f_hoistedGlobal;
-  c1_w1in = c1_g_hoistedGlobal;
-  c1_P11in = c1_h_hoistedGlobal;
-  c1_P12in = c1_i_hoistedGlobal;
-  c1_P21in = c1_j_hoistedGlobal;
-  c1_P22in = c1_k_hoistedGlobal;
-  c1_Capin = c1_l_hoistedGlobal;
-  c1_wi0in = c1_m_hoistedGlobal;
-  c1_wi1in = c1_n_hoistedGlobal;
-  c1_Pi11in = c1_o_hoistedGlobal;
-  c1_Pi12in = c1_p_hoistedGlobal;
-  c1_Pi21in = c1_q_hoistedGlobal;
-  c1_Pi22in = c1_r_hoistedGlobal;
-  c1_wu0in = c1_s_hoistedGlobal;
-  c1_wu1in = c1_t_hoistedGlobal;
-  c1_wu2in = c1_u_hoistedGlobal;
-  c1_Pu11in = c1_v_hoistedGlobal;
-  c1_Pu12in = c1_w_hoistedGlobal;
-  c1_Pu13in = c1_x_hoistedGlobal;
-  c1_Pu21in = c1_y_hoistedGlobal;
-  c1_Pu22in = c1_ab_hoistedGlobal;
-  c1_Pu23in = c1_bb_hoistedGlobal;
-  c1_Pu31in = c1_cb_hoistedGlobal;
-  c1_Pu32in = c1_db_hoistedGlobal;
-  c1_Pu33in = c1_eb_hoistedGlobal;
-  c1_ESRin = c1_fb_hoistedGlobal;
-  c1_t0in = c1_gb_hoistedGlobal;
-  c1_cntin = c1_hb_hoistedGlobal;
-  c1_cntin1 = c1_ib_hoistedGlobal;
-  sf_debug_symbol_scope_push_eml(0U, 110U, 110U, c1_debug_family_names,
+  c1_hoistedGlobal = *c1_b_startrej;
+  c1_b_hoistedGlobal = *c1_b_start;
+  c1_c_hoistedGlobal = *c1_b_t;
+  c1_d_hoistedGlobal = *c1_b_duty;
+  c1_e_hoistedGlobal = *c1_b_v_out;
+  c1_f_hoistedGlobal = *c1_b_i_in;
+  c1_g_hoistedGlobal = *c1_b_w0in;
+  c1_h_hoistedGlobal = *c1_b_w1in;
+  c1_i_hoistedGlobal = *c1_b_P11in;
+  c1_j_hoistedGlobal = *c1_b_P12in;
+  c1_k_hoistedGlobal = *c1_b_P21in;
+  c1_l_hoistedGlobal = *c1_b_P22in;
+  c1_m_hoistedGlobal = *c1_b_Capin;
+  c1_n_hoistedGlobal = *c1_b_wi0in;
+  c1_o_hoistedGlobal = *c1_b_wi1in;
+  c1_p_hoistedGlobal = *c1_b_Pi11in;
+  c1_q_hoistedGlobal = *c1_b_Pi12in;
+  c1_r_hoistedGlobal = *c1_b_Pi21in;
+  c1_s_hoistedGlobal = *c1_b_Pi22in;
+  c1_t_hoistedGlobal = *c1_b_wu0in;
+  c1_u_hoistedGlobal = *c1_b_wu1in;
+  c1_v_hoistedGlobal = *c1_b_wu2in;
+  c1_w_hoistedGlobal = *c1_b_Pu11in;
+  c1_x_hoistedGlobal = *c1_b_Pu12in;
+  c1_y_hoistedGlobal = *c1_b_Pu13in;
+  c1_ab_hoistedGlobal = *c1_b_Pu21in;
+  c1_bb_hoistedGlobal = *c1_b_Pu22in;
+  c1_cb_hoistedGlobal = *c1_b_Pu23in;
+  c1_db_hoistedGlobal = *c1_b_Pu31in;
+  c1_eb_hoistedGlobal = *c1_b_Pu32in;
+  c1_fb_hoistedGlobal = *c1_b_Pu33in;
+  c1_gb_hoistedGlobal = *c1_b_ESRin;
+  c1_hb_hoistedGlobal = *c1_b_t0in;
+  c1_ib_hoistedGlobal = *c1_b_cntin;
+  c1_jb_hoistedGlobal = *c1_b_cntin1;
+  c1_startrej = c1_hoistedGlobal;
+  c1_start = c1_b_hoistedGlobal;
+  c1_t = c1_c_hoistedGlobal;
+  c1_duty = c1_d_hoistedGlobal;
+  c1_v_out = c1_e_hoistedGlobal;
+  c1_i_in = c1_f_hoistedGlobal;
+  c1_w0in = c1_g_hoistedGlobal;
+  c1_w1in = c1_h_hoistedGlobal;
+  c1_P11in = c1_i_hoistedGlobal;
+  c1_P12in = c1_j_hoistedGlobal;
+  c1_P21in = c1_k_hoistedGlobal;
+  c1_P22in = c1_l_hoistedGlobal;
+  c1_Capin = c1_m_hoistedGlobal;
+  c1_wi0in = c1_n_hoistedGlobal;
+  c1_wi1in = c1_o_hoistedGlobal;
+  c1_Pi11in = c1_p_hoistedGlobal;
+  c1_Pi12in = c1_q_hoistedGlobal;
+  c1_Pi21in = c1_r_hoistedGlobal;
+  c1_Pi22in = c1_s_hoistedGlobal;
+  c1_wu0in = c1_t_hoistedGlobal;
+  c1_wu1in = c1_u_hoistedGlobal;
+  c1_wu2in = c1_v_hoistedGlobal;
+  c1_Pu11in = c1_w_hoistedGlobal;
+  c1_Pu12in = c1_x_hoistedGlobal;
+  c1_Pu13in = c1_y_hoistedGlobal;
+  c1_Pu21in = c1_ab_hoistedGlobal;
+  c1_Pu22in = c1_bb_hoistedGlobal;
+  c1_Pu23in = c1_cb_hoistedGlobal;
+  c1_Pu31in = c1_db_hoistedGlobal;
+  c1_Pu32in = c1_eb_hoistedGlobal;
+  c1_Pu33in = c1_fb_hoistedGlobal;
+  c1_ESRin = c1_gb_hoistedGlobal;
+  c1_t0in = c1_hb_hoistedGlobal;
+  c1_cntin = c1_ib_hoistedGlobal;
+  c1_cntin1 = c1_jb_hoistedGlobal;
+  sf_debug_symbol_scope_push_eml(0U, 113U, 113U, c1_debug_family_names,
     c1_debug_family_var_map);
   sf_debug_symbol_scope_add_eml(&c1_sampling_time, 0U, c1_sf_marshallOut);
   sf_debug_symbol_scope_add_eml_importable(&c1_splittime1, 1U, c1_sf_marshallOut,
@@ -1826,127 +1853,132 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
     c1_sf_marshallIn);
   sf_debug_symbol_scope_add_eml_importable(&c1_c, 31U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_nargin, 32U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_allowedRateChange, 32U,
+    c1_sf_marshallOut, c1_sf_marshallIn);
+  sf_debug_symbol_scope_add_eml_importable(&c1_rateChange, 33U,
+    c1_sf_marshallOut, c1_sf_marshallIn);
+  sf_debug_symbol_scope_add_eml_importable(&c1_nargin, 34U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_nargout, 33U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_nargout, 35U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml(&c1_start, 34U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_t, 35U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_duty, 36U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_v_out, 37U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_i_in, 38U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_w0in, 39U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_w1in, 40U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_P11in, 41U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_P12in, 42U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_P21in, 43U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_P22in, 44U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Capin, 45U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_wi0in, 46U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_wi1in, 47U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pi11in, 48U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pi12in, 49U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pi21in, 50U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pi22in, 51U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_wu0in, 52U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_wu1in, 53U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_wu2in, 54U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu11in, 55U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu12in, 56U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu13in, 57U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu21in, 58U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu22in, 59U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu23in, 60U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu31in, 61U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu32in, 62U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_Pu33in, 63U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_ESRin, 64U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_t0in, 65U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_cntin, 66U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml(&c1_cntin1, 67U, c1_sf_marshallOut);
-  sf_debug_symbol_scope_add_eml_importable(&c1_y, 68U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml(&c1_startrej, 36U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_start, 37U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_t, 38U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_duty, 39U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_v_out, 40U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_i_in, 41U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_w0in, 42U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_w1in, 43U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_P11in, 44U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_P12in, 45U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_P21in, 46U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_P22in, 47U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Capin, 48U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_wi0in, 49U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_wi1in, 50U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pi11in, 51U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pi12in, 52U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pi21in, 53U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pi22in, 54U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_wu0in, 55U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_wu1in, 56U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_wu2in, 57U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu11in, 58U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu12in, 59U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu13in, 60U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu21in, 61U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu22in, 62U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu23in, 63U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu31in, 64U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu32in, 65U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_Pu33in, 66U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_ESRin, 67U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_t0in, 68U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_cntin, 69U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml(&c1_cntin1, 70U, c1_sf_marshallOut);
+  sf_debug_symbol_scope_add_eml_importable(&c1_y, 71U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_e, 69U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_e, 72U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_w0, 70U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_w0, 73U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_w1, 71U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_w1, 74U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_P11, 72U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_P11, 75U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_P12, 73U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_P12, 76U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_P21, 74U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_P21, 77U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_P22, 75U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_P22, 78U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Capout, 76U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Capout, 79U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_yi, 77U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_yi, 80U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_ei, 78U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_ei, 81U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_wi0, 79U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_wi0, 82U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_wi1, 80U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_wi1, 83U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pi11, 81U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pi11, 84U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pi12, 82U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pi12, 85U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pi21, 83U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pi21, 86U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pi22, 84U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pi22, 87U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_yu, 85U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_yu, 88U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_eu, 86U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_eu, 89U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_wu0, 87U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_wu0, 90U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_wu1, 88U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_wu1, 91U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_wu2, 89U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_wu2, 92U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu11, 90U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu11, 93U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu12, 91U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu12, 94U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu13, 92U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu13, 95U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu21, 93U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu21, 96U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu22, 94U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu22, 97U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu23, 95U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu23, 98U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu31, 96U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu31, 99U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu32, 97U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu32, 100U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Pu33, 98U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Pu33, 101U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_ESRout, 99U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_ESRout, 102U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Vnoise, 100U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Vnoise, 103U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_Inoise, 101U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_Inoise, 104U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_t0, 102U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_t0, 105U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_k0, 103U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_k0, 106U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_k1, 104U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_k1, 107U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_ku0, 105U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_ku0, 108U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_ku1, 106U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_ku1, 109U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_ku2, 107U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_ku2, 110U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_cnt, 108U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_cnt, 111U, c1_sf_marshallOut,
     c1_sf_marshallIn);
-  sf_debug_symbol_scope_add_eml_importable(&c1_cnt1, 109U, c1_sf_marshallOut,
+  sf_debug_symbol_scope_add_eml_importable(&c1_cnt1, 112U, c1_sf_marshallOut,
     c1_sf_marshallIn);
   CV_EML_FCN(0, 0);
   _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 15);
@@ -2165,9 +2197,9 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
   _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 137U);
   if (CV_EML_IF(0, 1, 0, c1_start == 1.0)) {
     _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 139U);
+    guard7 = FALSE;
+    guard8 = FALSE;
     guard9 = FALSE;
-    guard10 = FALSE;
-    guard11 = FALSE;
     if (CV_EML_COND(0, 1, 0, c1_t > c1_OFFSET_ON_START_abs)) {
       if (CV_EML_COND(0, 1, 1, c1_offset < c1_OFFSET_ON_END_rel)) {
         if (CV_EML_COND(0, 1, 2, c1_t < c1_OFFSET_ON_START_abs + c1_BOUNDPOINTS))
@@ -2176,7 +2208,7 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
             CV_EML_MCDC(0, 1, 0, TRUE);
             CV_EML_IF(0, 1, 1, TRUE);
             _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 141U);
-            guard12 = FALSE;
+            guard10 = FALSE;
             if (CV_EML_COND(0, 1, 4, c1_t > c1_OFFSET_ON_START_abs)) {
               if (CV_EML_COND(0, 1, 5, c1_t <= c1_OFFSET_ON_START_abs + 1.0)) {
                 CV_EML_MCDC(0, 1, 1, TRUE);
@@ -2186,13 +2218,13 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
                 _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 143U);
                 c1_cnt = 0.0;
               } else {
-                guard12 = TRUE;
+                guard10 = TRUE;
               }
             } else {
-              guard12 = TRUE;
+              guard10 = TRUE;
             }
 
-            if (guard12 == TRUE) {
+            if (guard10 == TRUE) {
               CV_EML_MCDC(0, 1, 1, FALSE);
               CV_EML_IF(0, 1, 2, FALSE);
               _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 145U);
@@ -2373,33 +2405,33 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
               c1_P22 = c1_P[3];
             }
           } else {
-            guard9 = TRUE;
+            guard7 = TRUE;
           }
         } else {
-          guard10 = TRUE;
+          guard8 = TRUE;
         }
       } else {
-        guard11 = TRUE;
+        guard9 = TRUE;
       }
     } else {
-      guard11 = TRUE;
-    }
-
-    if (guard11 == TRUE) {
-      guard10 = TRUE;
-    }
-
-    if (guard10 == TRUE) {
       guard9 = TRUE;
     }
 
     if (guard9 == TRUE) {
+      guard8 = TRUE;
+    }
+
+    if (guard8 == TRUE) {
+      guard7 = TRUE;
+    }
+
+    if (guard7 == TRUE) {
       CV_EML_MCDC(0, 1, 0, FALSE);
       CV_EML_IF(0, 1, 1, FALSE);
     }
 
     _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 164U);
-    guard8 = FALSE;
+    guard6 = FALSE;
     if (CV_EML_COND(0, 1, 6, c1_offset >= c1_OFFSET_ON_END_rel)) {
       if (CV_EML_COND(0, 1, 7, c1_offset <= c1_OFFSET_ON_END_rel + 1.0)) {
         CV_EML_MCDC(0, 1, 2, TRUE);
@@ -2419,21 +2451,21 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
         c1_e_a = c1_p_y;
         c1_Capout = c1_e_a * 1.0E-6;
       } else {
-        guard8 = TRUE;
+        guard6 = TRUE;
       }
     } else {
-      guard8 = TRUE;
+      guard6 = TRUE;
     }
 
-    if (guard8 == TRUE) {
+    if (guard6 == TRUE) {
       CV_EML_MCDC(0, 1, 2, FALSE);
       CV_EML_IF(0, 1, 3, FALSE);
     }
 
     _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 170U);
+    guard2 = FALSE;
+    guard3 = FALSE;
     guard4 = FALSE;
-    guard5 = FALSE;
-    guard6 = FALSE;
     if (CV_EML_COND(0, 1, 8, c1_offset > c1_OFFSET_OFF_START_rel)) {
       if (CV_EML_COND(0, 1, 9, c1_t < c1_OFFSET_OFF_END_abs)) {
         if (CV_EML_COND(0, 1, 10, c1_offset < c1_OFFSET_OFF_START_rel +
@@ -2442,7 +2474,7 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
             CV_EML_MCDC(0, 1, 3, TRUE);
             CV_EML_IF(0, 1, 4, TRUE);
             _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 172U);
-            guard7 = FALSE;
+            guard5 = FALSE;
             if (CV_EML_COND(0, 1, 12, c1_offset > c1_OFFSET_OFF_START_rel)) {
               if (CV_EML_COND(0, 1, 13, c1_offset <= c1_OFFSET_OFF_START_rel +
                               1.0)) {
@@ -2453,13 +2485,13 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
                 _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 174U);
                 c1_cnt1 = 0.0;
               } else {
-                guard7 = TRUE;
+                guard5 = TRUE;
               }
             } else {
-              guard7 = TRUE;
+              guard5 = TRUE;
             }
 
-            if (guard7 == TRUE) {
+            if (guard5 == TRUE) {
               CV_EML_MCDC(0, 1, 4, FALSE);
               CV_EML_IF(0, 1, 5, FALSE);
               _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 176U);
@@ -2841,33 +2873,33 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
               c1_Pu33 = c1_Pu[8];
             }
           } else {
-            guard4 = TRUE;
+            guard2 = TRUE;
           }
         } else {
-          guard5 = TRUE;
+          guard3 = TRUE;
         }
       } else {
-        guard6 = TRUE;
+        guard4 = TRUE;
       }
     } else {
-      guard6 = TRUE;
-    }
-
-    if (guard6 == TRUE) {
-      guard5 = TRUE;
-    }
-
-    if (guard5 == TRUE) {
       guard4 = TRUE;
     }
 
     if (guard4 == TRUE) {
+      guard3 = TRUE;
+    }
+
+    if (guard3 == TRUE) {
+      guard2 = TRUE;
+    }
+
+    if (guard2 == TRUE) {
       CV_EML_MCDC(0, 1, 3, FALSE);
       CV_EML_IF(0, 1, 4, FALSE);
     }
 
     _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 214U);
-    guard3 = FALSE;
+    guard1 = FALSE;
     if (CV_EML_COND(0, 1, 14, c1_t >= c1_OFFSET_OFF_END_abs)) {
       if (CV_EML_COND(0, 1, 15, c1_t <= c1_OFFSET_OFF_END_abs + 1.0)) {
         CV_EML_MCDC(0, 1, 5, TRUE);
@@ -2965,57 +2997,64 @@ static void c1_chartstep_c1_BuckBoost1(SFc1_BuckBoost1InstanceStruct
         c1_hc_y = c1_gc_y;
         c1_ESRout = c1_ib_x / c1_hc_y;
       } else {
-        guard3 = TRUE;
+        guard1 = TRUE;
       }
     } else {
-      guard3 = TRUE;
+      guard1 = TRUE;
     }
 
-    if (guard3 == TRUE) {
+    if (guard1 == TRUE) {
       CV_EML_MCDC(0, 1, 5, FALSE);
       CV_EML_IF(0, 1, 6, FALSE);
     }
 
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 232U);
-    guard2 = FALSE;
-    if (CV_EML_COND(0, 1, 16, c1_Capout > 1.0)) {
-      guard2 = TRUE;
-    } else if (CV_EML_COND(0, 1, 17, c1_Capout < -1.0)) {
-      guard2 = TRUE;
-    } else {
-      CV_EML_MCDC(0, 1, 6, FALSE);
-      CV_EML_IF(0, 1, 7, FALSE);
-    }
+    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 242U);
+    if (CV_EML_IF(0, 1, 7, c1_startrej == 1.0)) {
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 243U);
+      c1_allowedRateChange = 50.0;
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 244U);
+      if (CV_EML_IF(0, 1, 8, c1_Capin != 0.0)) {
+        _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 245U);
+        c1_r_A = c1_Capout - c1_Capin;
+        c1_l_B = c1_Capin;
+        c1_jb_x = c1_r_A;
+        c1_ic_y = c1_l_B;
+        c1_kb_x = c1_jb_x;
+        c1_jc_y = c1_ic_y;
+        c1_kc_y = c1_kb_x / c1_jc_y;
+        c1_k_a = c1_abs(chartInstance, c1_kc_y);
+        c1_rateChange = c1_k_a * 100.0;
+        _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 246U);
+        if (CV_EML_IF(0, 1, 9, c1_rateChange >= c1_allowedRateChange)) {
+          _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 248U);
+          c1_Capout = c1_Capin;
+        }
+      }
 
-    if (guard2 == TRUE) {
-      CV_EML_MCDC(0, 1, 6, TRUE);
-      CV_EML_IF(0, 1, 7, TRUE);
-      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 233U);
-      c1_Capout = 0.0;
-    }
-
-    _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 235U);
-    guard1 = FALSE;
-    if (CV_EML_COND(0, 1, 18, c1_ESRout > 1.0)) {
-      guard1 = TRUE;
-    } else if (CV_EML_COND(0, 1, 19, c1_ESRout < -1.0)) {
-      guard1 = TRUE;
-    } else {
-      CV_EML_MCDC(0, 1, 7, FALSE);
-      CV_EML_IF(0, 1, 8, FALSE);
-    }
-
-    if (guard1 == TRUE) {
-      CV_EML_MCDC(0, 1, 7, TRUE);
-      CV_EML_IF(0, 1, 8, TRUE);
-      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 236U);
-      c1_ESRout = 0.0;
+      _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 251U);
+      if (CV_EML_IF(0, 1, 10, c1_ESRin != 0.0)) {
+        _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 252U);
+        c1_s_A = c1_ESRout - c1_ESRin;
+        c1_m_B = c1_ESRin;
+        c1_lb_x = c1_s_A;
+        c1_lc_y = c1_m_B;
+        c1_mb_x = c1_lb_x;
+        c1_mc_y = c1_lc_y;
+        c1_nc_y = c1_mb_x / c1_mc_y;
+        c1_l_a = c1_abs(chartInstance, c1_nc_y);
+        c1_rateChange = c1_l_a * 100.0;
+        _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, 253U);
+        if (CV_EML_IF(0, 1, 11, c1_rateChange >= c1_allowedRateChange)) {
+          _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, MAX_uint8_T);
+          c1_ESRout = c1_ESRin;
+        }
+      }
     }
   }
 
-  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, -236);
+  _SFD_EML_CALL(0U, chartInstance->c1_sfEvent, -255);
   sf_debug_symbol_scope_pop();
-  *c1_ic_y = c1_y;
+  *c1_oc_y = c1_y;
   *c1_b_e = c1_e;
   *c1_b_w0 = c1_w0;
   *c1_b_w1 = c1_w1;
@@ -3422,7 +3461,7 @@ static void c1_e_sf_marshallIn(void *chartInstanceVoid, const mxArray
 const mxArray *sf_c1_BuckBoost1_get_eml_resolved_functions_info(void)
 {
   const mxArray *c1_nameCaptureInfo;
-  c1_ResolvedFunctionInfo c1_info[85];
+  c1_ResolvedFunctionInfo c1_info[87];
   const mxArray *c1_m0 = NULL;
   int32_T c1_i133;
   c1_ResolvedFunctionInfo *c1_r0;
@@ -3430,8 +3469,8 @@ const mxArray *sf_c1_BuckBoost1_get_eml_resolved_functions_info(void)
   c1_nameCaptureInfo = NULL;
   c1_info_helper(c1_info);
   c1_b_info_helper(c1_info);
-  sf_mex_assign(&c1_m0, sf_mex_createstruct("nameCaptureInfo", 1, 85), FALSE);
-  for (c1_i133 = 0; c1_i133 < 85; c1_i133++) {
+  sf_mex_assign(&c1_m0, sf_mex_createstruct("nameCaptureInfo", 1, 87), FALSE);
+  for (c1_i133 = 0; c1_i133 < 87; c1_i133++) {
     c1_r0 = &c1_info[c1_i133];
     sf_mex_addfield(c1_m0, sf_mex_create("nameCaptureInfo", c1_r0->context, 15,
       0U, 0U, 0U, 2, 1, strlen(c1_r0->context)), "context", "nameCaptureInfo",
@@ -3459,7 +3498,7 @@ const mxArray *sf_c1_BuckBoost1_get_eml_resolved_functions_info(void)
   return c1_nameCaptureInfo;
 }
 
-static void c1_info_helper(c1_ResolvedFunctionInfo c1_info[85])
+static void c1_info_helper(c1_ResolvedFunctionInfo c1_info[87])
 {
   c1_info[0].context = "";
   c1_info[0].name = "mrdivide";
@@ -4085,7 +4124,7 @@ static void c1_info_helper(c1_ResolvedFunctionInfo c1_info[85])
   c1_info[63].mFileTimeHi = 0U;
 }
 
-static void c1_b_info_helper(c1_ResolvedFunctionInfo c1_info[85])
+static void c1_b_info_helper(c1_ResolvedFunctionInfo c1_info[87])
 {
   c1_info[64].context =
     "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/randfun/eml_rand.m";
@@ -4293,6 +4332,23 @@ static void c1_b_info_helper(c1_ResolvedFunctionInfo c1_info[85])
   c1_info[84].fileTimeHi = 0U;
   c1_info[84].mFileTimeLo = 0U;
   c1_info[84].mFileTimeHi = 0U;
+  c1_info[85].context = "";
+  c1_info[85].name = "abs";
+  c1_info[85].dominantType = "double";
+  c1_info[85].resolved = "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/abs.m";
+  c1_info[85].fileTimeLo = 1286797094U;
+  c1_info[85].fileTimeHi = 0U;
+  c1_info[85].mFileTimeLo = 0U;
+  c1_info[85].mFileTimeHi = 0U;
+  c1_info[86].context = "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/abs.m";
+  c1_info[86].name = "eml_scalar_abs";
+  c1_info[86].dominantType = "double";
+  c1_info[86].resolved =
+    "[ILXE]$matlabroot$/toolbox/eml/lib/matlab/elfun/eml_scalar_abs.m";
+  c1_info[86].fileTimeLo = 1286797112U;
+  c1_info[86].fileTimeHi = 0U;
+  c1_info[86].mFileTimeLo = 0U;
+  c1_info[86].mFileTimeHi = 0U;
 }
 
 static void c1_eml_scalar_eg(SFc1_BuckBoost1InstanceStruct *chartInstance)
@@ -4577,6 +4633,13 @@ static void c1_h_eml_scalar_eg(SFc1_BuckBoost1InstanceStruct *chartInstance)
 
 static void c1_i_eml_scalar_eg(SFc1_BuckBoost1InstanceStruct *chartInstance)
 {
+}
+
+static real_T c1_abs(SFc1_BuckBoost1InstanceStruct *chartInstance, real_T c1_x)
+{
+  real_T c1_b_x;
+  c1_b_x = c1_x;
+  return muDoubleScalarAbs(c1_b_x);
 }
 
 static const mxArray *c1_f_sf_marshallOut(void *chartInstanceVoid, void
@@ -5018,10 +5081,10 @@ static void init_dsm_address_info(SFc1_BuckBoost1InstanceStruct *chartInstance)
 /* SFunction Glue Code */
 void sf_c1_BuckBoost1_get_check_sum(mxArray *plhs[])
 {
-  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2069099297U);
-  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(4047550569U);
-  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2048535160U);
-  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1286289200U);
+  ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(1377115785U);
+  ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2855106673U);
+  ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2182651944U);
+  ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1877323558U);
 }
 
 mxArray *sf_c1_BuckBoost1_get_autoinheritance_info(void)
@@ -5033,14 +5096,14 @@ mxArray *sf_c1_BuckBoost1_get_autoinheritance_info(void)
     autoinheritanceFields);
 
   {
-    mxArray *mxChecksum = mxCreateString("OqybCCtNSFncujdw48YJMB");
+    mxArray *mxChecksum = mxCreateString("d0VUY4ttj73iWmW7YPmrkE");
     mxSetField(mxAutoinheritanceInfo,0,"checksum",mxChecksum);
   }
 
   {
     const char *dataFields[] = { "size", "type", "complexity" };
 
-    mxArray *mxData = mxCreateStructMatrix(1,34,3,dataFields);
+    mxArray *mxData = mxCreateStructMatrix(1,35,3,dataFields);
 
     {
       mxArray *mxSize = mxCreateDoubleMatrix(1,2,mxREAL);
@@ -5687,6 +5750,25 @@ mxArray *sf_c1_BuckBoost1_get_autoinheritance_info(void)
     }
 
     mxSetField(mxData,33,"complexity",mxCreateDoubleScalar(0));
+
+    {
+      mxArray *mxSize = mxCreateDoubleMatrix(1,2,mxREAL);
+      double *pr = mxGetPr(mxSize);
+      pr[0] = (double)(1);
+      pr[1] = (double)(1);
+      mxSetField(mxData,34,"size",mxSize);
+    }
+
+    {
+      const char *typeFields[] = { "base", "fixpt" };
+
+      mxArray *mxType = mxCreateStructMatrix(1,1,2,typeFields);
+      mxSetField(mxType,0,"base",mxCreateDoubleScalar(10));
+      mxSetField(mxType,0,"fixpt",mxCreateDoubleMatrix(0,0,mxREAL));
+      mxSetField(mxData,34,"type",mxType);
+    }
+
+    mxSetField(mxData,34,"complexity",mxCreateDoubleScalar(0));
     mxSetField(mxAutoinheritanceInfo,0,"inputs",mxData);
   }
 
@@ -6544,7 +6626,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
            1,
            1,
            1,
-           76,
+           77,
            0,
            0,
            0,
@@ -6565,82 +6647,83 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
             0,
             0,
             0);
-          _SFD_SET_DATA_PROPS(0,1,1,0,"start");
-          _SFD_SET_DATA_PROPS(1,1,1,0,"t");
-          _SFD_SET_DATA_PROPS(2,1,1,0,"duty");
-          _SFD_SET_DATA_PROPS(3,1,1,0,"v_out");
-          _SFD_SET_DATA_PROPS(4,1,1,0,"i_in");
-          _SFD_SET_DATA_PROPS(5,1,1,0,"w0in");
-          _SFD_SET_DATA_PROPS(6,1,1,0,"w1in");
-          _SFD_SET_DATA_PROPS(7,1,1,0,"P11in");
-          _SFD_SET_DATA_PROPS(8,1,1,0,"P12in");
-          _SFD_SET_DATA_PROPS(9,1,1,0,"P21in");
-          _SFD_SET_DATA_PROPS(10,1,1,0,"P22in");
-          _SFD_SET_DATA_PROPS(11,1,1,0,"Capin");
-          _SFD_SET_DATA_PROPS(12,2,0,1,"y");
-          _SFD_SET_DATA_PROPS(13,2,0,1,"e");
-          _SFD_SET_DATA_PROPS(14,2,0,1,"w0");
-          _SFD_SET_DATA_PROPS(15,2,0,1,"w1");
-          _SFD_SET_DATA_PROPS(16,2,0,1,"P11");
-          _SFD_SET_DATA_PROPS(17,2,0,1,"P12");
-          _SFD_SET_DATA_PROPS(18,2,0,1,"P21");
-          _SFD_SET_DATA_PROPS(19,2,0,1,"P22");
-          _SFD_SET_DATA_PROPS(20,2,0,1,"Capout");
-          _SFD_SET_DATA_PROPS(21,1,1,0,"wi0in");
-          _SFD_SET_DATA_PROPS(22,1,1,0,"wi1in");
-          _SFD_SET_DATA_PROPS(23,1,1,0,"Pi11in");
-          _SFD_SET_DATA_PROPS(24,1,1,0,"Pi12in");
-          _SFD_SET_DATA_PROPS(25,1,1,0,"Pi21in");
-          _SFD_SET_DATA_PROPS(26,1,1,0,"Pi22in");
-          _SFD_SET_DATA_PROPS(27,1,1,0,"wu0in");
-          _SFD_SET_DATA_PROPS(28,1,1,0,"wu1in");
-          _SFD_SET_DATA_PROPS(29,1,1,0,"wu2in");
-          _SFD_SET_DATA_PROPS(30,1,1,0,"Pu11in");
-          _SFD_SET_DATA_PROPS(31,1,1,0,"Pu12in");
-          _SFD_SET_DATA_PROPS(32,1,1,0,"Pu13in");
-          _SFD_SET_DATA_PROPS(33,1,1,0,"Pu21in");
-          _SFD_SET_DATA_PROPS(34,1,1,0,"Pu22in");
-          _SFD_SET_DATA_PROPS(35,1,1,0,"Pu23in");
-          _SFD_SET_DATA_PROPS(36,1,1,0,"Pu31in");
-          _SFD_SET_DATA_PROPS(37,1,1,0,"Pu32in");
-          _SFD_SET_DATA_PROPS(38,1,1,0,"Pu33in");
-          _SFD_SET_DATA_PROPS(39,1,1,0,"ESRin");
-          _SFD_SET_DATA_PROPS(40,1,1,0,"t0in");
-          _SFD_SET_DATA_PROPS(41,2,0,1,"yi");
-          _SFD_SET_DATA_PROPS(42,2,0,1,"ei");
-          _SFD_SET_DATA_PROPS(43,2,0,1,"wi0");
-          _SFD_SET_DATA_PROPS(44,2,0,1,"wi1");
-          _SFD_SET_DATA_PROPS(45,2,0,1,"Pi11");
-          _SFD_SET_DATA_PROPS(46,2,0,1,"Pi12");
-          _SFD_SET_DATA_PROPS(47,2,0,1,"Pi21");
-          _SFD_SET_DATA_PROPS(48,2,0,1,"Pi22");
-          _SFD_SET_DATA_PROPS(49,2,0,1,"yu");
-          _SFD_SET_DATA_PROPS(50,2,0,1,"eu");
-          _SFD_SET_DATA_PROPS(51,2,0,1,"wu0");
-          _SFD_SET_DATA_PROPS(52,2,0,1,"wu1");
-          _SFD_SET_DATA_PROPS(53,2,0,1,"wu2");
-          _SFD_SET_DATA_PROPS(54,2,0,1,"Pu11");
-          _SFD_SET_DATA_PROPS(55,2,0,1,"Pu12");
-          _SFD_SET_DATA_PROPS(56,2,0,1,"Pu13");
-          _SFD_SET_DATA_PROPS(57,2,0,1,"Pu21");
-          _SFD_SET_DATA_PROPS(58,2,0,1,"Pu22");
-          _SFD_SET_DATA_PROPS(59,2,0,1,"Pu23");
-          _SFD_SET_DATA_PROPS(60,2,0,1,"Pu31");
-          _SFD_SET_DATA_PROPS(61,2,0,1,"Pu32");
-          _SFD_SET_DATA_PROPS(62,2,0,1,"Pu33");
-          _SFD_SET_DATA_PROPS(63,2,0,1,"ESRout");
-          _SFD_SET_DATA_PROPS(64,2,0,1,"Vnoise");
-          _SFD_SET_DATA_PROPS(65,2,0,1,"Inoise");
-          _SFD_SET_DATA_PROPS(66,2,0,1,"t0");
-          _SFD_SET_DATA_PROPS(67,2,0,1,"k0");
-          _SFD_SET_DATA_PROPS(68,2,0,1,"k1");
-          _SFD_SET_DATA_PROPS(69,2,0,1,"ku0");
-          _SFD_SET_DATA_PROPS(70,2,0,1,"ku1");
-          _SFD_SET_DATA_PROPS(71,2,0,1,"ku2");
-          _SFD_SET_DATA_PROPS(72,1,1,0,"cntin");
-          _SFD_SET_DATA_PROPS(73,2,0,1,"cnt");
-          _SFD_SET_DATA_PROPS(74,1,1,0,"cntin1");
-          _SFD_SET_DATA_PROPS(75,2,0,1,"cnt1");
+          _SFD_SET_DATA_PROPS(0,1,1,0,"startrej");
+          _SFD_SET_DATA_PROPS(1,1,1,0,"start");
+          _SFD_SET_DATA_PROPS(2,1,1,0,"t");
+          _SFD_SET_DATA_PROPS(3,1,1,0,"duty");
+          _SFD_SET_DATA_PROPS(4,1,1,0,"v_out");
+          _SFD_SET_DATA_PROPS(5,1,1,0,"i_in");
+          _SFD_SET_DATA_PROPS(6,1,1,0,"w0in");
+          _SFD_SET_DATA_PROPS(7,1,1,0,"w1in");
+          _SFD_SET_DATA_PROPS(8,1,1,0,"P11in");
+          _SFD_SET_DATA_PROPS(9,1,1,0,"P12in");
+          _SFD_SET_DATA_PROPS(10,1,1,0,"P21in");
+          _SFD_SET_DATA_PROPS(11,1,1,0,"P22in");
+          _SFD_SET_DATA_PROPS(12,1,1,0,"Capin");
+          _SFD_SET_DATA_PROPS(13,2,0,1,"y");
+          _SFD_SET_DATA_PROPS(14,2,0,1,"e");
+          _SFD_SET_DATA_PROPS(15,2,0,1,"w0");
+          _SFD_SET_DATA_PROPS(16,2,0,1,"w1");
+          _SFD_SET_DATA_PROPS(17,2,0,1,"P11");
+          _SFD_SET_DATA_PROPS(18,2,0,1,"P12");
+          _SFD_SET_DATA_PROPS(19,2,0,1,"P21");
+          _SFD_SET_DATA_PROPS(20,2,0,1,"P22");
+          _SFD_SET_DATA_PROPS(21,2,0,1,"Capout");
+          _SFD_SET_DATA_PROPS(22,1,1,0,"wi0in");
+          _SFD_SET_DATA_PROPS(23,1,1,0,"wi1in");
+          _SFD_SET_DATA_PROPS(24,1,1,0,"Pi11in");
+          _SFD_SET_DATA_PROPS(25,1,1,0,"Pi12in");
+          _SFD_SET_DATA_PROPS(26,1,1,0,"Pi21in");
+          _SFD_SET_DATA_PROPS(27,1,1,0,"Pi22in");
+          _SFD_SET_DATA_PROPS(28,1,1,0,"wu0in");
+          _SFD_SET_DATA_PROPS(29,1,1,0,"wu1in");
+          _SFD_SET_DATA_PROPS(30,1,1,0,"wu2in");
+          _SFD_SET_DATA_PROPS(31,1,1,0,"Pu11in");
+          _SFD_SET_DATA_PROPS(32,1,1,0,"Pu12in");
+          _SFD_SET_DATA_PROPS(33,1,1,0,"Pu13in");
+          _SFD_SET_DATA_PROPS(34,1,1,0,"Pu21in");
+          _SFD_SET_DATA_PROPS(35,1,1,0,"Pu22in");
+          _SFD_SET_DATA_PROPS(36,1,1,0,"Pu23in");
+          _SFD_SET_DATA_PROPS(37,1,1,0,"Pu31in");
+          _SFD_SET_DATA_PROPS(38,1,1,0,"Pu32in");
+          _SFD_SET_DATA_PROPS(39,1,1,0,"Pu33in");
+          _SFD_SET_DATA_PROPS(40,1,1,0,"ESRin");
+          _SFD_SET_DATA_PROPS(41,1,1,0,"t0in");
+          _SFD_SET_DATA_PROPS(42,2,0,1,"yi");
+          _SFD_SET_DATA_PROPS(43,2,0,1,"ei");
+          _SFD_SET_DATA_PROPS(44,2,0,1,"wi0");
+          _SFD_SET_DATA_PROPS(45,2,0,1,"wi1");
+          _SFD_SET_DATA_PROPS(46,2,0,1,"Pi11");
+          _SFD_SET_DATA_PROPS(47,2,0,1,"Pi12");
+          _SFD_SET_DATA_PROPS(48,2,0,1,"Pi21");
+          _SFD_SET_DATA_PROPS(49,2,0,1,"Pi22");
+          _SFD_SET_DATA_PROPS(50,2,0,1,"yu");
+          _SFD_SET_DATA_PROPS(51,2,0,1,"eu");
+          _SFD_SET_DATA_PROPS(52,2,0,1,"wu0");
+          _SFD_SET_DATA_PROPS(53,2,0,1,"wu1");
+          _SFD_SET_DATA_PROPS(54,2,0,1,"wu2");
+          _SFD_SET_DATA_PROPS(55,2,0,1,"Pu11");
+          _SFD_SET_DATA_PROPS(56,2,0,1,"Pu12");
+          _SFD_SET_DATA_PROPS(57,2,0,1,"Pu13");
+          _SFD_SET_DATA_PROPS(58,2,0,1,"Pu21");
+          _SFD_SET_DATA_PROPS(59,2,0,1,"Pu22");
+          _SFD_SET_DATA_PROPS(60,2,0,1,"Pu23");
+          _SFD_SET_DATA_PROPS(61,2,0,1,"Pu31");
+          _SFD_SET_DATA_PROPS(62,2,0,1,"Pu32");
+          _SFD_SET_DATA_PROPS(63,2,0,1,"Pu33");
+          _SFD_SET_DATA_PROPS(64,2,0,1,"ESRout");
+          _SFD_SET_DATA_PROPS(65,2,0,1,"Vnoise");
+          _SFD_SET_DATA_PROPS(66,2,0,1,"Inoise");
+          _SFD_SET_DATA_PROPS(67,2,0,1,"t0");
+          _SFD_SET_DATA_PROPS(68,2,0,1,"k0");
+          _SFD_SET_DATA_PROPS(69,2,0,1,"k1");
+          _SFD_SET_DATA_PROPS(70,2,0,1,"ku0");
+          _SFD_SET_DATA_PROPS(71,2,0,1,"ku1");
+          _SFD_SET_DATA_PROPS(72,2,0,1,"ku2");
+          _SFD_SET_DATA_PROPS(73,1,1,0,"cntin");
+          _SFD_SET_DATA_PROPS(74,2,0,1,"cnt");
+          _SFD_SET_DATA_PROPS(75,1,1,0,"cntin1");
+          _SFD_SET_DATA_PROPS(76,2,0,1,"cnt1");
           _SFD_STATE_INFO(0,0,2);
           _SFD_CH_SUBSTATE_COUNT(0);
           _SFD_CH_SUBSTATE_DECOMP(0);
@@ -6655,103 +6738,84 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         _SFD_CV_INIT_TRANS(0,0,NULL,NULL,0,NULL);
 
         /* Initialization of MATLAB Function Model Coverage */
-        _SFD_CV_INIT_EML(0,1,1,9,0,0,0,0,0,20,8);
-        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,7786);
-        _SFD_CV_INIT_EML_IF(0,1,0,3774,3786,-1,7785);
-        _SFD_CV_INIT_EML_IF(0,1,1,3867,3980,-1,4864);
-        _SFD_CV_INIT_EML_IF(0,1,2,4021,4077,4143,4846);
-        _SFD_CV_INIT_EML_IF(0,1,3,4869,4933,-1,4988);
-        _SFD_CV_INIT_EML_IF(0,1,4,5150,5271,-1,6932);
-        _SFD_CV_INIT_EML_IF(0,1,5,5315,5384,5445,6914);
-        _SFD_CV_INIT_EML_IF(0,1,6,6937,6993,-1,7530);
-        _SFD_CV_INIT_EML_IF(0,1,7,7636,7666,-1,7694);
-        _SFD_CV_INIT_EML_IF(0,1,8,7699,7729,-1,7757);
+        _SFD_CV_INIT_EML(0,1,1,12,0,0,0,0,0,16,6);
+        _SFD_CV_INIT_EML_FCN(0,0,"eML_blk_kernel",0,-1,8483);
+        _SFD_CV_INIT_EML_IF(0,1,0,3783,3795,-1,8482);
+        _SFD_CV_INIT_EML_IF(0,1,1,3876,3989,-1,4873);
+        _SFD_CV_INIT_EML_IF(0,1,2,4030,4086,4152,4855);
+        _SFD_CV_INIT_EML_IF(0,1,3,4878,4942,-1,4997);
+        _SFD_CV_INIT_EML_IF(0,1,4,5159,5280,-1,6941);
+        _SFD_CV_INIT_EML_IF(0,1,5,5324,5393,5454,6923);
+        _SFD_CV_INIT_EML_IF(0,1,6,6946,7002,-1,7539);
+        _SFD_CV_INIT_EML_IF(0,1,7,7912,7927,-1,8449);
+        _SFD_CV_INIT_EML_IF(0,1,8,7998,8013,-1,8215);
+        _SFD_CV_INIT_EML_IF(0,1,9,8084,8120,-1,8203);
+        _SFD_CV_INIT_EML_IF(0,1,10,8224,8239,-1,8441);
+        _SFD_CV_INIT_EML_IF(0,1,11,8310,8346,-1,8429);
 
         {
-          static int condStart[] = { 3870, 3897, 3927, 3964 };
+          static int condStart[] = { 3879, 3906, 3936, 3973 };
 
-          static int condEnd[] = { 3893, 3923, 3960, 3979 };
+          static int condEnd[] = { 3902, 3932, 3969, 3988 };
 
           static int pfixExpr[] = { 0, 1, -3, 2, -3, 3, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,0,3870,3979,4,0,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,0,3879,3988,4,0,&(condStart[0]),&(condEnd[0]),
                                 7,&(pfixExpr[0]));
         }
 
         {
-          static int condStart[] = { 4024, 4051 };
+          static int condStart[] = { 4033, 4060 };
 
-          static int condEnd[] = { 4047, 4076 };
+          static int condEnd[] = { 4056, 4085 };
 
           static int pfixExpr[] = { 0, 1, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,1,4024,4076,2,4,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,1,4033,4085,2,4,&(condStart[0]),&(condEnd[0]),
                                 3,&(pfixExpr[0]));
         }
 
         {
-          static int condStart[] = { 4872, 4903 };
+          static int condStart[] = { 4881, 4912 };
 
-          static int condEnd[] = { 4899, 4932 };
+          static int condEnd[] = { 4908, 4941 };
 
           static int pfixExpr[] = { 0, 1, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,2,4872,4932,2,6,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,2,4881,4941,2,6,&(condStart[0]),&(condEnd[0]),
                                 3,&(pfixExpr[0]));
         }
 
         {
-          static int condStart[] = { 5153, 5186, 5212, 5255 };
+          static int condStart[] = { 5162, 5195, 5221, 5264 };
 
-          static int condEnd[] = { 5182, 5208, 5251, 5270 };
+          static int condEnd[] = { 5191, 5217, 5260, 5279 };
 
           static int pfixExpr[] = { 0, 1, -3, 2, -3, 3, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,3,5153,5270,4,8,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,3,5162,5279,4,8,&(condStart[0]),&(condEnd[0]),
                                 7,&(pfixExpr[0]));
         }
 
         {
-          static int condStart[] = { 5318, 5351 };
+          static int condStart[] = { 5327, 5360 };
 
-          static int condEnd[] = { 5347, 5383 };
-
-          static int pfixExpr[] = { 0, 1, -3 };
-
-          _SFD_CV_INIT_EML_MCDC(0,1,4,5318,5383,2,12,&(condStart[0]),&(condEnd[0]),
-                                3,&(pfixExpr[0]));
-        }
-
-        {
-          static int condStart[] = { 6940, 6967 };
-
-          static int condEnd[] = { 6963, 6992 };
+          static int condEnd[] = { 5356, 5392 };
 
           static int pfixExpr[] = { 0, 1, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,5,6940,6992,2,14,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,4,5327,5392,2,12,&(condStart[0]),&(condEnd[0]),
                                 3,&(pfixExpr[0]));
         }
 
         {
-          static int condStart[] = { 7640, 7654 };
+          static int condStart[] = { 6949, 6976 };
 
-          static int condEnd[] = { 7650, 7665 };
+          static int condEnd[] = { 6972, 7001 };
 
-          static int pfixExpr[] = { 0, 1, -2 };
+          static int pfixExpr[] = { 0, 1, -3 };
 
-          _SFD_CV_INIT_EML_MCDC(0,1,6,7640,7665,2,16,&(condStart[0]),&(condEnd[0]),
-                                3,&(pfixExpr[0]));
-        }
-
-        {
-          static int condStart[] = { 7703, 7717 };
-
-          static int condEnd[] = { 7713, 7728 };
-
-          static int pfixExpr[] = { 0, 1, -2 };
-
-          _SFD_CV_INIT_EML_MCDC(0,1,7,7703,7728,2,18,&(condStart[0]),&(condEnd[0]),
+          _SFD_CV_INIT_EML_MCDC(0,1,5,6949,7001,2,14,&(condStart[0]),&(condEnd[0]),
                                 3,&(pfixExpr[0]));
         }
 
@@ -6789,7 +6853,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         _SFD_SET_DATA_COMPILED_PROPS(11,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
         _SFD_SET_DATA_COMPILED_PROPS(12,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
-          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
+          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
         _SFD_SET_DATA_COMPILED_PROPS(13,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
         _SFD_SET_DATA_COMPILED_PROPS(14,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
@@ -6807,7 +6871,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         _SFD_SET_DATA_COMPILED_PROPS(20,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
         _SFD_SET_DATA_COMPILED_PROPS(21,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
-          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
+          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
         _SFD_SET_DATA_COMPILED_PROPS(22,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
         _SFD_SET_DATA_COMPILED_PROPS(23,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
@@ -6847,7 +6911,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         _SFD_SET_DATA_COMPILED_PROPS(40,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
         _SFD_SET_DATA_COMPILED_PROPS(41,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
-          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
+          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
         _SFD_SET_DATA_COMPILED_PROPS(42,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
         _SFD_SET_DATA_COMPILED_PROPS(43,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
@@ -6909,15 +6973,18 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
         _SFD_SET_DATA_COMPILED_PROPS(71,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
         _SFD_SET_DATA_COMPILED_PROPS(72,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
-          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
-        _SFD_SET_DATA_COMPILED_PROPS(73,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
-        _SFD_SET_DATA_COMPILED_PROPS(74,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
+        _SFD_SET_DATA_COMPILED_PROPS(73,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
+        _SFD_SET_DATA_COMPILED_PROPS(74,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
+          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
         _SFD_SET_DATA_COMPILED_PROPS(75,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
+          (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)NULL);
+        _SFD_SET_DATA_COMPILED_PROPS(76,SF_DOUBLE,0,NULL,0,0,0,0.0,1.0,0,0,
           (MexFcnForType)c1_sf_marshallOut,(MexInFcnForType)c1_sf_marshallIn);
 
         {
+          real_T *c1_startrej;
           real_T *c1_start;
           real_T *c1_t;
           real_T *c1_duty;
@@ -6995,9 +7062,9 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
           real_T *c1_cntin1;
           real_T *c1_cnt1;
           c1_cnt1 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 42);
-          c1_cntin1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 33);
+          c1_cntin1 = (real_T *)ssGetInputPortSignal(chartInstance->S, 34);
           c1_cnt = (real_T *)ssGetOutputPortSignal(chartInstance->S, 41);
-          c1_cntin = (real_T *)ssGetInputPortSignal(chartInstance->S, 32);
+          c1_cntin = (real_T *)ssGetInputPortSignal(chartInstance->S, 33);
           c1_ku2 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 40);
           c1_ku1 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 39);
           c1_ku0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 38);
@@ -7029,26 +7096,26 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
           c1_wi0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 12);
           c1_ei = (real_T *)ssGetOutputPortSignal(chartInstance->S, 11);
           c1_yi = (real_T *)ssGetOutputPortSignal(chartInstance->S, 10);
-          c1_t0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 31);
-          c1_ESRin = (real_T *)ssGetInputPortSignal(chartInstance->S, 30);
-          c1_Pu33in = (real_T *)ssGetInputPortSignal(chartInstance->S, 29);
-          c1_Pu32in = (real_T *)ssGetInputPortSignal(chartInstance->S, 28);
-          c1_Pu31in = (real_T *)ssGetInputPortSignal(chartInstance->S, 27);
-          c1_Pu23in = (real_T *)ssGetInputPortSignal(chartInstance->S, 26);
-          c1_Pu22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 25);
-          c1_Pu21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 24);
-          c1_Pu13in = (real_T *)ssGetInputPortSignal(chartInstance->S, 23);
-          c1_Pu12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 22);
-          c1_Pu11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 21);
-          c1_wu2in = (real_T *)ssGetInputPortSignal(chartInstance->S, 20);
-          c1_wu1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 19);
-          c1_wu0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 18);
-          c1_Pi22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 17);
-          c1_Pi21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 16);
-          c1_Pi12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 15);
-          c1_Pi11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 14);
-          c1_wi1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 13);
-          c1_wi0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 12);
+          c1_t0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 32);
+          c1_ESRin = (real_T *)ssGetInputPortSignal(chartInstance->S, 31);
+          c1_Pu33in = (real_T *)ssGetInputPortSignal(chartInstance->S, 30);
+          c1_Pu32in = (real_T *)ssGetInputPortSignal(chartInstance->S, 29);
+          c1_Pu31in = (real_T *)ssGetInputPortSignal(chartInstance->S, 28);
+          c1_Pu23in = (real_T *)ssGetInputPortSignal(chartInstance->S, 27);
+          c1_Pu22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 26);
+          c1_Pu21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 25);
+          c1_Pu13in = (real_T *)ssGetInputPortSignal(chartInstance->S, 24);
+          c1_Pu12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 23);
+          c1_Pu11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 22);
+          c1_wu2in = (real_T *)ssGetInputPortSignal(chartInstance->S, 21);
+          c1_wu1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 20);
+          c1_wu0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 19);
+          c1_Pi22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 18);
+          c1_Pi21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 17);
+          c1_Pi12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 16);
+          c1_Pi11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 15);
+          c1_wi1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 14);
+          c1_wi0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 13);
           c1_Capout = (real_T *)ssGetOutputPortSignal(chartInstance->S, 9);
           c1_P22 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 8);
           c1_P21 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 7);
@@ -7058,94 +7125,96 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
           c1_w0 = (real_T *)ssGetOutputPortSignal(chartInstance->S, 3);
           c1_e = (real_T *)ssGetOutputPortSignal(chartInstance->S, 2);
           c1_y = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
-          c1_Capin = (real_T *)ssGetInputPortSignal(chartInstance->S, 11);
-          c1_P22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 10);
-          c1_P21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 9);
-          c1_P12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 8);
-          c1_P11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
-          c1_w1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
-          c1_w0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
-          c1_i_in = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
-          c1_v_out = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
-          c1_duty = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
-          c1_t = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
-          c1_start = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
-          _SFD_SET_DATA_VALUE_PTR(0U, c1_start);
-          _SFD_SET_DATA_VALUE_PTR(1U, c1_t);
-          _SFD_SET_DATA_VALUE_PTR(2U, c1_duty);
-          _SFD_SET_DATA_VALUE_PTR(3U, c1_v_out);
-          _SFD_SET_DATA_VALUE_PTR(4U, c1_i_in);
-          _SFD_SET_DATA_VALUE_PTR(5U, c1_w0in);
-          _SFD_SET_DATA_VALUE_PTR(6U, c1_w1in);
-          _SFD_SET_DATA_VALUE_PTR(7U, c1_P11in);
-          _SFD_SET_DATA_VALUE_PTR(8U, c1_P12in);
-          _SFD_SET_DATA_VALUE_PTR(9U, c1_P21in);
-          _SFD_SET_DATA_VALUE_PTR(10U, c1_P22in);
-          _SFD_SET_DATA_VALUE_PTR(11U, c1_Capin);
-          _SFD_SET_DATA_VALUE_PTR(12U, c1_y);
-          _SFD_SET_DATA_VALUE_PTR(13U, c1_e);
-          _SFD_SET_DATA_VALUE_PTR(14U, c1_w0);
-          _SFD_SET_DATA_VALUE_PTR(15U, c1_w1);
-          _SFD_SET_DATA_VALUE_PTR(16U, c1_P11);
-          _SFD_SET_DATA_VALUE_PTR(17U, c1_P12);
-          _SFD_SET_DATA_VALUE_PTR(18U, c1_P21);
-          _SFD_SET_DATA_VALUE_PTR(19U, c1_P22);
-          _SFD_SET_DATA_VALUE_PTR(20U, c1_Capout);
-          _SFD_SET_DATA_VALUE_PTR(21U, c1_wi0in);
-          _SFD_SET_DATA_VALUE_PTR(22U, c1_wi1in);
-          _SFD_SET_DATA_VALUE_PTR(23U, c1_Pi11in);
-          _SFD_SET_DATA_VALUE_PTR(24U, c1_Pi12in);
-          _SFD_SET_DATA_VALUE_PTR(25U, c1_Pi21in);
-          _SFD_SET_DATA_VALUE_PTR(26U, c1_Pi22in);
-          _SFD_SET_DATA_VALUE_PTR(27U, c1_wu0in);
-          _SFD_SET_DATA_VALUE_PTR(28U, c1_wu1in);
-          _SFD_SET_DATA_VALUE_PTR(29U, c1_wu2in);
-          _SFD_SET_DATA_VALUE_PTR(30U, c1_Pu11in);
-          _SFD_SET_DATA_VALUE_PTR(31U, c1_Pu12in);
-          _SFD_SET_DATA_VALUE_PTR(32U, c1_Pu13in);
-          _SFD_SET_DATA_VALUE_PTR(33U, c1_Pu21in);
-          _SFD_SET_DATA_VALUE_PTR(34U, c1_Pu22in);
-          _SFD_SET_DATA_VALUE_PTR(35U, c1_Pu23in);
-          _SFD_SET_DATA_VALUE_PTR(36U, c1_Pu31in);
-          _SFD_SET_DATA_VALUE_PTR(37U, c1_Pu32in);
-          _SFD_SET_DATA_VALUE_PTR(38U, c1_Pu33in);
-          _SFD_SET_DATA_VALUE_PTR(39U, c1_ESRin);
-          _SFD_SET_DATA_VALUE_PTR(40U, c1_t0in);
-          _SFD_SET_DATA_VALUE_PTR(41U, c1_yi);
-          _SFD_SET_DATA_VALUE_PTR(42U, c1_ei);
-          _SFD_SET_DATA_VALUE_PTR(43U, c1_wi0);
-          _SFD_SET_DATA_VALUE_PTR(44U, c1_wi1);
-          _SFD_SET_DATA_VALUE_PTR(45U, c1_Pi11);
-          _SFD_SET_DATA_VALUE_PTR(46U, c1_Pi12);
-          _SFD_SET_DATA_VALUE_PTR(47U, c1_Pi21);
-          _SFD_SET_DATA_VALUE_PTR(48U, c1_Pi22);
-          _SFD_SET_DATA_VALUE_PTR(49U, c1_yu);
-          _SFD_SET_DATA_VALUE_PTR(50U, c1_eu);
-          _SFD_SET_DATA_VALUE_PTR(51U, c1_wu0);
-          _SFD_SET_DATA_VALUE_PTR(52U, c1_wu1);
-          _SFD_SET_DATA_VALUE_PTR(53U, c1_wu2);
-          _SFD_SET_DATA_VALUE_PTR(54U, c1_Pu11);
-          _SFD_SET_DATA_VALUE_PTR(55U, c1_Pu12);
-          _SFD_SET_DATA_VALUE_PTR(56U, c1_Pu13);
-          _SFD_SET_DATA_VALUE_PTR(57U, c1_Pu21);
-          _SFD_SET_DATA_VALUE_PTR(58U, c1_Pu22);
-          _SFD_SET_DATA_VALUE_PTR(59U, c1_Pu23);
-          _SFD_SET_DATA_VALUE_PTR(60U, c1_Pu31);
-          _SFD_SET_DATA_VALUE_PTR(61U, c1_Pu32);
-          _SFD_SET_DATA_VALUE_PTR(62U, c1_Pu33);
-          _SFD_SET_DATA_VALUE_PTR(63U, c1_ESRout);
-          _SFD_SET_DATA_VALUE_PTR(64U, c1_Vnoise);
-          _SFD_SET_DATA_VALUE_PTR(65U, c1_Inoise);
-          _SFD_SET_DATA_VALUE_PTR(66U, c1_t0);
-          _SFD_SET_DATA_VALUE_PTR(67U, c1_k0);
-          _SFD_SET_DATA_VALUE_PTR(68U, c1_k1);
-          _SFD_SET_DATA_VALUE_PTR(69U, c1_ku0);
-          _SFD_SET_DATA_VALUE_PTR(70U, c1_ku1);
-          _SFD_SET_DATA_VALUE_PTR(71U, c1_ku2);
-          _SFD_SET_DATA_VALUE_PTR(72U, c1_cntin);
-          _SFD_SET_DATA_VALUE_PTR(73U, c1_cnt);
-          _SFD_SET_DATA_VALUE_PTR(74U, c1_cntin1);
-          _SFD_SET_DATA_VALUE_PTR(75U, c1_cnt1);
+          c1_Capin = (real_T *)ssGetInputPortSignal(chartInstance->S, 12);
+          c1_P22in = (real_T *)ssGetInputPortSignal(chartInstance->S, 11);
+          c1_P21in = (real_T *)ssGetInputPortSignal(chartInstance->S, 10);
+          c1_P12in = (real_T *)ssGetInputPortSignal(chartInstance->S, 9);
+          c1_P11in = (real_T *)ssGetInputPortSignal(chartInstance->S, 8);
+          c1_w1in = (real_T *)ssGetInputPortSignal(chartInstance->S, 7);
+          c1_w0in = (real_T *)ssGetInputPortSignal(chartInstance->S, 6);
+          c1_i_in = (real_T *)ssGetInputPortSignal(chartInstance->S, 5);
+          c1_v_out = (real_T *)ssGetInputPortSignal(chartInstance->S, 4);
+          c1_duty = (real_T *)ssGetInputPortSignal(chartInstance->S, 3);
+          c1_t = (real_T *)ssGetInputPortSignal(chartInstance->S, 2);
+          c1_start = (real_T *)ssGetInputPortSignal(chartInstance->S, 1);
+          c1_startrej = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
+          _SFD_SET_DATA_VALUE_PTR(0U, c1_startrej);
+          _SFD_SET_DATA_VALUE_PTR(1U, c1_start);
+          _SFD_SET_DATA_VALUE_PTR(2U, c1_t);
+          _SFD_SET_DATA_VALUE_PTR(3U, c1_duty);
+          _SFD_SET_DATA_VALUE_PTR(4U, c1_v_out);
+          _SFD_SET_DATA_VALUE_PTR(5U, c1_i_in);
+          _SFD_SET_DATA_VALUE_PTR(6U, c1_w0in);
+          _SFD_SET_DATA_VALUE_PTR(7U, c1_w1in);
+          _SFD_SET_DATA_VALUE_PTR(8U, c1_P11in);
+          _SFD_SET_DATA_VALUE_PTR(9U, c1_P12in);
+          _SFD_SET_DATA_VALUE_PTR(10U, c1_P21in);
+          _SFD_SET_DATA_VALUE_PTR(11U, c1_P22in);
+          _SFD_SET_DATA_VALUE_PTR(12U, c1_Capin);
+          _SFD_SET_DATA_VALUE_PTR(13U, c1_y);
+          _SFD_SET_DATA_VALUE_PTR(14U, c1_e);
+          _SFD_SET_DATA_VALUE_PTR(15U, c1_w0);
+          _SFD_SET_DATA_VALUE_PTR(16U, c1_w1);
+          _SFD_SET_DATA_VALUE_PTR(17U, c1_P11);
+          _SFD_SET_DATA_VALUE_PTR(18U, c1_P12);
+          _SFD_SET_DATA_VALUE_PTR(19U, c1_P21);
+          _SFD_SET_DATA_VALUE_PTR(20U, c1_P22);
+          _SFD_SET_DATA_VALUE_PTR(21U, c1_Capout);
+          _SFD_SET_DATA_VALUE_PTR(22U, c1_wi0in);
+          _SFD_SET_DATA_VALUE_PTR(23U, c1_wi1in);
+          _SFD_SET_DATA_VALUE_PTR(24U, c1_Pi11in);
+          _SFD_SET_DATA_VALUE_PTR(25U, c1_Pi12in);
+          _SFD_SET_DATA_VALUE_PTR(26U, c1_Pi21in);
+          _SFD_SET_DATA_VALUE_PTR(27U, c1_Pi22in);
+          _SFD_SET_DATA_VALUE_PTR(28U, c1_wu0in);
+          _SFD_SET_DATA_VALUE_PTR(29U, c1_wu1in);
+          _SFD_SET_DATA_VALUE_PTR(30U, c1_wu2in);
+          _SFD_SET_DATA_VALUE_PTR(31U, c1_Pu11in);
+          _SFD_SET_DATA_VALUE_PTR(32U, c1_Pu12in);
+          _SFD_SET_DATA_VALUE_PTR(33U, c1_Pu13in);
+          _SFD_SET_DATA_VALUE_PTR(34U, c1_Pu21in);
+          _SFD_SET_DATA_VALUE_PTR(35U, c1_Pu22in);
+          _SFD_SET_DATA_VALUE_PTR(36U, c1_Pu23in);
+          _SFD_SET_DATA_VALUE_PTR(37U, c1_Pu31in);
+          _SFD_SET_DATA_VALUE_PTR(38U, c1_Pu32in);
+          _SFD_SET_DATA_VALUE_PTR(39U, c1_Pu33in);
+          _SFD_SET_DATA_VALUE_PTR(40U, c1_ESRin);
+          _SFD_SET_DATA_VALUE_PTR(41U, c1_t0in);
+          _SFD_SET_DATA_VALUE_PTR(42U, c1_yi);
+          _SFD_SET_DATA_VALUE_PTR(43U, c1_ei);
+          _SFD_SET_DATA_VALUE_PTR(44U, c1_wi0);
+          _SFD_SET_DATA_VALUE_PTR(45U, c1_wi1);
+          _SFD_SET_DATA_VALUE_PTR(46U, c1_Pi11);
+          _SFD_SET_DATA_VALUE_PTR(47U, c1_Pi12);
+          _SFD_SET_DATA_VALUE_PTR(48U, c1_Pi21);
+          _SFD_SET_DATA_VALUE_PTR(49U, c1_Pi22);
+          _SFD_SET_DATA_VALUE_PTR(50U, c1_yu);
+          _SFD_SET_DATA_VALUE_PTR(51U, c1_eu);
+          _SFD_SET_DATA_VALUE_PTR(52U, c1_wu0);
+          _SFD_SET_DATA_VALUE_PTR(53U, c1_wu1);
+          _SFD_SET_DATA_VALUE_PTR(54U, c1_wu2);
+          _SFD_SET_DATA_VALUE_PTR(55U, c1_Pu11);
+          _SFD_SET_DATA_VALUE_PTR(56U, c1_Pu12);
+          _SFD_SET_DATA_VALUE_PTR(57U, c1_Pu13);
+          _SFD_SET_DATA_VALUE_PTR(58U, c1_Pu21);
+          _SFD_SET_DATA_VALUE_PTR(59U, c1_Pu22);
+          _SFD_SET_DATA_VALUE_PTR(60U, c1_Pu23);
+          _SFD_SET_DATA_VALUE_PTR(61U, c1_Pu31);
+          _SFD_SET_DATA_VALUE_PTR(62U, c1_Pu32);
+          _SFD_SET_DATA_VALUE_PTR(63U, c1_Pu33);
+          _SFD_SET_DATA_VALUE_PTR(64U, c1_ESRout);
+          _SFD_SET_DATA_VALUE_PTR(65U, c1_Vnoise);
+          _SFD_SET_DATA_VALUE_PTR(66U, c1_Inoise);
+          _SFD_SET_DATA_VALUE_PTR(67U, c1_t0);
+          _SFD_SET_DATA_VALUE_PTR(68U, c1_k0);
+          _SFD_SET_DATA_VALUE_PTR(69U, c1_k1);
+          _SFD_SET_DATA_VALUE_PTR(70U, c1_ku0);
+          _SFD_SET_DATA_VALUE_PTR(71U, c1_ku1);
+          _SFD_SET_DATA_VALUE_PTR(72U, c1_ku2);
+          _SFD_SET_DATA_VALUE_PTR(73U, c1_cntin);
+          _SFD_SET_DATA_VALUE_PTR(74U, c1_cnt);
+          _SFD_SET_DATA_VALUE_PTR(75U, c1_cntin1);
+          _SFD_SET_DATA_VALUE_PTR(76U, c1_cnt1);
         }
       }
     } else {
@@ -7157,7 +7226,7 @@ static void chart_debug_initialization(SimStruct *S, unsigned int
 
 static const char* sf_get_instance_specialization()
 {
-  return "iv3E4cieiK8EKtiO2j53eG";
+  return "LmGeMnxtX6r4zLRgK7CxaF";
 }
 
 static void sf_opaque_initialize_c1_BuckBoost1(void *chartInstanceVar)
@@ -7332,8 +7401,9 @@ static void mdlSetWorkWidths_c1_BuckBoost1(SimStruct *S)
       ssSetInputPortOptimOpts(S, 31, SS_REUSABLE_AND_LOCAL);
       ssSetInputPortOptimOpts(S, 32, SS_REUSABLE_AND_LOCAL);
       ssSetInputPortOptimOpts(S, 33, SS_REUSABLE_AND_LOCAL);
+      ssSetInputPortOptimOpts(S, 34, SS_REUSABLE_AND_LOCAL);
       sf_mark_chart_expressionable_inputs(S,sf_get_instance_specialization(),
-        infoStruct,1,34);
+        infoStruct,1,35);
       sf_mark_chart_reusable_outputs(S,sf_get_instance_specialization(),
         infoStruct,1,42);
     }
@@ -7344,10 +7414,10 @@ static void mdlSetWorkWidths_c1_BuckBoost1(SimStruct *S)
   }
 
   ssSetOptions(S,ssGetOptions(S)|SS_OPTION_WORKS_WITH_CODE_REUSE);
-  ssSetChecksum0(S,(4193884067U));
-  ssSetChecksum1(S,(1001868010U));
-  ssSetChecksum2(S,(2686721595U));
-  ssSetChecksum3(S,(3077518665U));
+  ssSetChecksum0(S,(1563445990U));
+  ssSetChecksum1(S,(86016999U));
+  ssSetChecksum2(S,(873406841U));
+  ssSetChecksum3(S,(2638914500U));
   ssSetmdlDerivatives(S, NULL);
   ssSetExplicitFCSSCtrl(S,1);
   ssSupportsMultipleExecInstances(S,1);
