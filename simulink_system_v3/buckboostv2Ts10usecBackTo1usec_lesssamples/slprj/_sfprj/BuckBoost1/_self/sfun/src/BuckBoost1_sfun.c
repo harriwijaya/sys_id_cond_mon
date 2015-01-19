@@ -5,6 +5,8 @@
 #include "c2_BuckBoost1.h"
 #include "c3_BuckBoost1.h"
 #include "c4_BuckBoost1.h"
+#include "c5_BuckBoost1.h"
+#include "c6_BuckBoost1.h"
 #include "c22_BuckBoost1.h"
 #include "c25_BuckBoost1.h"
 
@@ -53,6 +55,16 @@ unsigned int sf_BuckBoost1_method_dispatcher(SimStruct *simstructPtr, unsigned
     return 1;
   }
 
+  if (chartFileNumber==5) {
+    c5_BuckBoost1_method_dispatcher(simstructPtr, method, data);
+    return 1;
+  }
+
+  if (chartFileNumber==6) {
+    c6_BuckBoost1_method_dispatcher(simstructPtr, method, data);
+    return 1;
+  }
+
   if (chartFileNumber==22) {
     c22_BuckBoost1_method_dispatcher(simstructPtr, method, data);
     return 1;
@@ -96,10 +108,10 @@ unsigned int sf_BuckBoost1_process_check_sum_call( int nlhs, mxArray * plhs[],
       ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(0U);
       ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(0U);
     } else if (!strcmp(commandName,"makefile")) {
-      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2192382774U);
-      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(2823209888U);
-      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(186431537U);
-      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(2842622667U);
+      ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2952757401U);
+      ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3646755484U);
+      ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(262439653U);
+      ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(690174720U);
     } else if (nrhs==3 && !strcmp(commandName,"chart")) {
       unsigned int chartFileNumber;
       chartFileNumber = (unsigned int)mxGetScalar(prhs[2]);
@@ -132,6 +144,20 @@ unsigned int sf_BuckBoost1_process_check_sum_call( int nlhs, mxArray * plhs[],
           break;
         }
 
+       case 5:
+        {
+          extern void sf_c5_BuckBoost1_get_check_sum(mxArray *plhs[]);
+          sf_c5_BuckBoost1_get_check_sum(plhs);
+          break;
+        }
+
+       case 6:
+        {
+          extern void sf_c6_BuckBoost1_get_check_sum(mxArray *plhs[]);
+          sf_c6_BuckBoost1_get_check_sum(plhs);
+          break;
+        }
+
        case 22:
         {
           extern void sf_c22_BuckBoost1_get_check_sum(mxArray *plhs[]);
@@ -161,10 +187,10 @@ unsigned int sf_BuckBoost1_process_check_sum_call( int nlhs, mxArray * plhs[],
       return 0;
     }
   } else {
-    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(891801053U);
-    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(3506155045U);
-    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(596000367U);
-    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(4062787238U);
+    ((real_T *)mxGetPr((plhs[0])))[0] = (real_T)(2269849527U);
+    ((real_T *)mxGetPr((plhs[0])))[1] = (real_T)(1332903419U);
+    ((real_T *)mxGetPr((plhs[0])))[2] = (real_T)(2372891826U);
+    ((real_T *)mxGetPr((plhs[0])))[3] = (real_T)(1381875304U);
   }
 
   return 1;
@@ -202,7 +228,7 @@ unsigned int sf_BuckBoost1_autoinheritance_info( int nlhs, mxArray * plhs[], int
     switch (chartFileNumber) {
      case 1:
       {
-        if (strcmp(aiChksum, "d0VUY4ttj73iWmW7YPmrkE") == 0) {
+        if (strcmp(aiChksum, "sd5qo0ro2FUo2tA6cbgxwF") == 0) {
           extern mxArray *sf_c1_BuckBoost1_get_autoinheritance_info(void);
           plhs[0] = sf_c1_BuckBoost1_get_autoinheritance_info();
           break;
@@ -226,7 +252,7 @@ unsigned int sf_BuckBoost1_autoinheritance_info( int nlhs, mxArray * plhs[], int
 
      case 3:
       {
-        if (strcmp(aiChksum, "NZwGdGHf7Opm0J07gstALH") == 0) {
+        if (strcmp(aiChksum, "xEzQNnm2gZNfrwsqgPiEV") == 0) {
           extern mxArray *sf_c3_BuckBoost1_get_autoinheritance_info(void);
           plhs[0] = sf_c3_BuckBoost1_get_autoinheritance_info();
           break;
@@ -241,6 +267,30 @@ unsigned int sf_BuckBoost1_autoinheritance_info( int nlhs, mxArray * plhs[], int
         if (strcmp(aiChksum, "znsp9Fss62ScWjwFJvap9C") == 0) {
           extern mxArray *sf_c4_BuckBoost1_get_autoinheritance_info(void);
           plhs[0] = sf_c4_BuckBoost1_get_autoinheritance_info();
+          break;
+        }
+
+        plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
+        break;
+      }
+
+     case 5:
+      {
+        if (strcmp(aiChksum, "tgR4uajkiElw5HHE8XX1O") == 0) {
+          extern mxArray *sf_c5_BuckBoost1_get_autoinheritance_info(void);
+          plhs[0] = sf_c5_BuckBoost1_get_autoinheritance_info();
+          break;
+        }
+
+        plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
+        break;
+      }
+
+     case 6:
+      {
+        if (strcmp(aiChksum, "zhQA5TK0WKmWnnIHuNJdaE") == 0) {
+          extern mxArray *sf_c6_BuckBoost1_get_autoinheritance_info(void);
+          plhs[0] = sf_c6_BuckBoost1_get_autoinheritance_info();
           break;
         }
 
@@ -351,6 +401,28 @@ unsigned int sf_BuckBoost1_get_eml_resolved_functions_info( int nlhs, mxArray *
         break;
       }
 
+     case 5:
+      {
+        extern const mxArray *sf_c5_BuckBoost1_get_eml_resolved_functions_info
+          (void);
+        mxArray *persistentMxArray = (mxArray *)
+          sf_c5_BuckBoost1_get_eml_resolved_functions_info();
+        plhs[0] = mxDuplicateArray(persistentMxArray);
+        mxDestroyArray(persistentMxArray);
+        break;
+      }
+
+     case 6:
+      {
+        extern const mxArray *sf_c6_BuckBoost1_get_eml_resolved_functions_info
+          (void);
+        mxArray *persistentMxArray = (mxArray *)
+          sf_c6_BuckBoost1_get_eml_resolved_functions_info();
+        plhs[0] = mxDuplicateArray(persistentMxArray);
+        mxDestroyArray(persistentMxArray);
+        break;
+      }
+
      case 22:
       {
         extern const mxArray *sf_c22_BuckBoost1_get_eml_resolved_functions_info
@@ -391,7 +463,7 @@ unsigned int sf_BuckBoost1_get_eml_resolved_functions_info( int nlhs, mxArray *
 void BuckBoost1_debug_initialize(void)
 {
   _BuckBoost1MachineNumber_ = sf_debug_initialize_machine("BuckBoost1","sfun",0,
-    6,0,0,0);
+    8,0,0,0);
   sf_debug_set_machine_event_thresholds(_BuckBoost1MachineNumber_,0,0);
   sf_debug_set_machine_data_thresholds(_BuckBoost1MachineNumber_,0);
 }

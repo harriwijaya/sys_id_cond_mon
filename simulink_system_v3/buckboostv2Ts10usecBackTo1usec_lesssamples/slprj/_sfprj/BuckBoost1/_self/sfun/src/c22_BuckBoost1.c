@@ -160,12 +160,12 @@ static void sf_c22_BuckBoost1(SFc22_BuckBoost1InstanceStruct *chartInstance)
   c22_b_Carrier = (real_T *)ssGetInputPortSignal(chartInstance->S, 0);
   c22_b_PWM = (real_T *)ssGetOutputPortSignal(chartInstance->S, 1);
   _sfTime_ = (real_T)ssGetT(chartInstance->S);
-  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 4U, chartInstance->c22_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_SFUNCTION_TAG, 6U, chartInstance->c22_sfEvent);
   _SFD_DATA_RANGE_CHECK(*c22_b_PWM, 0U);
   _SFD_DATA_RANGE_CHECK(*c22_b_Carrier, 1U);
   _SFD_DATA_RANGE_CHECK(*c22_b_Duty, 2U);
   chartInstance->c22_sfEvent = CALL_EVENT;
-  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 4U, chartInstance->c22_sfEvent);
+  _SFD_CC_CALL(CHART_ENTER_DURING_FUNCTION_TAG, 6U, chartInstance->c22_sfEvent);
   c22_hoistedGlobal = *c22_b_Carrier;
   c22_b_hoistedGlobal = *c22_b_Duty;
   c22_Carrier = c22_hoistedGlobal;
@@ -197,7 +197,7 @@ static void sf_c22_BuckBoost1(SFc22_BuckBoost1InstanceStruct *chartInstance)
   _SFD_EML_CALL(0U, chartInstance->c22_sfEvent, -8);
   sf_debug_symbol_scope_pop();
   *c22_b_PWM = c22_PWM;
-  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 4U, chartInstance->c22_sfEvent);
+  _SFD_CC_CALL(EXIT_OUT_OF_FUNCTION_TAG, 6U, chartInstance->c22_sfEvent);
   sf_debug_check_for_state_inconsistency(_BuckBoost1MachineNumber_,
     chartInstance->chartNumber, chartInstance->instanceNumber);
 }
